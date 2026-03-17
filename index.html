@@ -310,8 +310,8 @@
     135deg,
     #ffffff,
     #ffffff 5px,
-    #fafafa 5px,
-    #fafafa 10px
+    #f7f7f7 5px,
+    #f7f7f7 10px
   );
 }
 
@@ -336,7 +336,7 @@
    Hover effect
 ================================ */
 .sample-table tbody tr:hover {
-  background: #f8fafc;
+  background: #fcfcfd;
 }
 
 /* ===============================
@@ -490,8 +490,8 @@
     }
 
     .tldr-header p {
-      color: #64748b;
-      font-size: 1rem;
+      color: #6b7280;
+      font-size: 1.1rem;
       margin-top: 0.5rem;
     }
 
@@ -784,7 +784,7 @@
           <div class="tldr-card-icon">✏️</div>
           <div>
             <div class="tldr-card-title">Voice Editing</div>
-            <div class="tldr-card-subtitle">Edit voice style using text instructions</div>
+            <div class="tldr-card-subtitle">Edit voice styles using text instructions</div>
           </div>
         </div>
 
@@ -826,6 +826,9 @@
     <div class="section-header">
       <h3 class="title is-4">Expressive Speech Generation</h3>
       <p>Generate expressive voices from text descriptions of voice, accent, style, and emotion.</p>
+      <p class="section-note">
+        *VoiceDesigner+ indicates that the enhancement is applied as a post-processing step. Please refer to the paper for further details.
+      </p>
     </div>
 
     <div class="sample-container">
@@ -835,7 +838,7 @@
           <th>Prompt</th>
           <th class="ttv-base">CapSpeech</th>
           <th class="ttv-base">ElevenLabs</th>
-          <th class="ttv-base">Qwen3TTS</th>
+          <th class="ttv-base">Qwen3-TTS</th>
           <th>VoiceDesigner</th>
           <th>VoiceDesigner+</th>
         </tr>
@@ -1002,6 +1005,9 @@
   <div class="section-header">
   <h3 class="title is-4">Character Voice Design</h3>
   <p>Design character voices from text descriptions.</p>
+  <p class="section-note">
+        *VoiceDesigner+ indicates that the enhancement is applied as a post-processing step. Please refer to the paper for further details.
+  </p>
 </div>
 
 <div class="sample-container">
@@ -1010,7 +1016,7 @@
       <tr>
         <th>Prompt</th>
         <th class="ttv-base">ElevenLabs</th>
-        <th class="ttv-base">Qwen3TTS</th>
+        <th class="ttv-base">Qwen3-TTS</th>
         <th>VoiceDesigner</th>
         <th>VoiceDesigner+</th>
       </tr>
@@ -1153,7 +1159,7 @@
       <h3 class="title is-4">Voice Cloning</h3>
       <p>Clone voices from reference audio while generating new speech content.</p>
       <p class="section-note">
-        *All reference speakers/characters are in-the-wild recordings and unseen during training.
+        *All reference speakers are unseen during training of VoiceDesigner.
       </p>
     </div>
 
