@@ -220,7 +220,7 @@
       width: 30%;
     } */
 
-    /* ===============================
+/* ===============================
    Section
 ================================ */
 .samples-section {
@@ -328,7 +328,7 @@
    Audio player
 ================================ */
 .sample-table audio {
-  width: 120px;
+  width: 160px;
   max-width: 100%;
 }
 
@@ -337,6 +337,29 @@
 ================================ */
 .sample-table tbody tr:hover {
   background: #fcfcfd;
+}
+
+@media (max-width: 768px) {
+  .sample-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .sample-table {
+    min-width: 1000px; 
+  }
+
+  .sample-table th,
+  .sample-table td {
+    font-size: 0.85rem;
+    padding: 0.4rem;
+  }
+
+  .sample-table audio {
+    width: 160px;
+    max-width: 100%;
+
+  }
 }
 
 /* ===============================
