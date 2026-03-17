@@ -1,10 +1,1499 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Demo Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Primary Meta Tags -->
+  <!-- TODO: Replace with your paper title and author names -->
+  <meta name="title" content="VoiceDesigner: Text-to-Voice Generation and Editing \\ via Unified Diffusion Modeling and Data Augmentation">
+  <!-- TODO: Write a compelling 150-160 character description of your research -->
+  <meta name="description" content="Voice generation and editing">
+  <!-- TODO: Add 5-10 relevant keywords for your research area -->
+  <meta name="keywords" content="diffusion, voice generation, speech synthesis">
+  <!-- TODO: List all authors -->
+  <meta name="author" content="InterSpeech Submission">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="PAPER_TITLE">
+  <meta name="citation_author" content="FIRST_AUTHOR_LAST, FIRST_AUTHOR_FIRST">
+  <meta name="citation_author" content="SECOND_AUTHOR_LAST, SECOND_AUTHOR_FIRST">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_conference_title" content="CONFERENCE_NAME">
+  <meta name="citation_pdf_url" content="https://YOUR_DOMAIN.com/static/pdfs/paper.pdf">
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://documentcloud.adobe.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+
+  <!-- TODO: Replace with your paper title and authors -->
+  <title>VoiceDesigner: Text-to-Voice Generation and Editing \\ via Unified Diffusion Modeling and Data Augmentation</title>
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+  
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+  
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "PAPER_TITLE",
+    "description": "BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "FIRST_AUTHOR_NAME",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "INSTITUTION_NAME"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "SECOND_AUTHOR_NAME",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "INSTITUTION_NAME"
+        }
+      }
+    ],
+    "datePublished": "2024-01-01",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CONFERENCE_OR_JOURNAL_NAME"
+    },
+    "url": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE",
+    "image": "https://YOUR_DOMAIN.com/static/images/social_preview.png",
+    "keywords": ["KEYWORD1", "KEYWORD2", "KEYWORD3", "machine learning", "computer vision"],
+    "abstract": "FULL_ABSTRACT_TEXT_HERE",
+    "citation": "BIBTEX_CITATION_HERE",
+    "isAccessibleForFree": true,
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE"
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "RESEARCH_AREA_1"
+      },
+      {
+        "@type": "Thing", 
+        "name": "RESEARCH_AREA_2"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Website/Organization Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "INSTITUTION_OR_LAB_NAME",
+    "url": "https://YOUR_INSTITUTION_WEBSITE.com",
+    "logo": "https://YOUR_DOMAIN.com/static/images/favicon.ico",
+    "sameAs": [
+      "https://twitter.com/YOUR_TWITTER_HANDLE",
+      "https://github.com/YOUR_GITHUB_USERNAME"
+    ]
+  }
+  </script>
+
+  <!-- Audio samples styles -->
+  <style>
+    /* .samples-section {
+      padding: 2rem 0;
+    }
+    
+    .sample-container {
+      margin-bottom: 3rem;
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    
+    .sample-id {
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .sample-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .sample-table th {
+      background: #2563eb;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    
+    .sample-table td {
+      padding: 1.5rem;
+      text-align: center;
+      vertical-align: middle;
+      border: 1px solid #e5e7eb;
+    }
+    
+    .sample-table td:first-child {
+      text-align: left;
+      background: #f3f4f6;
+      font-size: 1rem;
+      line-height: 1.6;
+      max-width: 400px;
+    }
+    
+    .sample-table audio {
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .instruction-text {
+      font-style: italic;
+      color: #374151;
+    }
+    
+    .sample-table th:first-child,
+    .sample-table td:first-child {
+      width: 40%;
+    }
+    
+    .sample-table th:nth-child(2),
+    .sample-table td:nth-child(2),
+    .sample-table th:nth-child(3),
+    .sample-table td:nth-child(3) {
+      width: 30%;
+    } */
+
+    /* ===============================
+   Section
+================================ */
+.samples-section {
+  padding: 2rem 0;
+}
+
+/* ===============================
+   Container
+================================ */
+.sample-container {
+  margin-bottom: 3rem;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  overflow-x: auto; /* ⭐支持多列横向滚动 */
+}
+
+/* ===============================
+   Table
+================================ */
+.sample-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+
+  table-layout: fixed; /* ⭐关键 */
+}
+
+/* ===============================
+   Header
+================================ */
+.sample-table th {
+  background: white;
+  color: black;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 1px solid #e5e7eb;
+
+  white-space: nowrap; /* 防止换行 */
+}
+
+/* ===============================
+   Cells
+================================ */
+.sample-table td {
+  padding: 0.5rem 0.5rem;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #e5e7eb;
+}
+
+/* ===============================
+   Prompt column
+================================ */
+.sample-table th:first-child {
+  width: 28%;
+  text-align: center;
+  background: #2563eb;
+  color: white;
+  line-height: 1.6;
+}
+
+.sample-table td:first-child {
+  width: 28%;
+  text-align: center;
+  background: #f3f4f6;
+  color: black;
+  line-height: 1.6;
+}
+
+/* ===============================
+   Model columns
+================================ */
+.sample-table td:not(:first-child),
+.sample-table th:not(:first-child) {
+  text-align: center;
+}
+
+.sample-table .ttv-base {
+  background: repeating-linear-gradient(
+    135deg,
+    #ffffff,
+    #ffffff 5px,
+    #fafafa 5px,
+    #fafafa 10px
+  );
+}
+
+/* ===============================
+   Prompt text
+================================ */
+.instruction-text {
+  font-style: italic;
+  color: #374151;
+  font-size: 1rem;
+}
+
+/* ===============================
+   Audio player
+================================ */
+.sample-table audio {
+  width: 120px;
+  max-width: 100%;
+}
+
+/* ===============================
+   Hover effect
+================================ */
+.sample-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* ===============================
+   Section header
+================================ */
+.section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.section-header p {
+  color: #6b7280;
+  font-size: 1.1rem;
+}
+
+/* ===============================
+   Mobile
+================================ */
+@media screen and (max-width: 768px) {
+
+  .sample-table {
+    display: block;
+  }
+
+  .sample-table thead {
+    display: none;
+  }
+
+  .sample-table tbody,
+  .sample-table tr,
+  .sample-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .sample-table td {
+    text-align: center !important;
+    padding: 1rem;
+  }
+
+  .sample-table td:before {
+    content: attr(data-label);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #2563eb;
+  }
+
+  .sample-table audio {
+    width: 100%;
+    max-width: 320px;
+  }
+
+}
+    .section-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .section-header .section-note {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-top: 0.3rem;
+    }
+
+    
+    .section-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+    
+    .section-header p {
+      color: #6b7280;
+      font-size: 1.1rem;
+    }
+
+    /* Institution logos styles */
+    .institution-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1.5rem 0 1rem;
+      flex-wrap: wrap;
+    }
+
+    .institution-logo-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .institution-logo-link:hover {
+      opacity: 0.75;
+    }
+
+    .institution-logo-img {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .institution-logo-fallback {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    .institution-logo-divider {
+      color: #d1d5db;
+      font-size: 1.5rem;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    /* TLDR Section Styles */
+    .tldr-section {
+      padding: 3rem 0;
+      background: #f9fafb;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .tldr-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .tldr-header h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tldr-header h2::before {
+      content: "⚡";
+    }
+
+    .tldr-header p {
+      color: #64748b;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .tldr-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .tldr-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tldr-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .tldr-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #f1f5f9;
+    }
+
+    .tldr-card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .tldr-card.editing .tldr-card-icon {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    }
+
+    .tldr-card.understanding .tldr-card-icon {
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    }
+
+    .tldr-card.generation .tldr-card-icon {
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    }
+
+    /* Linked card title styles */
+    .tldr-card-title-link {
+      text-decoration: none;
+      color: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: color 0.2s ease;
+    }
+
+    .tldr-card-title-link:hover {
+      color: #2563eb;
+    }
+
+    .tldr-card-title-link:hover .tldr-link-arrow {
+      opacity: 1;
+      transform: translateX(2px);
+    }
+
+    .tldr-link-arrow {
+      font-size: 0.75rem;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      color: #2563eb;
+    }
+
+    .tldr-card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .tldr-card-subtitle {
+      font-size: 0.8rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .tldr-instruction {
+      font-size: 0.9rem;
+      color: #475569;
+      font-style: italic;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 3px solid #2563eb;
+      line-height: 1.5;
+    }
+
+    .tldr-audio-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      flex-grow: 1;
+    }
+
+    .tldr-audio-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25 rem;
+    }
+
+    .tldr-card audio {
+      display: block;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+
+    .tldr-audio-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tldr-audio-item audio {
+      width: 100%;
+      height: 36px;
+    }
+
+    .tldr-video-container {
+      flex-grow: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #0f172a;
+    }
+
+    .tldr-video-container video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media screen and (max-width: 1024px) {
+      .tldr-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .tldr-section {
+        padding: 2rem 1rem;
+      }
+
+      .tldr-header h2 {
+        font-size: 1.5rem;
+      }
+
+      .tldr-card {
+        padding: 1.25rem;
+      }
+
+      .institution-logos {
+        gap: 1.25rem;
+      }
+
+      .institution-logo-img {
+        height: 28px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello GitHub Pages!</h1>
-  <p>This is voicedesigner demo page.</p>
-</body>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+
+          <!-- Paper Title -->
+<h1 class="title is-1 publication-title">
+  VoiceDesigner
+</h1>
+<h2 class="title is-2 publication-title">
+  Text-to-Voice Generation and Editing via 
+  Unified Diffusion Modeling and Data Augmentation
+</h2>
+          <!-- Authors / Submission -->
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              Interspeech Submission
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TLDR Section -->
+<section class="tldr-section">
+  <div class="container">
+    <div class="tldr-header">
+      <h2>TL;DR</h2>
+      <p>One model for voice generation, cloning, and editing.</p>
+    </div>
+
+    <div class="tldr-grid">
+
+      <!-- Voice Generation -->
+      <div class="tldr-card generation">
+        <div class="tldr-card-header">
+          <div class="tldr-card-icon">🎤</div>
+          <div>
+            <div class="tldr-card-title">Voice Generation</div>
+            <div class="tldr-card-subtitle">Create voices from text descriptions</div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 16px;"></div>
+        <!-- Example 1 -->
+        <div class="tldr-instruction">
+          Prompt: "Generate a voice: a female dark sorceress and forbidden scholar. Her voice is raspy and sinister."        
+        </div>
+
+        <!-- <img src="images/sample.png" alt="example image" class="sample-image"> -->
+
+        <audio controls preload="metadata">
+          <source src="samples/ttv_char/ttv/2.wav" type="audio/wav">
+        </audio>
+      </div>
+
+
+      <!-- Voice Cloning -->
+      <div class="tldr-card cloning">
+        <div class="tldr-card-header">
+          <div class="tldr-card-icon">🎧</div>
+          <div>
+            <div class="tldr-card-title">Voice Cloning</div>
+            <div class="tldr-card-subtitle">Clone voices from reference audio</div>
+          </div>
+        </div>
+
+        <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Reference Audio</span>
+          <audio controls preload="metadata">
+            <source src="samples/clone/gt/5.wav" type="audio/wav">
+          </audio>
+        </div>
+
+        <div class="tldr-instruction">
+          Prompt: "Clone this voice."
+        </div>
+
+        <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Generated Speech</span>
+          <audio controls preload="metadata">
+            <source src="samples/clone/ttv/5.wav" type="audio/wav">
+          </audio>
+        </div>
+      </div>
+
+
+      <!-- Voice Editing -->
+      <div class="tldr-card editing">
+        <div class="tldr-card-header">
+          <div class="tldr-card-icon">✏️</div>
+          <div>
+            <div class="tldr-card-title">Voice Editing</div>
+            <div class="tldr-card-subtitle">Edit voice style using text instructions</div>
+          </div>
+        </div>
+
+        <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Original Audio</span>
+          <audio controls preload="metadata">
+            <source src="samples/edit/gt/3.wav" type="audio/wav">
+          </audio>
+        </div>
+
+        <div class="tldr-instruction">
+          Prompt: "Make him whisper softly."        
+        </div>
+
+        <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Edited Audio</span>
+          <audio controls preload="metadata">
+            <source src="samples/edit/ttv/3.wav" type="audio/wav">
+          </audio>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- End TLDR Section -->
+
+<!-- Audio Samples Section -->
+<section id="section-generation" class="section samples-section">
+  <div class="container is-max-widescreen">
+    
+    <div class="section-header">
+      <h2 class="title is-3">Text-to-Voice Genearation</h2>
+      <!-- <p>We recommend using headphones for an optimal listening experience</p> -->
+    </div>
+
+    <div class="section-header">
+      <h3 class="title is-4">Expressive Speech Generation</h3>
+      <p>Generate expressive voices from text descriptions of voice, accent, style, and emotion.</p>
+    </div>
+
+    <div class="sample-container">
+    <table class="sample-table model-table">
+      <thead>
+        <tr>
+          <th>Prompt</th>
+          <th class="ttv-base">CapSpeech</th>
+          <th class="ttv-base">ElevenLabs</th>
+          <th class="ttv-base">Qwen3TTS</th>
+          <th>VoiceDesigner</th>
+          <th>VoiceDesigner+</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <!-- Row 1 -->
+        <tr>
+          <td class="instruction-text">
+            A young woman speaking with happiness in her voice, sounding warm and bright as she talks.
+          </td>
+
+          <td class="ttv-base">
+            <audio controls preload="metadata">
+              <source src="samples/ttv/capspeech/0.wav" type="audio/wav">
+            </audio>
+          </td>
+
+          <td class="ttv-base">
+            <audio controls preload="metadata">
+              <source src="samples/ttv/11labs/0.wav" type="audio/wav">
+            </audio>
+          </td>
+
+          <td class="ttv-base">
+            <audio controls preload="metadata">
+              <source src="samples/ttv/qwen3tts/0.wav" type="audio/wav">
+            </audio>
+          </td>
+
+          <td>
+            <audio controls preload="metadata">
+              <source src="samples/ttv/ttv/0.wav" type="audio/wav">
+            </audio>
+          </td>
+
+          <td>
+            <audio controls preload="metadata">
+              <source src="samples/ttv/ttv_enhanced/0.wav" type="audio/wav">
+            </audio>
+          </td>
+        </tr>
+
+
+        <!-- Row 2 -->
+        <tr>
+          <td class="instruction-text">
+            A young man with an American accent speaking with energetic excitement.
+          </td>
+
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/1.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/11labs/1.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/qwen3tts/1.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv/1.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/1.wav"></audio></td>
+        </tr>
+
+
+        <!-- Row 3 -->
+        <tr>
+          <td class="instruction-text">
+            A senior man with a British accent speaking with pride, his voice deep, steady, and confident as he talks.
+          </td>
+
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/2.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/11labs/2.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/qwen3tts/2.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv/2.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/2.wav"></audio></td>
+        </tr>
+
+
+        <tr>
+          <td class="instruction-text">
+            A woman with an Indian accent, her voice carrying sadness.
+          </td>
+
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/3.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/11labs/3.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/qwen3tts/3.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv/3.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/3.wav"></audio></td>
+        </tr>
+
+
+        <tr>
+          <td class="instruction-text">
+            A young woman who has an Australian accent speaks in a quiet voice filled with fear.
+          </td>
+
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/4.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/11labs/4.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/qwen3tts/4.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv/4.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/4.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            A middle-aged British man is speaking contemptuously.
+          </td>
+
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/5.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/11labs/5.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/qwen3tts/5.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv/5.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/5.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            A senior man with an Australian accent, he speaks slowly with boredom.
+          </td>
+
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/6.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/11labs/6.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/qwen3tts/6.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv/6.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/6.wav"></audio></td>
+        </tr>
+
+
+        <tr>
+          <td class="instruction-text">
+            A man with an Indian accent, speaking with uncertainty and confusion.
+          </td>
+
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/7.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/11labs/7.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/qwen3tts/7.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv/7.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/7.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            A female speaker is delivering her words with clear anger.
+          </td>
+
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/8.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/11labs/8.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/qwen3tts/8.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv/8.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/8.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            A young woman speaking in a quiet, breathy whisper, gentle and careful.
+          </td>
+
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/9.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/11labs/9.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/qwen3tts/9.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv/9.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/9.wav"></audio></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-header">
+  <h3 class="title is-4">Character Voice Design</h3>
+  <p>Design character voices from text descriptions.</p>
+</div>
+
+<div class="sample-container">
+  <table class="sample-table model-table">
+    <thead>
+      <tr>
+        <th>Prompt</th>
+        <th class="ttv-base">ElevenLabs</th>
+        <th class="ttv-base">Qwen3TTS</th>
+        <th>VoiceDesigner</th>
+        <th>VoiceDesigner+</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <!-- Row 1 -->
+      <tr>
+        <td class="instruction-text">
+          A male young crown heir, exhilarated and proud, speaking with a bright and confident voice full of eagerness.
+        </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/0.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/0.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/0.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/0.wav"></audio></td>
+      </tr>
+
+      <!-- Row 2 -->
+      <tr>
+        <td class="instruction-text">
+          A male grand mentor, patient and wise, speaking with a steady warm voice that soothes the mind while guiding each word with certainty.
+        </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/1.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/1.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/1.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/1.wav"></audio></td>
+      </tr>
+
+      <!-- Row 3 -->
+      <tr>
+        <td class="instruction-text">
+          A female dark sorceress and forbidden scholar. Her voice is raspy and sinister.
+        </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/2.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/2.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/2.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/2.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A young princess and sheltered crown heir in the palace gardens at sunrise, thrilled by her first independence. <br> Her voice is bright and confident, filled with youthful excitement.         
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/3.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/3.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/3.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/3.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A male hardened bounty hunter, fearless and relentless, speaking in a cold rugged voice shaped by scars, steel, and years of battle.          
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/4.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/4.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/4.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/4.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A male mythic guardian, colossal and ancient, his resonant voice carrying sub-bass tremors and seismic vibration that echo across the ground beneath him.          
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/5.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/5.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/5.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/5.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A female artificial intelligence interface and system guide. Her voice is robotic, musical, and rhythmically stepped in pitch.          
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/6.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/6.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/6.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/6.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A female ultimate authority and control-obsessed ruler. Her voice is emotionless and commanding, heavy with inevitability.
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/7.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/7.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/7.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/6.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A male food mascot, goofy and clueless, speaking in a clumsy <br> low-pitched lovely voice with a nasal tone bubbling with uncontainable happiness.
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/8.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/8.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/8.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/8.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A female sarcastic sidekick and cynical observer. Her voice is flat, nasal, and low-energy, filled with tired irritation.
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/9.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/9.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/9.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/9.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A male cosmic visitor, curious and harmless, speaking in a small squeaky voice that sounds otherworldly but friendly.       
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/10.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/10.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/10.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/10.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A female abyss monarch and corrupted ruler overtaken by demonic possession. Her voice is heavy and resonant, two voices overlapping in infernal authority.
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/11.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/11.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/11.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/11.wav"></audio></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+    
+</section>
+<!-- End Audio Samples Section -->
+
+
+<!-- Audio Editing Section -->
+<section id="section-generation" class="section samples-section">
+  <div class="container is-max-widescreen">
+    
+    <div class="section-header">
+      <h2 class="title is-3">Voice Cloning and Editing</h2>
+      <!-- <p>We recommend using headphones for an optimal listening experience</p> -->
+    </div>
+
+    <div class="section-header">
+      <h3 class="title is-4">Voice Cloning</h3>
+      <p>Clone voices from reference audio while generating new speech content.</p>
+      <p class="section-note">
+        *All reference speakers/characters are in-the-wild recordings and unseen during training.
+      </p>
+    </div>
+
+    <div class="sample-container">
+    <table class="sample-table model-table">
+      <thead>
+        <tr>
+          <th>Reference Audio</th>
+          <th class="ttv-base">CosyVoice-3</th>
+          <th class="ttv-base">IndexTTS-2</th>
+          <th>VoiceDesigner</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <!-- Row 1 -->
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/clone/gt/0.wav" type="audio/wav">
+            </audio>
+            <!-- <br> Make the door opening sound more dramatic and faster. -->
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/cosyvoice/0.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/indextts2/0.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/clone/ttv/0.wav"></audio></td>
+        </tr>
+
+        <!-- Row 2 -->
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/clone/gt/1.wav" type="audio/wav">
+            </audio>
+            <!-- <br> Make the door opening sound more dramatic and faster. -->
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/cosyvoice/1.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/indextts2/1.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/clone/ttv/1.wav"></audio></td>
+        </tr>
+
+        <!-- Row 3 -->
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/clone/gt/2.wav" type="audio/wav">
+            </audio>
+            <!-- <br> Make the door opening sound more dramatic and faster. -->
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/cosyvoice/2.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/indextts2/2.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/clone/ttv/2.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/clone/gt/3.wav" type="audio/wav">
+            </audio>
+            <!-- <br> Make the door opening sound more dramatic and faster. -->
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/cosyvoice/3.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/indextts2/3.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/clone/ttv/3.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/clone/gt/4.wav" type="audio/wav">
+            </audio>
+            <!-- <br> Make the door opening sound more dramatic and faster. -->
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/cosyvoice/4.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/indextts2/4.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/clone/ttv/4.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/clone/gt/5.wav" type="audio/wav">
+            </audio>
+            <!-- <br> Make the door opening sound more dramatic and faster. -->
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/cosyvoice/5.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/indextts2/5.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/clone/ttv/5.wav"></audio></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-header">
+      <h3 class="title is-4">Voice Style Editing</h3>
+      <p>Edit voice style and emotion using natural language instructions.</p>
+      <p class="section-note">
+        *All reference speakers are unseen during training of VoiceDesigner.
+      </p>
+    </div>
+
+    <div class="sample-container">
+    <table class="sample-table model-table">
+      <thead>
+        <tr>
+          <th>Reference Audio & Edit Instruction</th>
+          <th class="ttv-base">Step-Audio-EditX</th>
+          <th class="ttv-base">IndexTTS-2</th>
+          <th>VoiceDesigner</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit/gt/3.wav" type="audio/wav">
+            </audio>
+           <br> Make him whisper softly.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/3.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/3.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/3.wav"></audio></td>
+        </tr>
+
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit/gt/1.wav" type="audio/wav">
+            </audio>
+           <br> Make him speak in an angry tone.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/1.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/1.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/1.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit/gt/2.wav" type="audio/wav">
+            </audio>
+           <br> Make this speaker sound fearful.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/2.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/2.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/2.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit/gt/4.wav" type="audio/wav">
+            </audio>
+           <br> Make her voice sound confused.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/4.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/4.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/4.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit/gt/0.wav" type="audio/wav">
+            </audio>
+           <br> Make the speaker sound surprised.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/0.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/0.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/0.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit/gt/5.mp3" type="audio/wav">
+            </audio>
+           <br> Make her whisper softly.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/5.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/5.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/5.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit/gt/6.wav" type="audio/wav">
+            </audio>
+           <br> Make the speaker sound sad.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/6.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/6.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/6.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit/gt/7.wav" type="audio/wav">
+            </audio>
+           <br> Make her sound happy and joyful.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/7.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/7.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/7.wav"></audio></td>
+        </tr>
+
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit/gt/8.wav" type="audio/wav">
+            </audio>
+           <br> Make her voice sound fearful.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/8.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/8.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/8.wav"></audio></td>
+        </tr>
+
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit/gt/9.wav" type="audio/wav">
+            </audio>
+           <br> Make him sound surprised.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/9.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/9.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/9.wav"></audio></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-header">
+    <h3 class="title is-4">Other Voice Editing Functions</h3>
+    <p>Additional voice editing capabilities introduced in this work, which are not supported by existing models.</p>
+    <p class="section-note">
+      *All reference speakersr are unseen during training.
+    </p>
+    <p class="section-note">
+      *DAW + VST Plugins denote manual audio editing using professional digital audio workstations and plugin effects.
+    </p>
+  </div>
+
+    <div class="sample-container">
+    <table class="sample-table model-table">
+      <thead>
+        <tr>
+          <th>Reference Audio & Edit Instruction</th>
+          <th class="ttv-base">DAW + VST Plugins (Manually)</th>
+          <th>VoiceDesigner</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit_fx/gt/0.mp3" type="audio/wav">
+            </audio>
+          <br> Make his vocie timbre sound darker.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit_fx/daw/0.mp3"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit_fx/ttv/0.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit_fx/gt/1.mp3" type="audio/wav">
+            </audio>
+          <br> Make his voice timbre brighter.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit_fx/daw/1.mp3"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit_fx/ttv/1.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit_fx/gt/2.wav" type="audio/wav">
+            </audio>
+          <br> Upshift pitch without changing anything else.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit_fx/daw/2.mp3"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit_fx/ttv/2.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit_fx/gt/3.wav" type="audio/wav">
+            </audio>
+          <br> Downshift pitch without changing anything else.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit_fx/daw/3.mp3"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit_fx/ttv/3.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit_fx/gt/4.mp3" type="audio/wav">
+            </audio>
+          <br> Add a deep, dragon-like audio effect to this voice.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit_fx/daw/4.mp3"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit_fx/ttv/4.wav"></audio></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+    
+</section>
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  </body>
 </html>
