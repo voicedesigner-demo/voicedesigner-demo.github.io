@@ -685,11 +685,11 @@
   Unified Diffusion Modeling and Data Augmentation
 </h2>
           <!-- Authors / Submission -->
-          <div class="is-size-5 publication-authors">
+          <!-- <div class="is-size-5 publication-authors"> -->
             <!-- <span class="author-block">
               Interspeech Submission
             </span> -->
-          </div>
+          <!-- </div> -->
 
         </div>
       </div>
@@ -730,6 +730,19 @@
         <audio controls preload="metadata">
           <source src="samples/ttv_char/ttv/2.wav" type="audio/wav">
         </audio>
+
+        <div style="margin-top: 12px;"></div>
+        <!-- Example 1 -->
+        <div class="tldr-instruction">
+        "Generate a voice: a male hardened bounty hunter, fearless and relentless, speaking in a cold rugged voice shaped by scars, steel, and years of battle."        
+        </div>
+
+        <!-- <img src="images/sample.png" alt="example image" class="sample-image"> -->
+        <span class="tldr-audio-label">Generated Voice</span>
+
+        <audio controls preload="metadata">
+          <source src="samples/ttv_char/ttv/4.wav" type="audio/wav">
+        </audio>
       </div>
 
 
@@ -758,6 +771,26 @@
           <span class="tldr-audio-label">Cloned Voice</span>
           <audio controls preload="metadata">
             <source src="samples/clone/ttv/5.wav" type="audio/wav">
+          </audio>
+        </div>
+        
+        <br>
+
+      <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Reference Audio</span>
+          <audio controls preload="metadata">
+            <source src="samples/clone/gt/4.wav" type="audio/wav">
+          </audio>
+        </div>
+
+        <div class="tldr-instruction">
+          "Clone this voice."
+        </div>
+
+        <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Cloned Voice</span>
+          <audio controls preload="metadata">
+            <source src="samples/clone/ttv/4.wav" type="audio/wav">
           </audio>
         </div>
       </div>
@@ -790,7 +823,28 @@
             <source src="samples/edit/ttv/3.wav" type="audio/wav">
           </audio>
         </div>
+      
+      <br>
+
+      <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Original Audio</span>
+          <audio controls preload="metadata">
+            <source src="samples/edit/gt/8.wav" type="audio/wav">
+          </audio>
+        </div>
+
+        <div class="tldr-instruction">
+          "Make her voice sound fearful."        
+        </div>
+
+        <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Edited Audio</span>
+          <audio controls preload="metadata">
+            <source src="samples/edit/ttv/8.wav" type="audio/wav">
+          </audio>
+        </div>
       </div>
+
 
 
     </div>
