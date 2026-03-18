@@ -686,9 +686,9 @@
 </h2>
           <!-- Authors / Submission -->
           <div class="is-size-5 publication-authors">
-            <span class="author-block">
+            <!-- <span class="author-block">
               Interspeech Submission
-            </span>
+            </span> -->
           </div>
 
         </div>
@@ -807,6 +807,146 @@
       <h2 class="title is-3">Text-to-Voice Genearation</h2>
       <!-- <p>We recommend using headphones for an optimal listening experience</p> -->
     </div>
+
+      <div class="section-header">
+  <h3 class="title is-4">Character Voice Design</h3>
+  <p>Design character voices from text descriptions.</p>
+  <p class="section-note">
+        *VoiceDesigner+ indicates that the enhancement is applied as a post-processing step. Please refer to the paper for further details.
+  </p>
+</div>
+
+<div class="sample-container">
+  <table class="sample-table model-table">
+    <thead>
+      <tr>
+        <th>Prompt</th>
+        <th class="ttv-base">ElevenLabs</th>
+        <th class="ttv-base">Qwen3-TTS</th>
+        <th>VoiceDesigner</th>
+        <th>VoiceDesigner+</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <!-- Row 1 -->
+      <tr>
+        <td class="instruction-text">
+          A male young crown heir, exhilarated and proud, speaking with a bright and confident voice full of eagerness.
+        </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/0.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/0.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/0.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/0.wav"></audio></td>
+      </tr>
+
+      <!-- Row 2 -->
+      <tr>
+        <td class="instruction-text">
+          A male grand mentor, patient and wise, speaking with a steady warm voice that soothes the mind while guiding each word with certainty.
+        </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/1.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/1.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/1.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/1.wav"></audio></td>
+      </tr>
+
+      <!-- Row 3 -->
+      <tr>
+        <td class="instruction-text">
+          A female dark sorceress and forbidden scholar. Her voice is raspy and sinister.
+        </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/2.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/2.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/2.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/2.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A young princess and sheltered crown heir in the palace gardens at sunrise, thrilled by her first independence. <br> Her voice is bright and confident, filled with youthful excitement.         
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/3.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/3.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/3.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/3.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A male hardened bounty hunter, fearless and relentless, speaking in a cold rugged voice shaped by scars, steel, and years of battle.          
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/4.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/4.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/4.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/4.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A male mythic guardian, colossal and ancient, his resonant voice carrying sub-bass tremors and seismic vibration that echo across the ground beneath him.          
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/5.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/5.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/5.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/5.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A female artificial intelligence interface and system guide. Her voice is robotic, musical, and rhythmically stepped in pitch.          
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/6.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/6.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/6.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/6.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A female ultimate authority and control-obsessed ruler. Her voice is emotionless and commanding, heavy with inevitability.
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/7.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/7.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/7.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/7.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A male food mascot, goofy and clueless, speaking in a clumsy <br> low-pitched lovely voice with a nasal tone bubbling with uncontainable happiness.
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/8.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/8.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/8.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/8.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A female sarcastic sidekick and cynical observer. Her voice is flat, nasal, and low-energy, filled with tired irritation.
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/9.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/9.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/9.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/9.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A male cosmic visitor, curious and harmless, speaking in a small squeaky voice that sounds otherworldly but friendly.       
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/10.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/10.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/10.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/10.wav"></audio></td>
+      </tr>
+
+      <tr>
+        <td class="instruction-text">
+          A female abyss monarch and corrupted ruler overtaken by demonic possession. Her voice is heavy and resonant, two voices overlapping in infernal authority.
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/11.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/11.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/11.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/11.wav"></audio></td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
 
     <div class="section-header">
       <h3 class="title is-4">Expressive Speech Generation</h3>
@@ -987,145 +1127,7 @@
     </table>
   </div>
 
-  <div class="section-header">
-  <h3 class="title is-4">Character Voice Design</h3>
-  <p>Design character voices from text descriptions.</p>
-  <p class="section-note">
-        *VoiceDesigner+ indicates that the enhancement is applied as a post-processing step. Please refer to the paper for further details.
-  </p>
-</div>
 
-<div class="sample-container">
-  <table class="sample-table model-table">
-    <thead>
-      <tr>
-        <th>Prompt</th>
-        <th class="ttv-base">ElevenLabs</th>
-        <th class="ttv-base">Qwen3-TTS</th>
-        <th>VoiceDesigner</th>
-        <th>VoiceDesigner+</th>
-      </tr>
-    </thead>
-
-    <tbody>
-
-      <!-- Row 1 -->
-      <tr>
-        <td class="instruction-text">
-          A male young crown heir, exhilarated and proud, speaking with a bright and confident voice full of eagerness.
-        </td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/0.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/0.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/0.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/0.wav"></audio></td>
-      </tr>
-
-      <!-- Row 2 -->
-      <tr>
-        <td class="instruction-text">
-          A male grand mentor, patient and wise, speaking with a steady warm voice that soothes the mind while guiding each word with certainty.
-        </td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/1.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/1.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/1.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/1.wav"></audio></td>
-      </tr>
-
-      <!-- Row 3 -->
-      <tr>
-        <td class="instruction-text">
-          A female dark sorceress and forbidden scholar. Her voice is raspy and sinister.
-        </td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/2.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/2.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/2.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/2.wav"></audio></td>
-      </tr>
-
-      <tr>
-        <td class="instruction-text">
-          A young princess and sheltered crown heir in the palace gardens at sunrise, thrilled by her first independence. <br> Her voice is bright and confident, filled with youthful excitement.         
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/3.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/3.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/3.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/3.wav"></audio></td>
-      </tr>
-
-      <tr>
-        <td class="instruction-text">
-          A male hardened bounty hunter, fearless and relentless, speaking in a cold rugged voice shaped by scars, steel, and years of battle.          
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/4.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/4.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/4.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/4.wav"></audio></td>
-      </tr>
-
-      <tr>
-        <td class="instruction-text">
-          A male mythic guardian, colossal and ancient, his resonant voice carrying sub-bass tremors and seismic vibration that echo across the ground beneath him.          
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/5.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/5.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/5.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/5.wav"></audio></td>
-      </tr>
-
-      <tr>
-        <td class="instruction-text">
-          A female artificial intelligence interface and system guide. Her voice is robotic, musical, and rhythmically stepped in pitch.          
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/6.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/6.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/6.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/6.wav"></audio></td>
-      </tr>
-
-      <tr>
-        <td class="instruction-text">
-          A female ultimate authority and control-obsessed ruler. Her voice is emotionless and commanding, heavy with inevitability.
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/7.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/7.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/7.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/7.wav"></audio></td>
-      </tr>
-
-      <tr>
-        <td class="instruction-text">
-          A male food mascot, goofy and clueless, speaking in a clumsy <br> low-pitched lovely voice with a nasal tone bubbling with uncontainable happiness.
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/8.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/8.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/8.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/8.wav"></audio></td>
-      </tr>
-
-      <tr>
-        <td class="instruction-text">
-          A female sarcastic sidekick and cynical observer. Her voice is flat, nasal, and low-energy, filled with tired irritation.
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/9.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/9.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/9.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/9.wav"></audio></td>
-      </tr>
-
-      <tr>
-        <td class="instruction-text">
-          A male cosmic visitor, curious and harmless, speaking in a small squeaky voice that sounds otherworldly but friendly.       
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/10.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/10.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/10.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/10.wav"></audio></td>
-      </tr>
-
-      <tr>
-        <td class="instruction-text">
-          A female abyss monarch and corrupted ruler overtaken by demonic possession. Her voice is heavy and resonant, two voices overlapping in infernal authority.
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/11.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/11.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv/11.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/11.wav"></audio></td>
-      </tr>
-
-    </tbody>
-  </table>
-</div>
     
 </section>
 <!-- End Audio Samples Section -->
@@ -1273,19 +1275,6 @@
           <td><audio controls preload="metadata"><source src="samples/edit/ttv/3.wav"></audio></td>
         </tr>
 
-
-        <tr>
-          <td class="instruction-text">
-            <audio controls preload="metadata">
-              <source src="samples/edit/gt/1.wav" type="audio/wav">
-            </audio>
-           <br> Make him speak in an angry tone.
-          </td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/1.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/1.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/edit/ttv/1.wav"></audio></td>
-        </tr>
-
         <tr>
           <td class="instruction-text">
             <audio controls preload="metadata">
@@ -1313,13 +1302,13 @@
         <tr>
           <td class="instruction-text">
             <audio controls preload="metadata">
-              <source src="samples/edit/gt/0.wav" type="audio/wav">
+              <source src="samples/edit/gt/9.wav" type="audio/wav">
             </audio>
-           <br> Make the speaker sound surprised.
+           <br> Make him sound surprised.
           </td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/0.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/0.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/edit/ttv/0.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/9.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/9.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/9.wav"></audio></td>
         </tr>
 
         <tr>
@@ -1332,6 +1321,30 @@
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/5.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/5.wav"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/edit/ttv/5.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit/gt/1.wav" type="audio/wav">
+            </audio>
+           <br> Make him speak in an angry tone.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/1.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/1.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/1.wav"></audio></td>
+        </tr>
+
+        <tr>
+          <td class="instruction-text">
+            <audio controls preload="metadata">
+              <source src="samples/edit/gt/0.wav" type="audio/wav">
+            </audio>
+           <br> Make the speaker sound surprised.
+          </td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/0.wav"></audio></td>
+          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/0.wav"></audio></td>
+          <td><audio controls preload="metadata"><source src="samples/edit/ttv/0.wav"></audio></td>
         </tr>
 
         <tr>
@@ -1372,17 +1385,6 @@
         </tr>
 
 
-        <tr>
-          <td class="instruction-text">
-            <audio controls preload="metadata">
-              <source src="samples/edit/gt/9.wav" type="audio/wav">
-            </audio>
-           <br> Make him sound surprised.
-          </td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/9.wav"></audio></td>
-          <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/9.wav"></audio></td>
-          <td><audio controls preload="metadata"><source src="samples/edit/ttv/9.wav"></audio></td>
-        </tr>
 
       </tbody>
     </table>
