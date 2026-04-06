@@ -1,0 +1,33 @@
+{
+  "channel_fx_chains": {
+    "ch1": [
+      {
+        "name": "shift_pitch_by_semitones",
+        "params": {
+          "pitch_semitones": {
+            "range": [2, 4, 0.5]
+          }
+        }
+      },
+      {
+        "name": "time_stretch",
+        "params": {
+          "stretch_factor": {
+            "range": [1.0, 1.05, 0.025]
+          }
+        }
+      }
+    ]
+  },
+  "mix_weights": {
+    "ch1": 1.0
+  },
+  "master_fx_chain": [
+    {
+      "name": "pb_limiter",
+      "params": {
+        "threshold_db": 0
+      }
+    }
+  ]
+}

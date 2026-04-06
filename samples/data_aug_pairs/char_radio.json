@@ -1,0 +1,44 @@
+{
+  "channel_fx_chains": {
+    "ch1": [
+      {
+        "name": "pb_gsm_compression",
+        "params": {}
+      },
+      {
+        "name": "bandpass_filter_scipy",
+        "params": {
+          "lowcut_hz": {"range": [200, 400, 50]},
+          "highcut_hz": {"range": [3000, 5000, 250]}
+        }
+      }
+    ],
+    "ch2": [
+      {
+        "name": "pb_bitcrush",
+        "params": {
+          "bit_depth": 2
+        }
+      },
+      {
+        "name": "bandpass_filter_scipy",
+        "params": {
+          "lowcut_hz": 0,
+          "highcut_hz": {"range": [3000, 5000, 250]}
+        }
+      }
+    ]
+  },
+  "mix_weights": {
+    "ch1": 0.45,
+    "ch2": 0.025
+  },
+  "master_fx_chain": [
+    {
+      "name": "pb_limiter",
+      "params": {
+        "threshold_db": 0
+      }
+    }
+  ]
+}

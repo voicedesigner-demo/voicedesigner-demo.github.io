@@ -1,0 +1,61 @@
+
+{
+  "channel_fx_chains": {
+    "ch1": [
+      {
+        "name": "shift_pitch_by_semitones",
+        "params": {
+          "pitch_semitones": {"range": [-6,  -8,  0.5]}
+        }
+      }
+    ],
+    "ch2": [
+      {
+        "name": "shift_pitch_by_semitones",
+        "params": {
+          "pitch_semitones": {"range": [-24,  -16,  0.5]}
+        }
+      },
+      {
+        "name": "pb_distortion",
+        "params": {
+          "drive_db":  {"range": [0.0,  6.0,  1.0]}
+        }
+      },
+      {
+        "name": "bandpass_filter_scipy",
+        "params": {
+          "lowcut_hz": 20,
+          "highcut_hz": 2400
+        }
+      }
+    ],
+ "ch3": [
+      {
+        "name": "pw_whisper",
+        "params": {
+        }
+      },
+      {
+        "name": "bandpass_filter_scipy",
+        "params": {
+          "lowcut_hz": 500,
+          "highcut_hz": 0
+        }
+      }
+    ]
+  },
+  "mix_weights": {
+    "ch1": 0.75,
+    "ch2": 0.25,
+    "ch3": 0.25
+  },
+  "master_fx_chain": [
+    {
+      "name": "pb_limiter",
+      "params": {
+        "threshold_db": 0
+      }
+    }
+  ]
+}

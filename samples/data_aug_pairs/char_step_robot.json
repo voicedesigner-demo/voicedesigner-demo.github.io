@@ -1,0 +1,29 @@
+{
+  "channel_fx_chains": {
+    "ch1": [
+      {
+        "name": "process_audio_pitch_sifigan",
+        "params": {
+          "pitch_curve_fn": "step_flatten",
+          "curve_args": {
+            "block_len_min": {"range": [64, 128, 1]},
+            "block_len_max": {"range": [128, 256, 1]},
+            "gap_min": 0,
+            "gap_max": 0
+          }
+        }
+      }
+    ]
+  },
+  "mix_weights": {
+    "ch1": 1.0
+},
+  "master_fx_chain": [
+    {
+      "name": "pb_limiter",
+      "params": {
+        "threshold_db": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "channel_fx_chains": {
+    "ch1": [
+      {
+        "name": "process_audio_pitch_sifigan",
+        "params": {
+          "pitch_curve_fn": "quantize_flatten",
+          "curve_args": {
+            "pitch_semitones": {
+              "range": [-1, 1, 1]
+            },
+            "quantize_to": "note",
+            "flatten_window": {"range": [75, 125, 5]}
+          }
+        }
+      }
+    ]
+  },
+  "mix_weights": {
+    "ch1": 1.0
+},
+  "master_fx_chain": [
+    {
+      "name": "pb_limiter",
+      "params": {
+        "threshold_db": 0
+      }
+    }
+  ]
+}
