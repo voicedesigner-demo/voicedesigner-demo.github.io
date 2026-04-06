@@ -21,18 +21,108 @@ document.addEventListener('click', function(event) {
     const button = document.querySelector('.more-works-btn');
     
     if (container && !container.contains(event.target)) {
-        dropdown.classList.remove('show');
-        button.classList.remove('active');
+        if (dropdown) dropdown.classList.remove('show');
+        if (button) button.classList.remove('active');
+    }
+});
+
+function dataAugJsonKeyFromPath(jsonPath) {
+    if (!jsonPath) return '';
+    var m = jsonPath.match(/([\w-]+)\.json\s*$/);
+    return m ? m[1] : '';
+}
+
+function openDataAugFxModal(button) {
+    var modal = document.getElementById('dataAugFxModal');
+    var codeEl = document.getElementById('dataAugFxModalJson');
+    var titleEl = document.getElementById('dataAugFxModalTitle');
+    var errEl = document.getElementById('dataAugFxModalErr');
+    if (!modal || !codeEl) return;
+
+    var jsonPath = button && button.getAttribute ? button.getAttribute('data-json') : '';
+    var title = button && button.textContent ? button.textContent.trim() : 'FX Chain';
+
+    if (titleEl) titleEl.textContent = title;
+    if (errEl) {
+        errEl.textContent = '';
+        errEl.classList.add('is-hidden');
+    }
+    codeEl.textContent = 'Loading…';
+
+    modal.classList.add('is-active');
+    document.documentElement.classList.add('is-clipped');
+
+    if (!jsonPath) {
+        codeEl.textContent = 'No JSON path (data-json) configured for this row.';
+        return;
+    }
+
+    var key = dataAugJsonKeyFromPath(jsonPath);
+    var bundle = typeof window.DATA_AUG_JSON !== 'undefined' ? window.DATA_AUG_JSON : null;
+    if (bundle && key && Object.prototype.hasOwnProperty.call(bundle, key)) {
+        codeEl.textContent = JSON.stringify(bundle[key], null, 2);
+        return;
+    }
+
+    fetch(jsonPath)
+        .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.text();
+        })
+        .then(function (text) {
+            try {
+                var obj = JSON.parse(text);
+                codeEl.textContent = JSON.stringify(obj, null, 2);
+            } catch (e) {
+                codeEl.textContent = text;
+            }
+        })
+        .catch(function (err) {
+            codeEl.textContent = '';
+            if (errEl) {
+                errEl.textContent = 'Could not load JSON: ' + (err && err.message ? err.message : String(err)) +
+                    '. If you opened this page as file://, use a local server, or run node scripts/build_data_aug_json.js after editing JSON.';
+                errEl.classList.remove('is-hidden');
+            }
+        });
+}
+
+function closeDataAugFxModal() {
+    var modal = document.getElementById('dataAugFxModal');
+    if (modal) {
+        modal.classList.remove('is-active');
+        document.documentElement.classList.remove('is-clipped');
+    }
+}
+
+document.addEventListener('click', function (event) {
+    var fxBtn = event.target.closest('.data-aug-fx-subtitle');
+    if (fxBtn) {
+        event.preventDefault();
+        openDataAugFxModal(fxBtn);
+        return;
+    }
+    var modal = document.getElementById('dataAugFxModal');
+    if (modal && modal.classList.contains('is-active')) {
+        if (event.target.classList.contains('modal-background') ||
+            event.target.closest('.modal-close')) {
+            closeDataAugFxModal();
+        }
     }
 });
 
 // Close dropdown on escape key
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') {
+        var fxModal = document.getElementById('dataAugFxModal');
+        if (fxModal && fxModal.classList.contains('is-active')) {
+            closeDataAugFxModal();
+            return;
+        }
         const dropdown = document.getElementById('moreWorksDropdown');
         const button = document.querySelector('.more-works-btn');
-        dropdown.classList.remove('show');
-        button.classList.remove('active');
+        if (dropdown) dropdown.classList.remove('show');
+        if (button) button.classList.remove('active');
     }
 });
 
@@ -83,6 +173,7 @@ function scrollToTop() {
 // Show/hide scroll to top button
 window.addEventListener('scroll', function() {
     const scrollButton = document.querySelector('.scroll-to-top');
+    if (!scrollButton) return;
     if (window.pageYOffset > 300) {
         scrollButton.classList.add('visible');
     } else {
