@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="title" content="VoiceDesigner — Other materials">
+  <meta name="description" content="Other materials for VoiceDesigner: DSP-based simulation, effect chains, and paired audio for data augmentation.">
+  <meta name="keywords" content="diffusion, voice generation, data augmentation">
+  <meta name="robots" content="index, follow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+
+  <title>VoiceDesigner — Other materials</title>
+
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  </noscript>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/data_aug_json.js"></script>
+  <script defer src="static/js/index.js"></script>
+</head>
+<body>
+
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">
+            VoiceDesigner
+          </h1>
+          <h2 class="title is-2 publication-title">
+            Text-to-Voice Generation and Editing via
+            Unified Diffusion Modeling and Data Augmentation
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TLDR Section -->
+<section class="tldr-section">
+  <div class="container">
+    <div class="tldr-header">
+      <h2>TL;DR</h2>
+      <p>A unified model for generating, cloning, and editing voices.</p>
+      <p>Built for both natural everyday speech and expressive character voices.</p>
+    </div>
+
+    <div class="tldr-grid">
+
+      <!-- Voice Generation -->
+      <div class="tldr-card generation">
+        <div class="tldr-card-header">
+          <div class="tldr-card-icon">🎤</div>
+          <div>
+            <div class="tldr-card-title">Voice Generation</div>
+            <div class="tldr-card-subtitle">Create voices from text descriptions</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 12px;"></div>
+        <div class="tldr-instruction">
+        &quot;Generate a voice: <span class="ttv-char-highlight">a female dark sorceress and forbidden scholar</span>. Her voice is raspy and sinister.&quot;
+        </div>
+
+        <span class="tldr-audio-label">Generated Voice</span>
+
+        <audio controls preload="metadata">
+          <source src="samples/ttv_char/ttv/2.wav" type="audio/wav">
+        </audio>
+
+        <div style="margin-top: 12px;"></div>
+        <div class="tldr-instruction">
+        &quot;Generate a voice: <span class="ttv-char-highlight">a male hardened bounty hunter, fearless and relentless</span>, speaking in a cold rugged voice shaped by scars, steel, and years of battle.&quot;
+        </div>
+
+        <span class="tldr-audio-label">Generated Voice</span>
+
+        <audio controls preload="metadata">
+          <source src="samples/ttv_char/ttv/4.wav" type="audio/wav">
+        </audio>
+      </div>
+
+      <!-- Voice Cloning -->
+      <div class="tldr-card cloning">
+        <div class="tldr-card-header">
+          <div class="tldr-card-icon">🎧</div>
+          <div>
+            <div class="tldr-card-title">Voice Cloning</div>
+            <div class="tldr-card-subtitle">Clone voices from reference audio</div>
+          </div>
+        </div>
+
+        <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Reference Audio</span>
+          <audio controls preload="metadata">
+            <source src="samples/clone/gt/5.wav" type="audio/wav">
+          </audio>
+        </div>
+
+        <div class="tldr-instruction">
+          "Clone this voice."
+        </div>
+
+        <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Cloned Voice</span>
+          <audio controls preload="metadata">
+            <source src="samples/clone/ttv/5.wav" type="audio/wav">
+          </audio>
+        </div>
+
+        <br>
+
+      <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Reference Audio</span>
+          <audio controls preload="metadata">
+            <source src="samples/clone/gt/4.wav" type="audio/wav">
+          </audio>
+        </div>
+
+        <div class="tldr-instruction">
+          "Clone this voice."
+        </div>
+
+        <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Cloned Voice</span>
+          <audio controls preload="metadata">
+            <source src="samples/clone/ttv/4.wav" type="audio/wav">
+          </audio>
+        </div>
+      </div>
+
+      <!-- Voice Editing -->
+      <div class="tldr-card editing">
+        <div class="tldr-card-header">
+          <div class="tldr-card-icon">✏️</div>
+          <div>
+            <div class="tldr-card-title">Voice Editing</div>
+            <div class="tldr-card-subtitle">Edit voice styles using text instructions</div>
+          </div>
+        </div>
+
+        <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Original Audio</span>
+          <audio controls preload="metadata">
+            <source src="samples/edit/gt/3.wav" type="audio/wav">
+          </audio>
+        </div>
+
+        <div class="tldr-instruction">
+          "Make him whisper softly."
+        </div>
+
+        <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Edited Audio</span>
+          <audio controls preload="metadata">
+            <source src="samples/edit/ttv/3.wav" type="audio/wav">
+          </audio>
+        </div>
+
+      <br>
+
+      <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Original Audio</span>
+          <audio controls preload="metadata">
+            <source src="samples/edit/gt/8.wav" type="audio/wav">
+          </audio>
+        </div>
+
+        <div class="tldr-instruction">
+          "Make her voice sound fearful."
+        </div>
+
+        <div class="tldr-audio-item">
+          <span class="tldr-audio-label">Edited Audio</span>
+          <audio controls preload="metadata">
+            <source src="samples/edit/ttv/8.wav" type="audio/wav">
+          </audio>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- End TLDR Section -->
+
+<nav id="page-subnav" class="page-subnav" aria-label="Main page sections">
+  <div class="container is-max-desktop">
+    <div class="page-subnav-inner">
+      <a href="index.html#page-subnav" class="page-subnav-link">
+        <span class="page-subnav-label">Audio samples</span>
+        <span class="page-subnav-desc">Listening demos and model comparisons</span>
+      </a>
+      <a href="#page-subnav" class="page-subnav-link is-active" aria-current="page">
+        <span class="page-subnav-label">Other materials</span>
+        <span class="page-subnav-desc">Data simulation configs and other materials</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<section class="section samples-section" id="other-materials">
+  <div class="container is-max-widescreen">
+    <div class="section-header">
+      <h2 class="title is-3">Data Augmentation</h2>
+    </div>
+
+    <div class="section-header" id="data-augmentation">
+      <h3 class="title is-4">DSP-based Simulation</h3>
+      <p>Examples showcasing DSP-based simulation: input audio, DSP chain, and resulting output.</p>
+      <p class="section-note">Click the center label to view the full FX chain.</p>
+    </div>
+
+    <div class="sample-container">
+      <div class="data-aug-pairs">
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_deep_bass_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_deep_bass.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Character: Dragon, Demon, etc.
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_deep_bass.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_evil_low_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_evil_low.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Character: Evil Possessed
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_evil_low.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_heavy_robot_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_heavy_robot.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Character: Robot (Monophonic Tone)
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_heavy_robot.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_radio_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_radio.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Character: Radio, Walkie-talkie, etc.
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_radio.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_step_robot_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_step_robot.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Character: Robot (Musical Tone)
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_step_robot.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_tiny_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_tiny.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Character: Tiny creature, Small Alien, etc.
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_tiny.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/pitch_up_6_oir.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/pitch_up_6.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Pitch Shift Up (+6 Semitones)
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/pitch_up_6_fx.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/pitch_down_6_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/pitch_down_6.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Pitch Shift Down (−6 Semitones)
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/pitch_down_6_fx.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/formant_up_2_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/formant_up_2.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Formant Shift Up (+2 Semitones)
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/formant_up_2_fx.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/formant_down_2_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/formant_down_2.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Formant Shift Down (-2 Semitones)
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/formant_down_2_fx.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/expression_low_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/expression_low.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Expression Reduction
+            </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/expression_low_fx.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  </main>
+
+  <div id="dataAugFxModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="dataAugFxModalTitle">
+    <div class="modal-background"></div>
+    <div class="modal-content data-aug-modal-json-content">
+      <h4 id="dataAugFxModalTitle" class="title is-5 mb-3">FX Chain</h4>
+      <p id="dataAugFxModalErr" class="help is-danger is-hidden mb-2" role="alert"></p>
+      <pre class="data-aug-json-view"><code id="dataAugFxModalJson"></code></pre>
+    </div>
+    <button type="button" class="modal-close is-large" aria-label="Close"></button>
+  </div>
+
+</body>
+</html>
