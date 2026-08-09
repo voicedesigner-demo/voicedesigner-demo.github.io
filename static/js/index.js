@@ -248,13 +248,83 @@ function hydrateSampleTableLabels() {
         });
         if (!headers.length) return;
 
+        var oursIndexes = [];
+        table.querySelectorAll('thead th').forEach(function (th, index) {
+            if (th.classList.contains('ours-col')) oursIndexes.push(index);
+        });
+
         table.querySelectorAll('tbody tr').forEach(function (row) {
             Array.from(row.children).forEach(function (cell, index) {
                 if (cell.tagName !== 'TD') return;
+                var isOurs = oursIndexes.indexOf(index) !== -1;
+                if (isOurs) {
+                    cell.classList.add('ours-cell');
+                }
                 if (!cell.hasAttribute('data-label') && headers[index]) {
-                    cell.setAttribute('data-label', headers[index]);
+                    cell.setAttribute(
+                        'data-label',
+                        isOurs ? ('★ ' + headers[index].replace(/^★\s*/, '')) : headers[index]
+                    );
+                } else if (isOurs && cell.hasAttribute('data-label')) {
+                    var existing = cell.getAttribute('data-label') || '';
+                    if (existing && existing.indexOf('★') !== 0) {
+                        cell.setAttribute('data-label', '★ ' + existing.replace(/^★\s*/, ''));
+                    }
                 }
             });
+        });
+    });
+}
+
+// Collapse long sample tables to the first N rows; expand/collapse via button
+function setupSampleTableCollapse(limit) {
+    var maxVisible = typeof limit === 'number' && limit > 0 ? limit : 5;
+
+    document.querySelectorAll('.sample-container').forEach(function (container) {
+        if (container.querySelector('.sample-expand')) return;
+
+        var table = container.querySelector('table.sample-table');
+        if (!table) return;
+
+        var rows = Array.from(table.querySelectorAll('tbody tr'));
+        if (rows.length <= maxVisible) return;
+
+        var hiddenCount = rows.length - maxVisible;
+        rows.forEach(function (row, index) {
+            if (index >= maxVisible) row.classList.add('is-row-hidden');
+        });
+
+        var wrap = document.createElement('div');
+        wrap.className = 'sample-expand';
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'sample-expand-btn';
+        btn.setAttribute('aria-expanded', 'false');
+
+        var icon = document.createElement('span');
+        icon.className = 'sample-expand-icon';
+        icon.setAttribute('aria-hidden', 'true');
+        icon.innerHTML = '<i class="fas fa-plus"></i>';
+
+        var label = document.createElement('span');
+        label.className = 'sample-expand-label';
+        label.textContent = 'Show ' + hiddenCount + ' more';
+
+        btn.appendChild(icon);
+        btn.appendChild(label);
+        wrap.appendChild(btn);
+        container.appendChild(wrap);
+
+        btn.addEventListener('click', function () {
+            var expanded = btn.classList.toggle('is-expanded');
+            rows.forEach(function (row, index) {
+                if (index >= maxVisible) {
+                    row.classList.toggle('is-row-hidden', !expanded);
+                }
+            });
+            btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+            label.textContent = expanded ? 'Show less' : ('Show ' + hiddenCount + ' more');
         });
     });
 }
@@ -370,6 +440,82 @@ function setupPageSubnavSpy() {
     window.addEventListener('resize', updateActive);
 }
 
+function setupBrandAudioPlayers() {
+    var players = [];
+
+    document.querySelectorAll('audio[controls]').forEach(function (audio) {
+        if (audio.closest('.vd-player')) return;
+
+        audio.removeAttribute('controls');
+
+        var wrap = document.createElement('div');
+        wrap.className = 'vd-player';
+
+        var toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'vd-player-toggle';
+        toggle.setAttribute('aria-label', 'Play');
+        toggle.innerHTML = '<span class="vd-player-toggle-icon" aria-hidden="true"></span>';
+
+        var seek = document.createElement('input');
+        seek.type = 'range';
+        seek.className = 'vd-player-seek';
+        seek.min = '0';
+        seek.max = '1000';
+        seek.value = '0';
+        seek.step = '1';
+        seek.setAttribute('aria-label', 'Seek');
+
+        var parent = audio.parentNode;
+        parent.insertBefore(wrap, audio);
+        wrap.appendChild(toggle);
+        wrap.appendChild(seek);
+        wrap.appendChild(audio);
+
+        var seeking = false;
+
+        function setPlaying(on) {
+            wrap.classList.toggle('is-playing', on);
+            toggle.setAttribute('aria-label', on ? 'Pause' : 'Play');
+        }
+
+        function syncSeek() {
+            if (seeking || !audio.duration || !isFinite(audio.duration)) return;
+            seek.value = String(Math.round((audio.currentTime / audio.duration) * 1000));
+        }
+
+        toggle.addEventListener('click', function () {
+            if (audio.paused) {
+                players.forEach(function (other) {
+                    if (other !== audio && !other.paused) other.pause();
+                });
+                audio.play().catch(function () {});
+            } else {
+                audio.pause();
+            }
+        });
+
+        seek.addEventListener('pointerdown', function () { seeking = true; });
+        seek.addEventListener('pointerup', function () { seeking = false; syncSeek(); });
+        seek.addEventListener('change', function () { seeking = false; });
+        seek.addEventListener('input', function () {
+            if (!audio.duration || !isFinite(audio.duration)) return;
+            audio.currentTime = (Number(seek.value) / 1000) * audio.duration;
+        });
+
+        audio.addEventListener('play', function () { setPlaying(true); });
+        audio.addEventListener('pause', function () { setPlaying(false); });
+        audio.addEventListener('ended', function () {
+            setPlaying(false);
+            seek.value = '0';
+        });
+        audio.addEventListener('timeupdate', syncSeek);
+        audio.addEventListener('loadedmetadata', syncSeek);
+
+        players.push(audio);
+    });
+}
+
 $(document).ready(function() {
     if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
@@ -395,6 +541,8 @@ $(document).ready(function() {
     setupVideoCarouselAutoplay();
 
     hydrateSampleTableLabels();
+    setupSampleTableCollapse(5);
     setupPageSubnavSpy();
+    setupBrandAudioPlayers();
 
 })

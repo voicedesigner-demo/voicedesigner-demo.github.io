@@ -34,8 +34,8 @@
   <meta name="citation_conference_title" content="CONFERENCE_NAME">
   <meta name="citation_pdf_url" content="https://YOUR_DOMAIN.com/static/pdfs/paper.pdf">
 
-  <meta name="theme-color" content="#2563eb">
-  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="theme-color" content="#4a90e2">
+  <meta name="msapplication-TileColor" content="#4a90e2">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
@@ -149,6 +149,7 @@
     <i class="fas fa-chevron-up"></i>
   </button>
 
+  <div class="page-frame">
   <main id="main-content">
 
 <section class="hero">
@@ -204,8 +205,8 @@
 
             <div class="tldr-card generation">
         <div class="tldr-card-header">
-          <div class="tldr-card-icon">🎤</div>
-          <div>
+          <div class="tldr-card-icon" aria-hidden="true"><i class="fas fa-microphone"></i></div>
+          <div class="tldr-card-heading">
             <div class="tldr-card-title">Voice Generation</div>
             <div class="tldr-card-subtitle">Create voices from text descriptions</div>
           </div>
@@ -213,7 +214,7 @@
         
         <div style="margin-top: 12px;"></div>
                 <div class="tldr-instruction">
-        &quot;Generate a voice: <span class="ttv-char-highlight">a female dark sorceress and forbidden scholar</span>. Her voice is raspy and sinister.&quot;
+        &quot;Generate a voice: <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-hat-wizard"></i></span>a female dark sorceress and forbidden scholar</span>. Her voice is raspy and sinister.&quot;
         </div>
 
                 <span class="tldr-audio-label">Generated Voice</span>
@@ -224,7 +225,7 @@
 
         <div style="margin-top: 12px;"></div>
                 <div class="tldr-instruction">
-        &quot;Generate a voice: <span class="ttv-char-highlight">a male hardened bounty hunter</span>, fearless and relentless, speaking in a cold rugged voice shaped by scars, steel, and years of battle.&quot;
+        &quot;Generate a voice: <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-crosshairs"></i></span>a male hardened bounty hunter</span>, fearless and relentless, speaking in a cold rugged voice shaped by scars, steel, and years of battle.&quot;
         </div>
 
                 <span class="tldr-audio-label">Generated Voice</span>
@@ -236,8 +237,8 @@
 
             <div class="tldr-card cloning">
         <div class="tldr-card-header">
-          <div class="tldr-card-icon">🎧</div>
-          <div>
+          <div class="tldr-card-icon" aria-hidden="true"><i class="fas fa-headphones"></i></div>
+          <div class="tldr-card-heading">
             <div class="tldr-card-title">Voice Cloning</div>
             <div class="tldr-card-subtitle">Clone voices from reference audio</div>
           </div>
@@ -251,7 +252,7 @@
         </div>
 
         <div class="tldr-instruction">
-          "Clone this voice."
+          "<span class="ttv-char-highlight">Clone</span> this voice."
         </div>
 
         <div class="tldr-audio-item">
@@ -271,7 +272,7 @@
         </div>
 
         <div class="tldr-instruction">
-          "Clone this voice."
+          "<span class="ttv-char-highlight">Clone</span> this voice."
         </div>
 
         <div class="tldr-audio-item">
@@ -284,8 +285,8 @@
 
             <div class="tldr-card editing">
         <div class="tldr-card-header">
-          <div class="tldr-card-icon">✏️</div>
-          <div>
+          <div class="tldr-card-icon" aria-hidden="true"><i class="fas fa-pen"></i></div>
+          <div class="tldr-card-heading">
             <div class="tldr-card-title">Voice Editing</div>
             <div class="tldr-card-subtitle">Edit voice styles using text instructions</div>
           </div>
@@ -299,7 +300,7 @@
         </div>
 
         <div class="tldr-instruction">
-          "Make him whisper softly."        
+          "Make him <span class="ttv-char-highlight">whisper softly</span>."        
         </div>
 
         <div class="tldr-audio-item">
@@ -319,7 +320,7 @@
         </div>
 
         <div class="tldr-instruction">
-          "Make her voice sound fearful."        
+          "Make her voice sound <span class="ttv-char-highlight">fearful</span>."        
         </div>
 
         <div class="tldr-audio-item">
@@ -333,6 +334,15 @@
     </div>
   </div>
 </section>
+
+<div class="demo-divider" id="demo-samples" role="region" aria-label="Full demo samples">
+  <div class="container is-max-widescreen">
+    <div class="demo-divider-inner">
+      <p class="demo-divider-kicker">Below this line</p>
+      <h2 class="demo-divider-title">Demo Samples and Supplementaries</h2>
+    </div>
+  </div>
+</div>
 
 <nav id="page-subnav" class="page-subnav" aria-label="Sample sections">
   <div class="container is-max-desktop">
@@ -355,36 +365,38 @@
 
 <section id="section-ttv" class="section samples-section">
   <div class="container is-max-widescreen">
-    
-    <div class="section-header">
-      <h2 class="title is-3">Text-to-Voice Generation</h2>
-          </div>
 
       <div class="section-header">
-  <h3 class="title is-4">Character Voice Design</h3>
-  <p>Design character voices from text descriptions.</p>
+  <h2 class="title is-3">
+    <span class="section-title-icon" aria-hidden="true"><i class="fas fa-theater-masks"></i></span>
+    Character Voice Design
+  </h2>
+  <p class="section-lead">
+    Design character voices from text descriptions of persona, tone, and delivery.
+  </p>
   <p class="section-note">
-        *VoiceDesigner+ indicates that the enhancement is applied as a post-processing step. Please refer to the paper for further details.
+    <span class="note-label">Note:</span>
+    VoiceDesigner+ is the VoiceDesigner output after an enhancement post-processing step. See the paper for details.
   </p>
 </div>
 
 <div class="sample-container">
-  <table class="sample-table model-table">
+  <table class="sample-table model-table has-prompt-col">
     <thead>
       <tr>
         <th>Prompt</th>
         <th class="ttv-base">ElevenLabs</th>
         <th class="ttv-base">Qwen3-TTS</th>
-        <th>VoiceDesigner</th>
-        <th>VoiceDesigner+</th>
+        <th class="ours-col"><span class="ours-col-icon" aria-hidden="true"><i class="fas fa-star"></i></span>VoiceDesigner</th>
+        <th class="ours-col"><span class="ours-col-icon" aria-hidden="true"><i class="fas fa-star"></i></span>VoiceDesigner+</th>
       </tr>
     </thead>
 
     <tbody>
 
             <tr>
-        <td class="instruction-text">
-          <span class="ttv-char-highlight">A male young crown heir</span>, exhilarated and proud, speaking with a bright and confident voice full of eagerness.
+        <td class="instruction-text prompt-persona">
+          <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-crown"></i></span>A male young crown heir</span>, exhilarated and proud, speaking with a bright and confident voice full of eagerness.
         </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/0.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/0.wav"></audio></td>
@@ -393,8 +405,8 @@
       </tr>
 
             <tr>
-        <td class="instruction-text">
-          <span class="ttv-char-highlight">A male grand mentor</span>, patient and wise, speaking with a steady warm voice that soothes the mind while guiding each word with certainty.
+        <td class="instruction-text prompt-persona">
+          <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-book"></i></span>A male grand mentor</span>, patient and wise, speaking with a steady warm voice that soothes the mind while guiding each word with certainty.
         </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/1.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/1.wav"></audio></td>
@@ -403,8 +415,8 @@
       </tr>
 
             <tr>
-        <td class="instruction-text">
-          <span class="ttv-char-highlight">A female dark sorceress and forbidden scholar</span>. Her voice is raspy and sinister.
+        <td class="instruction-text prompt-persona">
+          <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-hat-wizard"></i></span>A female dark sorceress and forbidden scholar</span>. Her voice is raspy and sinister.
         </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/2.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/2.wav"></audio></td>
@@ -413,8 +425,8 @@
       </tr>
 
       <tr>
-        <td class="instruction-text">
-          <span class="ttv-char-highlight">A young princess and sheltered crown heir</span> in the palace gardens at sunrise, thrilled by her first independence. <br> Her voice is bright and confident, filled with youthful excitement.
+        <td class="instruction-text prompt-persona">
+          <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-gem"></i></span>A young princess and sheltered crown heir</span> in the palace gardens at sunrise, thrilled by her first independence. Her voice is bright and confident, filled with youthful excitement.
         </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/3.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/3.wav"></audio></td>
@@ -423,8 +435,8 @@
       </tr>
 
       <tr>
-        <td class="instruction-text">
-          <span class="ttv-char-highlight">A male hardened bounty hunter</span>, fearless and relentless, speaking in a cold rugged voice shaped by scars, steel, and years of battle.
+        <td class="instruction-text prompt-persona">
+          <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-crosshairs"></i></span>A male hardened bounty hunter</span>, fearless and relentless, speaking in a cold rugged voice shaped by scars, steel, and years of battle.
         </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/4.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/4.wav"></audio></td>
@@ -433,8 +445,8 @@
       </tr>
 
       <tr>
-        <td class="instruction-text">
-          <span class="ttv-char-highlight">A male mythic guardian, colossal and ancient</span>, his resonant voice carrying sub-bass tremors and seismic vibration that echo across the ground beneath him.
+        <td class="instruction-text prompt-persona">
+          <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-shield-alt"></i></span>A male mythic guardian, colossal and ancient</span>, his resonant voice carrying sub-bass tremors and seismic vibration that echo across the ground beneath him.
         </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/5.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/5.wav"></audio></td>
@@ -443,8 +455,8 @@
       </tr>
 
       <tr>
-        <td class="instruction-text">
-          <span class="ttv-char-highlight">A female artificial intelligence interface and system guide</span>. Her voice is robotic, musical, and rhythmically stepped in pitch.
+        <td class="instruction-text prompt-persona">
+          <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-robot"></i></span>A female artificial intelligence interface and system guide</span>. Her voice is robotic, musical, and rhythmically stepped in pitch.
         </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/6.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/6.wav"></audio></td>
@@ -453,8 +465,8 @@
       </tr>
 
       <tr>
-        <td class="instruction-text">
-          <span class="ttv-char-highlight">A female ultimate authority and control-obsessed ruler</span>. Her voice is emotionless and commanding, heavy with inevitability.
+        <td class="instruction-text prompt-persona">
+          <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-gavel"></i></span>A female ultimate authority and control-obsessed ruler</span>. Her voice is emotionless and commanding, heavy with inevitability.
         </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/7.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/7.wav"></audio></td>
@@ -463,8 +475,8 @@
       </tr>
 
       <tr>
-        <td class="instruction-text">
-          <span class="ttv-char-highlight">A male food mascot</span>, goofy and clueless, speaking in a clumsy <br> low-pitched lovely voice with a nasal tone bubbling with uncontainable happiness.
+        <td class="instruction-text prompt-persona">
+          <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-hamburger"></i></span>A male food mascot</span>, goofy and clueless, speaking in a clumsy low-pitched lovely voice with a nasal tone bubbling with uncontainable happiness.
         </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/8.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/8.wav"></audio></td>
@@ -473,8 +485,8 @@
       </tr>
 
       <tr>
-        <td class="instruction-text">
-          <span class="ttv-char-highlight">A female sarcastic sidekick and cynical observer</span>. Her voice is flat, nasal, and low-energy, filled with tired irritation.
+        <td class="instruction-text prompt-persona">
+          <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-tired"></i></span>A female sarcastic sidekick and cynical observer</span>. Her voice is flat, nasal, and low-energy, filled with tired irritation.
         </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/9.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/9.wav"></audio></td>
@@ -483,8 +495,8 @@
       </tr>
 
       <tr>
-        <td class="instruction-text">
-          <span class="ttv-char-highlight">A male cosmic visitor</span>, curious and harmless, speaking in a small squeaky voice that sounds otherworldly but friendly.
+        <td class="instruction-text prompt-persona">
+          <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-user-astronaut"></i></span>A male cosmic visitor</span>, curious and harmless, speaking in a small squeaky voice that sounds otherworldly but friendly.
         </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/10.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/10.wav"></audio></td>
@@ -493,8 +505,8 @@
       </tr>
 
       <tr>
-        <td class="instruction-text">
-          <span class="ttv-char-highlight">A female abyss monarch and corrupted ruler overtaken by demonic possession</span>. Her voice is heavy and resonant, two voices overlapping in infernal authority.
+        <td class="instruction-text prompt-persona">
+          <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-ghost"></i></span>A female abyss monarch and corrupted ruler overtaken by demonic possession</span>. Her voice is heavy and resonant, two voices overlapping in infernal authority.
         </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/11labs/11.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv_char/qwen3tts/11.wav"></audio></td>
@@ -507,23 +519,30 @@
 </div>
 
     <div class="section-header">
-      <h3 class="title is-4">Expressive Speech Generation</h3>
-      <p>Generate expressive voices from text descriptions of voice, accent, style, and emotion.</p>
+      <h2 class="title is-3">
+        <span class="section-title-icon" aria-hidden="true"><i class="fas fa-comment-dots"></i></span>
+        Expressive Speech Generation
+      </h2>
+      <p class="section-lead">
+        Generate expressive speech from text descriptions of
+        <strong>voice</strong>, <strong>accent</strong>, <strong>style</strong>, and <strong>emotion</strong>.
+      </p>
       <p class="section-note">
-        *VoiceDesigner+ indicates that the enhancement is applied as a post-processing step. Please refer to the paper for further details.
+        <span class="note-label">Note:</span>
+        VoiceDesigner+ is the VoiceDesigner output after an enhancement post-processing step. See the paper for details.
       </p>
     </div>
 
     <div class="sample-container">
-    <table class="sample-table model-table">
+    <table class="sample-table model-table has-prompt-col">
       <thead>
         <tr>
           <th>Prompt</th>
           <th class="ttv-base">CapSpeech</th>
           <th class="ttv-base">ElevenLabs</th>
           <th class="ttv-base">Qwen3-TTS</th>
-          <th>VoiceDesigner</th>
-          <th>VoiceDesigner+</th>
+          <th class="ours-col"><span class="ours-col-icon" aria-hidden="true"><i class="fas fa-star"></i></span>VoiceDesigner</th>
+          <th class="ours-col"><span class="ours-col-icon" aria-hidden="true"><i class="fas fa-star"></i></span>VoiceDesigner+</th>
         </tr>
       </thead>
 
@@ -531,7 +550,7 @@
 
                 <tr>
           <td class="instruction-text">
-            A young woman speaking with happiness in her voice, sounding warm and bright as she talks.
+            A <span class="ttv-char-highlight">young</span> <span class="ttv-char-highlight">woman</span> speaking with <span class="ttv-char-highlight">happiness</span> in her voice, sounding <span class="ttv-char-highlight">warm</span> and <span class="ttv-char-highlight">bright</span> as she talks.
           </td>
 
           <td class="ttv-base">
@@ -567,7 +586,7 @@
 
                 <tr>
           <td class="instruction-text">
-            A young man with an American accent speaking with energetic excitement.
+            A <span class="ttv-char-highlight">young</span> <span class="ttv-char-highlight">man</span> with an <span class="ttv-char-highlight">American accent</span> speaking with <span class="ttv-char-highlight">energetic excitement</span>.
           </td>
 
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/1.wav"></audio></td>
@@ -579,7 +598,7 @@
 
                 <tr>
           <td class="instruction-text">
-            A senior man with a British accent speaking with pride, his voice deep, steady, and confident as he talks.
+            A <span class="ttv-char-highlight">senior</span> <span class="ttv-char-highlight">man</span> with a <span class="ttv-char-highlight">British accent</span> speaking with <span class="ttv-char-highlight">pride</span>, his voice <span class="ttv-char-highlight">deep</span>, <span class="ttv-char-highlight">steady</span>, and <span class="ttv-char-highlight">confident</span> as he talks.
           </td>
 
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/2.wav"></audio></td>
@@ -591,7 +610,7 @@
 
         <tr>
           <td class="instruction-text">
-            A woman with an Indian accent, her voice carrying sadness.
+            A <span class="ttv-char-highlight">woman</span> with an <span class="ttv-char-highlight">Indian accent</span>, her voice carrying <span class="ttv-char-highlight">sadness</span>.
           </td>
 
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/3.wav"></audio></td>
@@ -603,7 +622,7 @@
 
         <tr>
           <td class="instruction-text">
-            A young woman who has an Australian accent speaks in a quiet voice filled with fear.
+            A <span class="ttv-char-highlight">young</span> <span class="ttv-char-highlight">woman</span> who has an <span class="ttv-char-highlight">Australian accent</span> speaks in a <span class="ttv-char-highlight">quiet</span> voice filled with <span class="ttv-char-highlight">fear</span>.
           </td>
 
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/4.wav"></audio></td>
@@ -615,7 +634,7 @@
 
         <tr>
           <td class="instruction-text">
-            A middle-aged British man is speaking contemptuously.
+            A <span class="ttv-char-highlight">middle-aged</span> <span class="ttv-char-highlight">British</span> <span class="ttv-char-highlight">man</span> is speaking <span class="ttv-char-highlight">contemptuously</span>.
           </td>
 
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/5.wav"></audio></td>
@@ -627,7 +646,7 @@
 
         <tr>
           <td class="instruction-text">
-            A senior man with an Australian accent, he speaks slowly with boredom.
+            A <span class="ttv-char-highlight">senior</span> <span class="ttv-char-highlight">man</span> with an <span class="ttv-char-highlight">Australian accent</span>, he speaks <span class="ttv-char-highlight">slowly</span> with <span class="ttv-char-highlight">boredom</span>.
           </td>
 
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/6.wav"></audio></td>
@@ -639,7 +658,7 @@
 
         <tr>
           <td class="instruction-text">
-            A man with an Indian accent, speaking with uncertainty and confusion.
+            A <span class="ttv-char-highlight">man</span> with an <span class="ttv-char-highlight">Indian accent</span>, speaking with <span class="ttv-char-highlight">uncertainty</span> and <span class="ttv-char-highlight">confusion</span>.
           </td>
 
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/7.wav"></audio></td>
@@ -651,7 +670,7 @@
 
         <tr>
           <td class="instruction-text">
-            A female speaker is delivering her words with clear anger.
+            A <span class="ttv-char-highlight">female</span> speaker is delivering her words with clear <span class="ttv-char-highlight">anger</span>.
           </td>
 
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/8.wav"></audio></td>
@@ -663,7 +682,7 @@
 
         <tr>
           <td class="instruction-text">
-            A young woman speaking in a quiet, breathy whisper, gentle and careful.
+            A <span class="ttv-char-highlight">young</span> <span class="ttv-char-highlight">woman</span> speaking in a <span class="ttv-char-highlight">quiet, breathy whisper</span>, <span class="ttv-char-highlight">gentle</span> and <span class="ttv-char-highlight">careful</span>.
           </td>
 
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/ttv/capspeech/9.wav"></audio></td>
@@ -682,16 +701,18 @@
 
 <section id="section-clone-edit" class="section samples-section">
   <div class="container is-max-widescreen">
-    
-    <div class="section-header">
-      <h2 class="title is-3">Voice Cloning and Editing</h2>
-          </div>
 
     <div class="section-header">
-      <h3 class="title is-4">Voice Cloning</h3>
-      <p>Clone voices from reference audio while generating new speech content.</p>
+      <h2 class="title is-3">
+        <span class="section-title-icon" aria-hidden="true"><i class="fas fa-clone"></i></span>
+        Voice Cloning
+      </h2>
+      <p class="section-lead">
+        Clone voices from reference audio while generating new speech content.
+      </p>
       <p class="section-note">
-        *All reference speakers are unseen during training of VoiceDesigner.
+        <span class="note-label">Note:</span>
+        All reference speakers are unseen during training of VoiceDesigner.
       </p>
     </div>
 
@@ -702,7 +723,7 @@
           <th>Reference Audio</th>
           <th class="ttv-base">CosyVoice-3</th>
           <th class="ttv-base">IndexTTS-2</th>
-          <th>VoiceDesigner</th>
+          <th class="ours-col"><span class="ours-col-icon" aria-hidden="true"><i class="fas fa-star"></i></span>VoiceDesigner</th>
         </tr>
       </thead>
 
@@ -779,21 +800,27 @@
   </div>
 
   <div class="section-header">
-      <h3 class="title is-4">Voice Style Editing</h3>
-      <p>Edit voice style and emotion using natural language instructions.</p>
+      <h2 class="title is-3">
+        <span class="section-title-icon" aria-hidden="true"><i class="fas fa-magic"></i></span>
+        Voice Style Editing
+      </h2>
+      <p class="section-lead">
+        Edit voice style and emotion using natural language instructions.
+      </p>
       <p class="section-note">
-        *All reference speakers are unseen during training of VoiceDesigner.
+        <span class="note-label">Note:</span>
+        All reference speakers are unseen during training of VoiceDesigner.
       </p>
     </div>
 
     <div class="sample-container">
-    <table class="sample-table model-table">
+    <table class="sample-table model-table has-ref-edit-col edit-style-table">
       <thead>
         <tr>
           <th>Reference Audio & Edit Instruction</th>
           <th class="ttv-base">Step-Audio-EditX</th>
           <th class="ttv-base">IndexTTS-2</th>
-          <th>VoiceDesigner</th>
+          <th class="ours-col"><span class="ours-col-icon" aria-hidden="true"><i class="fas fa-star"></i></span>VoiceDesigner</th>
         </tr>
       </thead>
 
@@ -801,10 +828,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
-              <source src="samples/edit/gt/3.wav" type="audio/wav">
-            </audio>
-           <br> Make him whisper softly.
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
+                <source src="samples/edit/gt/3.wav" type="audio/wav">
+              </audio>
+              <p class="edit-instruction">Make him <span class="ttv-char-highlight">whisper softly</span>.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/3.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/3.wav"></audio></td>
@@ -813,10 +842,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
               <source src="samples/edit/gt/2.wav" type="audio/wav">
             </audio>
-           <br> Make this speaker sound fearful.
+              <p class="edit-instruction">Make this speaker sound <span class="ttv-char-highlight">fearful</span>.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/2.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/2.wav"></audio></td>
@@ -825,10 +856,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
               <source src="samples/edit/gt/4.wav" type="audio/wav">
             </audio>
-           <br> Make her tone sound confused.
+              <p class="edit-instruction">Make her tone sound <span class="ttv-char-highlight">confused</span>.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/4.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/4.wav"></audio></td>
@@ -837,10 +870,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
               <source src="samples/edit/gt/9.wav" type="audio/wav">
             </audio>
-           <br> Make him sound surprised.
+              <p class="edit-instruction">Make him sound <span class="ttv-char-highlight">surprised</span>.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/9.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/9.wav"></audio></td>
@@ -849,10 +884,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
               <source src="samples/edit/gt/5.mp3" type="audio/wav">
             </audio>
-           <br> Make her whisper softly.
+              <p class="edit-instruction">Make her <span class="ttv-char-highlight">whisper softly</span>.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/5.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/5.wav"></audio></td>
@@ -861,10 +898,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
               <source src="samples/edit/gt/1.wav" type="audio/wav">
             </audio>
-           <br> Make him speak in an angry tone.
+              <p class="edit-instruction">Make him speak in an <span class="ttv-char-highlight">angry tone</span>.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/1.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/1.wav"></audio></td>
@@ -873,10 +912,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
               <source src="samples/edit/gt/0.wav" type="audio/wav">
             </audio>
-           <br> Make the speaker sound surprised.
+              <p class="edit-instruction">Make the speaker sound <span class="ttv-char-highlight">surprised</span>.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/0.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/0.wav"></audio></td>
@@ -885,10 +926,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
               <source src="samples/edit/gt/6.wav" type="audio/wav">
             </audio>
-           <br> Make the speaker sound sad.
+              <p class="edit-instruction">Make the speaker sound <span class="ttv-char-highlight">sad</span>.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/6.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/6.wav"></audio></td>
@@ -897,10 +940,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
               <source src="samples/edit/gt/7.wav" type="audio/wav">
             </audio>
-           <br> Make her sound happy and joyful.
+              <p class="edit-instruction">Make her sound <span class="ttv-char-highlight">happy and joyful</span>.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/7.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/7.wav"></audio></td>
@@ -909,10 +954,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
               <source src="samples/edit/gt/8.wav" type="audio/wav">
             </audio>
-           <br> Make her voice sound fearful.
+              <p class="edit-instruction">Make her voice sound <span class="ttv-char-highlight">fearful</span>.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/step/8.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit/indextts2/8.wav"></audio></td>
@@ -924,23 +971,27 @@
   </div>
 
   <div class="section-header">
-    <h3 class="title is-4">Extra Voice Editing Functions</h3>
-    <p>Additional voice editing capabilities introduced in this work, which are not supported by previous studies.</p>
-    <p class="section-note">
-      *All reference speakers are unseen during training.
+    <h2 class="title is-3">
+      <span class="section-title-icon" aria-hidden="true"><i class="fas fa-pen-fancy"></i></span>
+      Extra Voice Editing Functions
+    </h2>
+    <p class="section-lead">
+      Additional voice editing capabilities introduced in this work, which are not supported by previous studies.
     </p>
     <p class="section-note">
-      *DAW + VST Plugins denote manual audio editing using professional digital audio workstations and plugin effects.
+      <span class="note-label">Note:</span>
+      All reference speakers are unseen during training.<br>
+      DAW + VST Plugins denote manual audio editing with professional digital audio workstations and plugin effects.
     </p>
   </div>
 
     <div class="sample-container">
-    <table class="sample-table model-table">
+    <table class="sample-table model-table has-ref-edit-col edit-extra-table">
       <thead>
         <tr>
           <th>Reference Audio & Edit Instruction</th>
           <th class="ttv-base">DAW + VST Plugins</th>
-          <th>VoiceDesigner</th>
+          <th class="ours-col"><span class="ours-col-icon" aria-hidden="true"><i class="fas fa-star"></i></span>VoiceDesigner</th>
         </tr>
       </thead>
 
@@ -948,10 +999,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
               <source src="samples/edit_fx/gt/0.mp3" type="audio/wav">
             </audio>
-          <br> Make his voice timbre sound darker.
+              <p class="edit-instruction">Make his voice timbre <br class="edit-break">sound <span class="ttv-char-highlight">darker</span>.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit_fx/daw/0.mp3"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/edit_fx/ttv/0.wav"></audio></td>
@@ -959,10 +1012,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
               <source src="samples/edit_fx/gt/1.mp3" type="audio/wav">
             </audio>
-          <br> Make his voice timbre brighter.
+              <p class="edit-instruction">Make his voice <br class="edit-break">timbre <span class="ttv-char-highlight">brighter</span>.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit_fx/daw/1.mp3"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/edit_fx/ttv/1.wav"></audio></td>
@@ -970,10 +1025,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
-              <source src="samples/edit_fx/gt/2.wav" type="audio/wav">
-            </audio>
-          <br> Upshift pitch without changing anything else.
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
+                <source src="samples/edit_fx/gt/2.wav" type="audio/wav">
+              </audio>
+              <p class="edit-instruction"><span class="ttv-char-highlight">Upshift pitch</span> <br class="edit-break">without changing anything else.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit_fx/daw/2.mp3"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/edit_fx/ttv/2.wav"></audio></td>
@@ -981,10 +1038,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
-              <source src="samples/edit_fx/gt/3.wav" type="audio/wav">
-            </audio>
-          <br> Downshift pitch without changing anything else.
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
+                <source src="samples/edit_fx/gt/3.wav" type="audio/wav">
+              </audio>
+              <p class="edit-instruction"><span class="ttv-char-highlight">Downshift pitch</span> <br class="edit-break">without changing anything else.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit_fx/daw/3.mp3"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/edit_fx/ttv/3.wav"></audio></td>
@@ -992,10 +1051,12 @@
 
         <tr>
           <td class="instruction-text">
-            <audio controls preload="metadata">
+            <div class="edit-ref-cell">
+              <audio controls preload="metadata">
               <source src="samples/edit_fx/gt/4.mp3" type="audio/wav">
             </audio>
-          <br> Add a deep, dragon-like audio effect to this voice.
+              <p class="edit-instruction">Add a <span class="ttv-char-highlight">deep, dragon-like</span> <br class="edit-break">audio effect to this voice.</p>
+            </div>
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit_fx/daw/4.mp3"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/edit_fx/ttv/4.wav"></audio></td>
@@ -1009,287 +1070,224 @@
 
 <section id="other-materials" class="section samples-section">
   <div class="container is-max-widescreen">
-    <div class="section-header">
-      <h2 class="title is-3">Other Materials</h2>
-    </div>
-
     <div class="section-header" id="data-augmentation">
-      <h3 class="title is-4">DSP-based Simulation</h3>
-      <p>Data augmentation examples: input audio, DSP chain, and resulting output.</p>
-      <p class="section-note">Click the center label to view the full FX chain.</p>
+      <h2 class="title is-3">
+        <span class="section-title-icon" aria-hidden="true"><i class="fas fa-sliders-h"></i></span>
+        DSP-based Simulation
+      </h2>
+      <p class="section-lead">
+        Data augmentation examples: input audio, DSP chain, and resulting output.
+      </p>
+      <p class="section-note">
+        <span class="note-label">Note:</span>
+        Click an FX Chain label to view the full DSP configuration.
+      </p>
     </div>
 
     <div class="sample-container">
-      <div class="data-aug-pairs">
-
-        <div class="data-aug-pair">
-          <div class="data-aug-flow">
-            <div class="data-aug-step">
-              <span class="data-aug-label">Original</span>
+            <table class="sample-table model-table data-aug-table">
+        <thead>
+          <tr>
+            <th>Original</th>
+            <th class="col-accent">FX Chain</th>
+            <th>Target</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/char_deep_bass_ori.wav" type="audio/wav">
               </audio>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step data-aug-fx">
+            </td>
+            <td class="col-accent">
               <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_deep_bass.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
                 Character: Dragon, Demon, etc.
               </button>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step">
-              <span class="data-aug-label">Target</span>
+            </td>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/char_deep_bass.wav" type="audio/wav">
               </audio>
-            </div>
-          </div>
-        </div>
-
-        <div class="data-aug-pair">
-          <div class="data-aug-flow">
-            <div class="data-aug-step">
-              <span class="data-aug-label">Original</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/char_evil_low_ori.wav" type="audio/wav">
               </audio>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step data-aug-fx">
+            </td>
+            <td class="col-accent">
               <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_evil_low.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
                 Character: Evil Possessed
               </button>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step">
-              <span class="data-aug-label">Target</span>
+            </td>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/char_evil_low.wav" type="audio/wav">
               </audio>
-            </div>
-          </div>
-        </div>
-
-        <div class="data-aug-pair">
-          <div class="data-aug-flow">
-            <div class="data-aug-step">
-              <span class="data-aug-label">Original</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/char_heavy_robot_ori.wav" type="audio/wav">
               </audio>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step data-aug-fx">
+            </td>
+            <td class="col-accent">
               <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_heavy_robot.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
                 Character: Robot (Monophonic Tone)
               </button>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step">
-              <span class="data-aug-label">Target</span>
+            </td>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/char_heavy_robot.wav" type="audio/wav">
               </audio>
-            </div>
-          </div>
-        </div>
-
-        <div class="data-aug-pair">
-          <div class="data-aug-flow">
-            <div class="data-aug-step">
-              <span class="data-aug-label">Original</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/char_radio_ori.wav" type="audio/wav">
               </audio>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step data-aug-fx">
+            </td>
+            <td class="col-accent">
               <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_radio.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
                 Character: Radio, Walkie-talkie, etc.
               </button>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step">
-              <span class="data-aug-label">Target</span>
+            </td>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/char_radio.wav" type="audio/wav">
               </audio>
-            </div>
-          </div>
-        </div>
-
-        <div class="data-aug-pair">
-          <div class="data-aug-flow">
-            <div class="data-aug-step">
-              <span class="data-aug-label">Original</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/char_step_robot_ori.wav" type="audio/wav">
               </audio>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step data-aug-fx">
+            </td>
+            <td class="col-accent">
               <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_step_robot.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
                 Character: Robot (Musical Tone)
               </button>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step">
-              <span class="data-aug-label">Target</span>
+            </td>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/char_step_robot.wav" type="audio/wav">
               </audio>
-            </div>
-          </div>
-        </div>
-
-        <div class="data-aug-pair">
-          <div class="data-aug-flow">
-            <div class="data-aug-step">
-              <span class="data-aug-label">Original</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/char_tiny_ori.wav" type="audio/wav">
               </audio>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step data-aug-fx">
+            </td>
+            <td class="col-accent">
               <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_tiny.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
                 Character: Tiny creature, Small Alien, etc.
               </button>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step">
-              <span class="data-aug-label">Target</span>
+            </td>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/char_tiny.wav" type="audio/wav">
               </audio>
-            </div>
-          </div>
-        </div>
-
-        <div class="data-aug-pair">
-          <div class="data-aug-flow">
-            <div class="data-aug-step">
-              <span class="data-aug-label">Original</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/pitch_up_6_oir.wav" type="audio/wav">
               </audio>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step data-aug-fx">
+            </td>
+            <td class="col-accent">
               <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/pitch_up_6.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
                 Pitch Shift Up (+6 Semitones)
               </button>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step">
-              <span class="data-aug-label">Target</span>
+            </td>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/pitch_up_6_fx.wav" type="audio/wav">
               </audio>
-            </div>
-          </div>
-        </div>
-
-        <div class="data-aug-pair">
-          <div class="data-aug-flow">
-            <div class="data-aug-step">
-              <span class="data-aug-label">Original</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/pitch_down_6_ori.wav" type="audio/wav">
               </audio>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step data-aug-fx">
+            </td>
+            <td class="col-accent">
               <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/pitch_down_6.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
                 Pitch Shift Down (−6 Semitones)
               </button>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step">
-              <span class="data-aug-label">Target</span>
+            </td>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/pitch_down_6_fx.wav" type="audio/wav">
               </audio>
-            </div>
-          </div>
-        </div>
-
-        <div class="data-aug-pair">
-          <div class="data-aug-flow">
-            <div class="data-aug-step">
-              <span class="data-aug-label">Original</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/formant_up_2_ori.wav" type="audio/wav">
               </audio>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step data-aug-fx">
+            </td>
+            <td class="col-accent">
               <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/formant_up_2.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
                 Formant Shift Up (+2 Semitones)
               </button>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step">
-              <span class="data-aug-label">Target</span>
+            </td>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/formant_up_2_fx.wav" type="audio/wav">
               </audio>
-            </div>
-          </div>
-        </div>
-
-        <div class="data-aug-pair">
-          <div class="data-aug-flow">
-            <div class="data-aug-step">
-              <span class="data-aug-label">Original</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/formant_down_2_ori.wav" type="audio/wav">
               </audio>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step data-aug-fx">
+            </td>
+            <td class="col-accent">
               <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/formant_down_2.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
-                Formant Shift Down (-2 Semitones)
+                Formant Shift Down (−2 Semitones)
               </button>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step">
-              <span class="data-aug-label">Target</span>
+            </td>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/formant_down_2_fx.wav" type="audio/wav">
               </audio>
-            </div>
-          </div>
-        </div>
-
-        <div class="data-aug-pair">
-          <div class="data-aug-flow">
-            <div class="data-aug-step">
-              <span class="data-aug-label">Original</span>
+            </td>
+          </tr>
+          <tr>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/expression_low_ori.wav" type="audio/wav">
               </audio>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step data-aug-fx">
+            </td>
+            <td class="col-accent">
               <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/expression_low.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
                 Expression Reduction
-            </button>
-            </div>
-            <span class="data-aug-arrow" aria-hidden="true">→</span>
-            <div class="data-aug-step">
-              <span class="data-aug-label">Target</span>
+              </button>
+            </td>
+            <td>
               <audio controls preload="metadata">
                 <source src="samples/data_aug_pairs/expression_low_fx.wav" type="audio/wav">
               </audio>
-            </div>
-          </div>
-        </div>
-
-      </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
+
+  </main>
 
   <footer class="footer">
   <div class="container">
@@ -1304,6 +1302,7 @@
     </div>
   </div>
 </footer>
+  </div>
 
   <div id="dataAugFxModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="dataAugFxModalTitle">
     <div class="modal-background"></div>
