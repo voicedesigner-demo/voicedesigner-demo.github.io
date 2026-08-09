@@ -162,12 +162,42 @@ function copyBibTeX() {
     }
 }
 
-// Scroll to top functionality
+// Short ease scrolling (faster than native smooth on long pages)
+var _scrollAnimFrame = null;
+
+function smoothScrollTo(targetY) {
+    var start = window.pageYOffset || document.documentElement.scrollTop;
+    var end = Math.max(0, targetY);
+    var distance = end - start;
+    if (Math.abs(distance) < 1) return;
+
+    if (_scrollAnimFrame) {
+        cancelAnimationFrame(_scrollAnimFrame);
+        _scrollAnimFrame = null;
+    }
+
+    var duration = Math.min(480, Math.max(240, Math.abs(distance) * 0.18));
+    var startTime = performance.now();
+
+    function easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+    }
+
+    function step(now) {
+        var t = Math.min(1, (now - startTime) / duration);
+        window.scrollTo(0, start + distance * easeOutCubic(t));
+        if (t < 1) {
+            _scrollAnimFrame = requestAnimationFrame(step);
+        } else {
+            _scrollAnimFrame = null;
+        }
+    }
+
+    _scrollAnimFrame = requestAnimationFrame(step);
+}
+
 function scrollToTop() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
+    smoothScrollTo(0);
 }
 
 // Show/hide scroll to top button
@@ -210,7 +240,141 @@ function setupVideoCarouselAutoplay() {
     });
 }
 
+// Label sample-table cells from headers (phone card layout uses data-label)
+function hydrateSampleTableLabels() {
+    document.querySelectorAll('table.sample-table').forEach(function (table) {
+        var headers = Array.from(table.querySelectorAll('thead th')).map(function (th) {
+            return (th.textContent || '').replace(/\s+/g, ' ').trim();
+        });
+        if (!headers.length) return;
+
+        table.querySelectorAll('tbody tr').forEach(function (row) {
+            Array.from(row.children).forEach(function (cell, index) {
+                if (cell.tagName !== 'TD') return;
+                if (!cell.hasAttribute('data-label') && headers[index]) {
+                    cell.setAttribute('data-label', headers[index]);
+                }
+            });
+        });
+    });
+}
+
+function navigationType() {
+    try {
+        var entries = performance.getEntriesByType('navigation');
+        if (entries && entries[0] && entries[0].type) return entries[0].type;
+    } catch (e) {}
+    if (performance.navigation) {
+        if (performance.navigation.type === 1) return 'reload';
+    }
+    return 'navigate';
+}
+
+function clearLocationHash() {
+    if (!location.hash) return;
+    if (history.replaceState) {
+        history.replaceState(null, '', location.pathname + location.search);
+    }
+}
+
+// Highlight sticky subnav link for the in-view major section
+function setupPageSubnavSpy() {
+    var nav = document.getElementById('page-subnav');
+    if (!nav) return;
+
+    var links = Array.from(nav.querySelectorAll('[data-nav-section]'));
+    if (!links.length) return;
+
+    var entries = links.map(function (link) {
+        var id = link.getAttribute('data-nav-section');
+        return {
+            link: link,
+            section: id ? document.getElementById(id) : null
+        };
+    }).filter(function (entry) {
+        return !!entry.section;
+    });
+    if (!entries.length) return;
+
+    var isReload = navigationType() === 'reload';
+
+    function setActive(activeLink) {
+        links.forEach(function (link) {
+            var on = link === activeLink;
+            link.classList.toggle('is-active', on);
+            if (on) {
+                link.setAttribute('aria-current', 'location');
+            } else {
+                link.removeAttribute('aria-current');
+            }
+        });
+    }
+
+    function updateActive() {
+        var marker = nav.getBoundingClientRect().bottom + 24;
+        var current = entries[0].link;
+
+        entries.forEach(function (entry) {
+            if (entry.section.getBoundingClientRect().top <= marker) {
+                current = entry.link;
+            }
+        });
+
+        setActive(current);
+    }
+
+    function scrollToSection(section, animate) {
+        var top = section.getBoundingClientRect().top + window.pageYOffset - nav.offsetHeight - 8;
+        top = Math.max(0, top);
+        if (animate) {
+            smoothScrollTo(top);
+        } else {
+            window.scrollTo(0, top);
+        }
+    }
+
+    links.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            var id = link.getAttribute('data-nav-section');
+            var section = id ? document.getElementById(id) : null;
+            if (!section) return;
+
+            event.preventDefault();
+            setActive(link);
+            clearLocationHash();
+            scrollToSection(section, true);
+            updateActive();
+        });
+    });
+
+    // Reload should always start at the top (ignore old hash / scroll restoration)
+    if (isReload) {
+        clearLocationHash();
+        window.scrollTo(0, 0);
+    } else if (location.hash) {
+        var hashId = location.hash.slice(1);
+        var hashSection = document.getElementById(hashId);
+        var hashLink = links.find(function (link) {
+            return link.getAttribute('data-nav-section') === hashId;
+        });
+        if (hashSection) {
+            window.setTimeout(function () {
+                scrollToSection(hashSection, false);
+                if (hashLink) setActive(hashLink);
+            }, 0);
+        }
+    }
+
+    updateActive();
+    window.addEventListener('scroll', updateActive, { passive: true });
+    window.addEventListener('resize', updateActive);
+}
+
 $(document).ready(function() {
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+
     // Check for click events on the navbar burger icon
 
     var options = {
@@ -229,5 +393,8 @@ $(document).ready(function() {
     
     // Setup video autoplay for carousel
     setupVideoCarouselAutoplay();
+
+    hydrateSampleTableLabels();
+    setupPageSubnavSpy();
 
 })

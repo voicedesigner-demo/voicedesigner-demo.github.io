@@ -3,456 +3,149 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <!-- Primary Meta Tags -->
-  <!-- TODO: Replace with your paper title and author names -->
-  <meta name="title" content="VoiceDesigner: Text-to-Voice Generation and Editing \\ via Unified Diffusion Modeling and Data Augmentation">
-  <!-- TODO: Write a compelling 150-160 character description of your research -->
+  <script>
+    (function () {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      var isReload = false;
+      try {
+        var nav = performance.getEntriesByType('navigation')[0];
+        isReload = !!(nav && nav.type === 'reload');
+      } catch (e) {}
+      if (!isReload && performance.navigation) {
+        isReload = performance.navigation.type === 1;
+      }
+      if (isReload && location.hash) {
+        history.replaceState(null, '', location.pathname + location.search);
+      }
+    })();
+  </script>
+
+  <meta name="title" content="VoiceDesigner: Text-to-Voice Generation and Editing via Unified Diffusion Modeling and Data Augmentation">
   <meta name="description" content="Voice generation and editing">
-  <!-- TODO: Add 5-10 relevant keywords for your research area -->
   <meta name="keywords" content="diffusion, voice generation, speech synthesis">
-  <!-- TODO: List all authors -->
   <meta name="author" content="InterSpeech Submission">
   <meta name="robots" content="index, follow">
   <meta name="language" content="English">
 
-  <!-- Academic/Research Specific -->
   <meta name="citation_title" content="PAPER_TITLE">
   <meta name="citation_author" content="FIRST_AUTHOR_LAST, FIRST_AUTHOR_FIRST">
   <meta name="citation_author" content="SECOND_AUTHOR_LAST, SECOND_AUTHOR_FIRST">
   <meta name="citation_publication_date" content="2024">
   <meta name="citation_conference_title" content="CONFERENCE_NAME">
   <meta name="citation_pdf_url" content="https://YOUR_DOMAIN.com/static/pdfs/paper.pdf">
-  
-  <!-- Additional SEO -->
+
   <meta name="theme-color" content="#2563eb">
   <meta name="msapplication-TileColor" content="#2563eb">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  
-  <!-- Preconnect for performance -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://ajax.googleapis.com">
   <link rel="preconnect" href="https://documentcloud.adobe.com">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
 
+  <title>VoiceDesigner: Text-to-Voice Generation and Editing via Unified Diffusion Modeling and Data Augmentation</title>
 
-  <!-- TODO: Replace with your paper title and authors -->
-  <title>VoiceDesigner: Text-to-Voice Generation and Editing \\ via Unified Diffusion Modeling and Data Augmentation</title>
-  
-  <!-- Favicon and App Icons -->
   <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
   <link rel="apple-touch-icon" href="static/images/favicon.ico">
-  
-  <!-- Critical CSS - Load synchronously -->
+
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/index.css">
-  
-  <!-- Non-critical CSS - Load asynchronously -->
+
   <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  
-  <!-- Fallback for browsers that don't support preload -->
+
   <noscript>
-    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
-    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
-    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   </noscript>
-  
-  <!-- Fonts - Optimized loading -->
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Defer non-critical JavaScript -->
+
   <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
   <script defer src="static/js/fontawesome.all.min.js"></script>
   <script defer src="static/js/bulma-carousel.min.js"></script>
   <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/data_aug_json.js"></script>
   <script defer src="static/js/index.js"></script>
-  
-  <!-- Structured Data for Academic Papers -->
+
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "ScholarlyArticle",
-    "headline": "PAPER_TITLE",
-    "description": "BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "FIRST_AUTHOR_NAME",
-        "affiliation": {
-          "@type": "Organization",
-          "name": "INSTITUTION_NAME"
-        }
-      },
-      {
-        "@type": "Person",
-        "name": "SECOND_AUTHOR_NAME",
-        "affiliation": {
-          "@type": "Organization",
-          "name": "INSTITUTION_NAME"
-        }
-      }
-    ],
-    "datePublished": "2024-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "CONFERENCE_OR_JOURNAL_NAME"
-    },
-    "url": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE",
-    "image": "https://YOUR_DOMAIN.com/static/images/social_preview.png",
-    "keywords": ["KEYWORD1", "KEYWORD2", "KEYWORD3", "machine learning", "computer vision"],
-    "abstract": "FULL_ABSTRACT_TEXT_HERE",
-    "citation": "BIBTEX_CITATION_HERE",
-    "isAccessibleForFree": true,
-    "license": "https://creativecommons.org/licenses/by/4.0/",
-    "mainEntity": {
-      "@type": "WebPage",
-      "@id": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE"
-    },
-    "about": [
-      {
-        "@type": "Thing",
-        "name": "RESEARCH_AREA_1"
-      },
-      {
-        "@type": "Thing", 
-        "name": "RESEARCH_AREA_2"
-      }
-    ]
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "PAPER_TITLE",
+  "description": "BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS",
+  "author": [
+  {
+  "@type": "Person",
+  "name": "FIRST_AUTHOR_NAME",
+  "affiliation": {
+  "@type": "Organization",
+  "name": "INSTITUTION_NAME"
   }
-  </script>
-  
-  <!-- Website/Organization Structured Data -->
-  <script type="application/ld+json">
+  },
   {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "INSTITUTION_OR_LAB_NAME",
-    "url": "https://YOUR_INSTITUTION_WEBSITE.com",
-    "logo": "https://YOUR_DOMAIN.com/static/images/favicon.ico",
-    "sameAs": [
-      "https://twitter.com/YOUR_TWITTER_HANDLE",
-      "https://github.com/YOUR_GITHUB_USERNAME"
-    ]
+  "@type": "Person",
+  "name": "SECOND_AUTHOR_NAME",
+  "affiliation": {
+  "@type": "Organization",
+  "name": "INSTITUTION_NAME"
+  }
+  }
+  ],
+  "datePublished": "2024-01-01",
+  "publisher": {
+  "@type": "Organization",
+  "name": "CONFERENCE_OR_JOURNAL_NAME"
+  },
+  "url": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE",
+  "image": "https://YOUR_DOMAIN.com/static/images/social_preview.png",
+  "keywords": ["KEYWORD1", "KEYWORD2", "KEYWORD3", "machine learning", "computer vision"],
+  "abstract": "FULL_ABSTRACT_TEXT_HERE",
+  "citation": "BIBTEX_CITATION_HERE",
+  "isAccessibleForFree": true,
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "mainEntity": {
+  "@type": "WebPage",
+  "@id": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE"
+  },
+  "about": [
+  {
+  "@type": "Thing",
+  "name": "RESEARCH_AREA_1"
+  },
+  {
+  "@type": "Thing", 
+  "name": "RESEARCH_AREA_2"
+  }
+  ]
   }
   </script>
 
-  <!-- Audio samples styles -->
-  <style>
-    /* .samples-section {
-      padding: 2rem 0;
-    }
-    
-    .sample-container {
-      margin-bottom: 3rem;
-      background: #f9fafb;
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    }
-    
-    .sample-id {
-      font-family: 'Monaco', 'Consolas', monospace;
-      font-size: 0.9rem;
-      color: #6b7280;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid #e5e7eb;
-    }
-    
-    .sample-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    
-    .sample-table th {
-      background: #2563eb;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      font-weight: 600;
-      font-size: 1rem;
-    }
-    
-    .sample-table td {
-      padding: 1.5rem;
-      text-align: center;
-      vertical-align: middle;
-      border: 1px solid #e5e7eb;
-    }
-    
-    .sample-table td:first-child {
-      text-align: left;
-      background: #f3f4f6;
-      font-size: 1rem;
-      line-height: 1.6;
-      max-width: 400px;
-    }
-    
-    .sample-table audio {
-      width: 100%;
-      max-width: 300px;
-    }
-    
-    .instruction-text {
-      font-style: italic;
-      color: #374151;
-    }
-    
-    .sample-table th:first-child,
-    .sample-table td:first-child {
-      width: 40%;
-    }
-    
-    .sample-table th:nth-child(2),
-    .sample-table td:nth-child(2),
-    .sample-table th:nth-child(3),
-    .sample-table td:nth-child(3) {
-      width: 30%;
-    } */
-
-/* ===============================
-   Section
-================================ */
-.samples-section {
-  padding: 2rem 0;
-}
-
-/* ===============================
-   Container
-================================ */
-.sample-container {
-  margin-bottom: 3rem;
-  background: #f9fafb;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-
-  overflow-x: auto; /* ⭐支持多列横向滚动 */
-}
-
-/* ===============================
-   Table
-================================ */
-.sample-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-
-  table-layout: fixed; /* ⭐关键 */
-}
-
-/* ===============================
-   Header
-================================ */
-.sample-table th {
-  background: white;
-  color: black;
-  padding: 1rem;
-  text-align: center;
-  font-weight: 600;
-  font-size: 1rem;
-  border: 1px solid #e5e7eb;
-
-  white-space: nowrap; /* 防止换行 */
-}
-
-/* ===============================
-   Cells
-================================ */
-.sample-table td {
-  padding: 0.5rem 0.5rem;
-  text-align: center;
-  vertical-align: middle;
-  border: 1px solid #e5e7eb;
-}
-
-/* ===============================
-   Prompt column
-================================ */
-.sample-table th:first-child {
-  width: 28%;
-  text-align: center;
-  background: #2563eb;
-  color: white;
-  line-height: 1.6;
-}
-
-.sample-table td:first-child {
-  width: 28%;
-  text-align: center;
-  background: #f9fafb;
-  color: black;
-  line-height: 1.6;
-}
-
-/* ===============================
-   Model columns
-================================ */
-.sample-table td:not(:first-child),
-.sample-table th:not(:first-child) {
-  text-align: center;
-}
-
-.sample-table .ttv-base {
-  background: repeating-linear-gradient(
-    135deg,
-    #ffffff,
-    #ffffff 5px,
-    #f7f7f7 5px,
-    #f7f7f7 10px
-  );
-}
-
-/* ===============================
-   Prompt text
-================================ */
-.instruction-text {
-  font-style: italic;
-  color: #374151;
-  font-size: 1rem;
-}
-
-/* ===============================
-   Audio player
-================================ */
-.sample-table audio {
-  width: 160px;
-  max-width: 100%;
-}
-
-/* ===============================
-   Hover effect
-================================ */
-.sample-table tbody tr:hover {
-  background: #fcfcfd;
-}
-
-@media (max-width: 768px) {
-  .sample-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  <script type="application/ld+json">
+  {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "INSTITUTION_OR_LAB_NAME",
+  "url": "https://YOUR_INSTITUTION_WEBSITE.com",
+  "logo": "https://YOUR_DOMAIN.com/static/images/favicon.ico",
+  "sameAs": [
+  "https://twitter.com/YOUR_TWITTER_HANDLE",
+  "https://github.com/YOUR_GITHUB_USERNAME"
+  ]
   }
+  </script>
 
-  .sample-table {
-    min-width: 1000px; 
-  }
-
-  .sample-table th,
-  .sample-table td {
-    font-size: 0.85rem;
-    padding: 0.4rem;
-  }
-
-  .sample-table audio {
-    width: 160px;
-    max-width: 100%;
-
-  }
-}
-
-/* ===============================
-   Section header
-================================ */
-.section-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.section-header h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 0.5rem;
-}
-
-.section-header p {
-  color: #6b7280;
-  font-size: 1.1rem;
-}
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    
-    .section-header .section-note {
-      font-size: 0.9rem;
-      color: #9ca3af;
-      margin-top: 0.3rem;
-    }
-
-    
-    .section-header h2 {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #1f2937;
-      margin-bottom: 0.5rem;
-    }
-    
-    .section-header p {
-      color: #6b7280;
-      font-size: 1.1rem;
-    }
-
-    /* Institution logos styles */
-    .institution-logos {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
-      margin: 1.5rem 0 1rem;
-      flex-wrap: wrap;
-    }
-
-    .institution-logo-link {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      transition: opacity 0.2s ease;
-    }
-
-    .institution-logo-link:hover {
-      opacity: 0.75;
-    }
-
-    .institution-logo-img {
-      height: 40px;
-      width: auto;
-      object-fit: contain;
-      display: block;
-    }
-
-    .institution-logo-fallback {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #4b5563;
-    }
-
-    .institution-logo-divider {
-      color: #d1d5db;
-      font-size: 1.5rem;
-      font-weight: 300;
-      line-height: 1;
-    }
-  </style>
 </head>
 <body>
 
-
-  <!-- Scroll to Top Button -->
-  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
     <i class="fas fa-chevron-up"></i>
   </button>
 
@@ -464,20 +157,34 @@
       <div class="columns is-centered">
         <div class="column has-text-centered">
 
-          <!-- Paper Title -->
-<h1 class="title is-1 publication-title">
-  VoiceDesigner
-</h1>
-<h2 class="title is-2 publication-title">
-  Text-to-Voice Generation and Editing via 
-  Unified Diffusion Modeling and Data Augmentation
-</h2>
-          <!-- Authors / Submission -->
-          <!-- <div class="is-size-5 publication-authors"> -->
-            <!-- <span class="author-block">
-              Interspeech Submission
-            </span> -->
-          <!-- </div> -->
+          <h1 class="title is-2 publication-title">
+            <span class="publication-title-line">VoiceDesigner: Text-to-Voice Generation and Editing</span>
+            <span class="publication-title-line">via Unified Diffusion Modeling and Data Augmentation</span>
+          </h1>
+
+          <div class="publication-authors">
+            <span class="author-block"><a href="https://haidog-yaqub.github.io/" target="_blank" rel="noopener noreferrer">Jiarui Hai</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=n72wEIkAAAAJ" target="_blank" rel="noopener noreferrer">Karan Thakkar</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=Uxjw_PIAAAAJ" target="_blank" rel="noopener noreferrer">Ke Chen</a><sup>2</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=8cdG-TAAAAAJ" target="_blank" rel="noopener noreferrer">Yunyun Wang</a><sup>2</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=HxKLj_MAAAAJ" target="_blank" rel="noopener noreferrer">Jiaqi Su</a><sup>2</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=hJjeVsQAAAAJ" target="_blank" rel="noopener noreferrer">Rithesh Kumar</a><sup>2</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=DlbELYkAAAAJ" target="_blank" rel="noopener noreferrer">Mounya Elhilali</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=R-PFLHMAAAAJ" target="_blank" rel="noopener noreferrer">Zeyu Jin</a><sup>2</sup></span>
+          </div>
+
+          <div class="is-size-6 publication-authors publication-affiliations">
+            <span class="author-block"><sup>1</sup>Johns Hopkins University</span>
+            <span class="author-block"><sup>2</sup>Adobe Research</span>
+          </div>
+
+          <div class="publication-links">
+            <a href="https://arxiv.org/abs/0000.00000" target="_blank" rel="noopener noreferrer"
+               class="publication-link-btn" aria-label="arXiv">
+              <i class="fas fa-file-alt" aria-hidden="true"></i>
+              <span>arXiv</span>
+            </a>
+          </div>
 
         </div>
       </div>
@@ -485,7 +192,6 @@
   </div>
 </section>
 
-<!-- TLDR Section -->
 <section class="tldr-section">
   <div class="container">
     <div class="tldr-header">
@@ -496,8 +202,7 @@
 
     <div class="tldr-grid">
 
-      <!-- Voice Generation -->
-      <div class="tldr-card generation">
+            <div class="tldr-card generation">
         <div class="tldr-card-header">
           <div class="tldr-card-icon">🎤</div>
           <div>
@@ -507,35 +212,29 @@
         </div>
         
         <div style="margin-top: 12px;"></div>
-        <!-- Example 1 -->
-        <div class="tldr-instruction">
+                <div class="tldr-instruction">
         &quot;Generate a voice: <span class="ttv-char-highlight">a female dark sorceress and forbidden scholar</span>. Her voice is raspy and sinister.&quot;
         </div>
 
-        <!-- <img src="images/sample.png" alt="example image" class="sample-image"> -->
-        <span class="tldr-audio-label">Generated Voice</span>
+                <span class="tldr-audio-label">Generated Voice</span>
 
         <audio controls preload="metadata">
           <source src="samples/ttv_char/ttv/2.wav" type="audio/wav">
         </audio>
 
         <div style="margin-top: 12px;"></div>
-        <!-- Example 1 -->
-        <div class="tldr-instruction">
+                <div class="tldr-instruction">
         &quot;Generate a voice: <span class="ttv-char-highlight">a male hardened bounty hunter</span>, fearless and relentless, speaking in a cold rugged voice shaped by scars, steel, and years of battle.&quot;
         </div>
 
-        <!-- <img src="images/sample.png" alt="example image" class="sample-image"> -->
-        <span class="tldr-audio-label">Generated Voice</span>
+                <span class="tldr-audio-label">Generated Voice</span>
 
         <audio controls preload="metadata">
           <source src="samples/ttv_char/ttv/4.wav" type="audio/wav">
         </audio>
       </div>
 
-
-      <!-- Voice Cloning -->
-      <div class="tldr-card cloning">
+            <div class="tldr-card cloning">
         <div class="tldr-card-header">
           <div class="tldr-card-icon">🎧</div>
           <div>
@@ -583,9 +282,7 @@
         </div>
       </div>
 
-
-      <!-- Voice Editing -->
-      <div class="tldr-card editing">
+            <div class="tldr-card editing">
         <div class="tldr-card-header">
           <div class="tldr-card-icon">✏️</div>
           <div>
@@ -633,37 +330,35 @@
         </div>
       </div>
 
-
-
     </div>
   </div>
 </section>
 
-<!-- End TLDR Section -->
-
-<nav id="page-subnav" class="page-subnav" aria-label="Main page sections">
+<nav id="page-subnav" class="page-subnav" aria-label="Sample sections">
   <div class="container is-max-desktop">
     <div class="page-subnav-inner">
-      <a href="#page-subnav" class="page-subnav-link is-active" aria-current="page">
-        <span class="page-subnav-label">Audio samples</span>
-        <span class="page-subnav-desc">Listening demos and model comparisons</span>
+      <a href="#" class="page-subnav-link" data-nav-section="section-ttv">
+        <span class="page-subnav-label">Text-to-Voice Generation</span>
+        <span class="page-subnav-desc">Character and expressive speech demos</span>
       </a>
-      <a href="materials.html#page-subnav" class="page-subnav-link">
-        <span class="page-subnav-label">Other materials</span>
-        <span class="page-subnav-desc">Data simulation configs and other materials</span>
+      <a href="#" class="page-subnav-link" data-nav-section="section-clone-edit">
+        <span class="page-subnav-label">Voice Cloning and Editing</span>
+        <span class="page-subnav-desc">Clone, style edit, and extra edits</span>
+      </a>
+      <a href="#" class="page-subnav-link" data-nav-section="other-materials">
+        <span class="page-subnav-label">Other Materials</span>
+        <span class="page-subnav-desc">DSP simulation and configs</span>
       </a>
     </div>
   </div>
 </nav>
 
-<!-- Audio Samples Section -->
-<section id="section-generation" class="section samples-section">
+<section id="section-ttv" class="section samples-section">
   <div class="container is-max-widescreen">
     
     <div class="section-header">
-      <h2 class="title is-3">Text-to-Voice Genearation</h2>
-      <!-- <p>We recommend using headphones for an optimal listening experience</p> -->
-    </div>
+      <h2 class="title is-3">Text-to-Voice Generation</h2>
+          </div>
 
       <div class="section-header">
   <h3 class="title is-4">Character Voice Design</h3>
@@ -687,8 +382,7 @@
 
     <tbody>
 
-      <!-- Row 1 -->
-      <tr>
+            <tr>
         <td class="instruction-text">
           <span class="ttv-char-highlight">A male young crown heir</span>, exhilarated and proud, speaking with a bright and confident voice full of eagerness.
         </td>
@@ -698,8 +392,7 @@
           <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/0.wav"></audio></td>
       </tr>
 
-      <!-- Row 2 -->
-      <tr>
+            <tr>
         <td class="instruction-text">
           <span class="ttv-char-highlight">A male grand mentor</span>, patient and wise, speaking with a steady warm voice that soothes the mind while guiding each word with certainty.
         </td>
@@ -709,8 +402,7 @@
           <td><audio controls preload="metadata"><source src="samples/ttv_char/ttv_enhanced/1.wav"></audio></td>
       </tr>
 
-      <!-- Row 3 -->
-      <tr>
+            <tr>
         <td class="instruction-text">
           <span class="ttv-char-highlight">A female dark sorceress and forbidden scholar</span>. Her voice is raspy and sinister.
         </td>
@@ -837,8 +529,7 @@
 
       <tbody>
 
-        <!-- Row 1 -->
-        <tr>
+                <tr>
           <td class="instruction-text">
             A young woman speaking with happiness in her voice, sounding warm and bright as she talks.
           </td>
@@ -874,9 +565,7 @@
           </td>
         </tr>
 
-
-        <!-- Row 2 -->
-        <tr>
+                <tr>
           <td class="instruction-text">
             A young man with an American accent speaking with energetic excitement.
           </td>
@@ -888,9 +577,7 @@
           <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/1.wav"></audio></td>
         </tr>
 
-
-        <!-- Row 3 -->
-        <tr>
+                <tr>
           <td class="instruction-text">
             A senior man with a British accent speaking with pride, his voice deep, steady, and confident as he talks.
           </td>
@@ -901,7 +588,6 @@
           <td><audio controls preload="metadata"><source src="samples/ttv/ttv/2.wav"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/2.wav"></audio></td>
         </tr>
-
 
         <tr>
           <td class="instruction-text">
@@ -914,7 +600,6 @@
           <td><audio controls preload="metadata"><source src="samples/ttv/ttv/3.wav"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/3.wav"></audio></td>
         </tr>
-
 
         <tr>
           <td class="instruction-text">
@@ -951,7 +636,6 @@
           <td><audio controls preload="metadata"><source src="samples/ttv/ttv/6.wav"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/ttv/ttv_enhanced/6.wav"></audio></td>
         </tr>
-
 
         <tr>
           <td class="instruction-text">
@@ -993,20 +677,15 @@
     </table>
   </div>
 
-
     
 </section>
-<!-- End Audio Samples Section -->
 
-
-<!-- Audio Editing Section -->
-<section id="section-generation" class="section samples-section">
+<section id="section-clone-edit" class="section samples-section">
   <div class="container is-max-widescreen">
     
     <div class="section-header">
       <h2 class="title is-3">Voice Cloning and Editing</h2>
-      <!-- <p>We recommend using headphones for an optimal listening experience</p> -->
-    </div>
+          </div>
 
     <div class="section-header">
       <h3 class="title is-4">Voice Cloning</h3>
@@ -1029,40 +708,34 @@
 
       <tbody>
 
-        <!-- Row 1 -->
-        <tr>
+                <tr>
           <td class="instruction-text">
             <audio controls preload="metadata">
               <source src="samples/clone/gt/0.wav" type="audio/wav">
             </audio>
-            <!-- <br> Make the door opening sound more dramatic and faster. -->
-          </td>
+                      </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/cosyvoice/0.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/indextts2/0.wav"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/clone/ttv/0.wav"></audio></td>
         </tr>
 
-        <!-- Row 2 -->
-        <tr>
+                <tr>
           <td class="instruction-text">
             <audio controls preload="metadata">
               <source src="samples/clone/gt/1.wav" type="audio/wav">
             </audio>
-            <!-- <br> Make the door opening sound more dramatic and faster. -->
-          </td>
+                      </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/cosyvoice/1.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/indextts2/1.wav"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/clone/ttv/1.wav"></audio></td>
         </tr>
 
-        <!-- Row 3 -->
-        <tr>
+                <tr>
           <td class="instruction-text">
             <audio controls preload="metadata">
               <source src="samples/clone/gt/2.wav" type="audio/wav">
             </audio>
-            <!-- <br> Make the door opening sound more dramatic and faster. -->
-          </td>
+                      </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/cosyvoice/2.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/indextts2/2.wav"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/clone/ttv/2.wav"></audio></td>
@@ -1073,8 +746,7 @@
             <audio controls preload="metadata">
               <source src="samples/clone/gt/3.wav" type="audio/wav">
             </audio>
-            <!-- <br> Make the door opening sound more dramatic and faster. -->
-          </td>
+                      </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/cosyvoice/3.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/indextts2/3.wav"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/clone/ttv/3.wav"></audio></td>
@@ -1085,8 +757,7 @@
             <audio controls preload="metadata">
               <source src="samples/clone/gt/4.wav" type="audio/wav">
             </audio>
-            <!-- <br> Make the door opening sound more dramatic and faster. -->
-          </td>
+                      </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/cosyvoice/4.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/indextts2/4.wav"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/clone/ttv/4.wav"></audio></td>
@@ -1097,8 +768,7 @@
             <audio controls preload="metadata">
               <source src="samples/clone/gt/5.wav" type="audio/wav">
             </audio>
-            <!-- <br> Make the door opening sound more dramatic and faster. -->
-          </td>
+                      </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/cosyvoice/5.wav"></audio></td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/clone/indextts2/5.wav"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/clone/ttv/5.wav"></audio></td>
@@ -1237,7 +907,6 @@
           <td><audio controls preload="metadata"><source src="samples/edit/ttv/7.wav"></audio></td>
         </tr>
 
-
         <tr>
           <td class="instruction-text">
             <audio controls preload="metadata">
@@ -1250,8 +919,6 @@
           <td><audio controls preload="metadata"><source src="samples/edit/ttv/8.wav"></audio></td>
         </tr>
 
-
-
       </tbody>
     </table>
   </div>
@@ -1260,7 +927,7 @@
     <h3 class="title is-4">Extra Voice Editing Functions</h3>
     <p>Additional voice editing capabilities introduced in this work, which are not supported by previous studies.</p>
     <p class="section-note">
-      *All reference speakersr are unseen during training.
+      *All reference speakers are unseen during training.
     </p>
     <p class="section-note">
       *DAW + VST Plugins denote manual audio editing using professional digital audio workstations and plugin effects.
@@ -1284,7 +951,7 @@
             <audio controls preload="metadata">
               <source src="samples/edit_fx/gt/0.mp3" type="audio/wav">
             </audio>
-          <br> Make his vocie timbre sound darker.
+          <br> Make his voice timbre sound darker.
           </td>
           <td class="ttv-base"><audio controls preload="metadata"><source src="samples/edit_fx/daw/0.mp3"></audio></td>
           <td><audio controls preload="metadata"><source src="samples/edit_fx/ttv/0.wav"></audio></td>
@@ -1340,6 +1007,289 @@
     
 </section>
 
+<section id="other-materials" class="section samples-section">
+  <div class="container is-max-widescreen">
+    <div class="section-header">
+      <h2 class="title is-3">Other Materials</h2>
+    </div>
+
+    <div class="section-header" id="data-augmentation">
+      <h3 class="title is-4">DSP-based Simulation</h3>
+      <p>Data augmentation examples: input audio, DSP chain, and resulting output.</p>
+      <p class="section-note">Click the center label to view the full FX chain.</p>
+    </div>
+
+    <div class="sample-container">
+      <div class="data-aug-pairs">
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_deep_bass_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_deep_bass.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Character: Dragon, Demon, etc.
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_deep_bass.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_evil_low_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_evil_low.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Character: Evil Possessed
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_evil_low.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_heavy_robot_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_heavy_robot.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Character: Robot (Monophonic Tone)
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_heavy_robot.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_radio_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_radio.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Character: Radio, Walkie-talkie, etc.
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_radio.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_step_robot_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_step_robot.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Character: Robot (Musical Tone)
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_step_robot.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_tiny_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/char_tiny.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Character: Tiny creature, Small Alien, etc.
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/char_tiny.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/pitch_up_6_oir.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/pitch_up_6.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Pitch Shift Up (+6 Semitones)
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/pitch_up_6_fx.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/pitch_down_6_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/pitch_down_6.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Pitch Shift Down (−6 Semitones)
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/pitch_down_6_fx.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/formant_up_2_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/formant_up_2.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Formant Shift Up (+2 Semitones)
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/formant_up_2_fx.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/formant_down_2_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/formant_down_2.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Formant Shift Down (-2 Semitones)
+              </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/formant_down_2_fx.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-aug-pair">
+          <div class="data-aug-flow">
+            <div class="data-aug-step">
+              <span class="data-aug-label">Original</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/expression_low_ori.wav" type="audio/wav">
+              </audio>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step data-aug-fx">
+              <button type="button" class="data-aug-fx-subtitle" data-json="samples/data_aug_pairs/expression_low.json" aria-haspopup="dialog" aria-controls="dataAugFxModal">
+                Expression Reduction
+            </button>
+            </div>
+            <span class="data-aug-arrow" aria-hidden="true">→</span>
+            <div class="data-aug-step">
+              <span class="data-aug-label">Target</span>
+              <audio controls preload="metadata">
+                <source src="samples/data_aug_pairs/expression_low_fx.wav" type="audio/wav">
+              </audio>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
 
   <footer class="footer">
   <div class="container">
@@ -1354,6 +1304,16 @@
     </div>
   </div>
 </footer>
+
+  <div id="dataAugFxModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="dataAugFxModalTitle">
+    <div class="modal-background"></div>
+    <div class="modal-content data-aug-modal-json-content">
+      <h4 id="dataAugFxModalTitle" class="title is-5 mb-3">FX Chain</h4>
+      <p id="dataAugFxModalErr" class="help is-danger is-hidden mb-2" role="alert"></p>
+      <pre class="data-aug-json-view"><code id="dataAugFxModalJson"></code></pre>
+    </div>
+    <button type="button" class="modal-close is-large" aria-label="Close"></button>
+  </div>
 
   </body>
 </html>
