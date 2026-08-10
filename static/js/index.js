@@ -658,11 +658,17 @@ function setupBrandAudioPlayers() {
         return audio.duration && isFinite(audio.duration) && audio.duration > 0;
     }
 
+    function canStartPlayback(audio) {
+        // HAVE_CURRENT_DATA (2) or better — enough to begin without an empty start.
+        return audio.readyState >= 2;
+    }
+
     document.querySelectorAll('audio[controls]').forEach(function (audio) {
         if (audio.closest('.vd-player')) return;
 
         audio.removeAttribute('controls');
-        audio.setAttribute('preload', audio.getAttribute('preload') || 'metadata');
+        // Avoid fetching every clip on page load; warm up when visible / on press.
+        audio.setAttribute('preload', 'none');
 
         var wrap = document.createElement('div');
         wrap.className = 'vd-player';
@@ -689,10 +695,18 @@ function setupBrandAudioPlayers() {
         wrap.appendChild(audio);
 
         var seeking = false;
+        var playRequestId = 0;
 
         function setPlaying(on) {
             wrap.classList.toggle('is-playing', on);
-            toggle.setAttribute('aria-label', on ? 'Pause' : 'Play');
+            if (!wrap.classList.contains('is-loading')) {
+                toggle.setAttribute('aria-label', on ? 'Pause' : 'Play');
+            }
+        }
+
+        function setLoading(on) {
+            wrap.classList.toggle('is-loading', on);
+            toggle.setAttribute('aria-label', on ? 'Loading' : (audio.paused ? 'Play' : 'Pause'));
         }
 
         function setSeekVisual(ratio) {
@@ -719,31 +733,83 @@ function setupBrandAudioPlayers() {
             syncSeek();
         }
 
-        toggle.addEventListener('click', function () {
-            if (audio.paused) {
-                players.forEach(function (other) {
-                    if (other !== audio && !other.paused) other.pause();
-                });
+        function warmBuffer() {
+            if (canStartPlayback(audio)) return;
+            if (audio.getAttribute('preload') !== 'auto') {
+                audio.setAttribute('preload', 'auto');
+            }
+            // NETWORK_EMPTY only — avoid resetting an in-flight buffer.
+            if (audio.networkState === 0) {
+                try { audio.load(); } catch (e) {}
+            }
+        }
+
+        function playWhenReady() {
+            players.forEach(function (other) {
+                if (other !== audio && !other.paused) other.pause();
+            });
+
+            var requestId = ++playRequestId;
+            setLoading(true);
+            warmBuffer();
+
+            function finishLoading() {
+                if (requestId !== playRequestId) return;
+                setLoading(false);
+            }
+
+            function attemptPlay() {
+                if (requestId !== playRequestId) return;
+                if (!canStartPlayback(audio)) return false;
                 var playPromise = audio.play();
-                if (playPromise && typeof playPromise.catch === 'function') {
-                    playPromise.catch(function () {
-                        // Retry after metadata is available (common on first tap).
-                        if (audio.readyState < 1) {
-                            audio.addEventListener('loadedmetadata', function retry() {
-                                audio.removeEventListener('loadedmetadata', retry);
-                                audio.play().catch(function () {});
-                            });
-                            audio.load();
-                        }
+                if (playPromise && typeof playPromise.then === 'function') {
+                    playPromise.then(finishLoading).catch(function () {
+                        finishLoading();
                     });
+                } else {
+                    finishLoading();
                 }
+                return true;
+            }
+
+            if (attemptPlay()) return;
+
+            function onReady() {
+                if (requestId !== playRequestId) return;
+                if (attemptPlay()) {
+                    audio.removeEventListener('canplay', onReady);
+                    audio.removeEventListener('loadeddata', onReady);
+                }
+            }
+
+            audio.addEventListener('canplay', onReady);
+            audio.addEventListener('loadeddata', onReady);
+        }
+
+        // Start fetching on press so the click often has buffered data already.
+        toggle.addEventListener('pointerdown', function () {
+            if (audio.paused) warmBuffer();
+        });
+
+        toggle.addEventListener('click', function () {
+            if (wrap.classList.contains('is-loading')) {
+                playRequestId += 1;
+                setLoading(false);
+                try { audio.pause(); } catch (e) {}
+                return;
+            }
+            if (audio.paused) {
+                playWhenReady();
             } else {
+                playRequestId += 1;
+                setLoading(false);
                 audio.pause();
             }
         });
 
         seek.addEventListener('pointerdown', function (event) {
             seeking = true;
+            warmBuffer();
             if (seek.setPointerCapture) {
                 try { seek.setPointerCapture(event.pointerId); } catch (e) {}
             }
@@ -756,8 +822,18 @@ function setupBrandAudioPlayers() {
             seekToRatio(Number(seek.value) / 1000);
         });
 
-        audio.addEventListener('play', function () { setPlaying(true); });
+        audio.addEventListener('play', function () {
+            setLoading(false);
+            setPlaying(true);
+        });
         audio.addEventListener('pause', function () { setPlaying(false); });
+        audio.addEventListener('waiting', function () {
+            if (!audio.paused) setLoading(true);
+        });
+        audio.addEventListener('playing', function () {
+            setLoading(false);
+            setPlaying(true);
+        });
         audio.addEventListener('ended', function () {
             setPlaying(false);
             setSeekVisual(0);
@@ -768,6 +844,16 @@ function setupBrandAudioPlayers() {
 
         setSeekVisual(0);
         players.push(audio);
+
+        // Warm nearby clips so tap-to-play feels instant on mobile cards.
+        if (typeof IntersectionObserver !== 'undefined') {
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) warmBuffer();
+                });
+            }, { rootMargin: '120px 0px', threshold: 0.15 });
+            io.observe(wrap);
+        }
     });
 }
 

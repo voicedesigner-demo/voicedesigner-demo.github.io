@@ -804,6 +804,25 @@ body {
     linear-gradient(#fff, #fff) 100% 0 / 2.5px 100% no-repeat;
 }
 
+.vd-player.is-loading .vd-player-toggle {
+  background: #80868b;
+}
+
+.vd-player.is-loading .vd-player-toggle-icon {
+  width: 12px;
+  height: 12px;
+  margin-left: 0;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  background: none;
+  animation: vd-player-spin 0.7s linear infinite;
+}
+
+@keyframes vd-player-spin {
+  to { transform: rotate(360deg); }
+}
+
 .vd-player-seek {
   -webkit-appearance: none;
   appearance: none;
