@@ -2222,7 +2222,7 @@ a:focus {
 .tldr-card {
   background: var(--background-primary);
   border-radius: 16px;
-  padding: 1.5rem;
+  padding: 1.15rem 1.25rem 1.25rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
@@ -2248,31 +2248,32 @@ a:focus {
 
 .tldr-card-header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 0.65rem;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
+  justify-content: flex-start;
+  text-align: left;
+  gap: 0.7rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.65rem;
   border-bottom: 2px solid var(--background-accent);
 }
 
 .tldr-card-heading {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.2rem;
+  align-items: flex-start;
+  gap: 0.12rem;
+  min-width: 0;
 }
 
 .tldr-card-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   flex-shrink: 0;
 }
 
@@ -2321,14 +2322,14 @@ a:focus {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
   color: var(--text-primary);
-  text-align: center;
+  text-align: left;
 }
 
 .tldr-card-subtitle {
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
   font-weight: var(--font-weight-medium);
-  text-align: center;
+  text-align: left;
 }
 
 .tldr-instruction {
