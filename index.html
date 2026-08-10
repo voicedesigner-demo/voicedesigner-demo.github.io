@@ -34,8 +34,8 @@
   <meta name="citation_conference_title" content="CONFERENCE_NAME">
   <meta name="citation_pdf_url" content="https://YOUR_DOMAIN.com/static/pdfs/paper.pdf">
 
-  <meta name="theme-color" content="#4a90e2">
-  <meta name="msapplication-TileColor" content="#4a90e2">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
@@ -164,20 +164,26 @@
           </h1>
 
           <div class="publication-authors">
-            <span class="author-block"><a href="https://haidog-yaqub.github.io/" target="_blank" rel="noopener noreferrer">Jiarui Hai</a><sup>1</sup>,</span>
-            <span class="author-block"><a href="https://scholar.google.com/citations?user=n72wEIkAAAAJ" target="_blank" rel="noopener noreferrer">Karan Thakkar</a><sup>1</sup>,</span>
-            <span class="author-block"><a href="https://scholar.google.com/citations?user=Uxjw_PIAAAAJ" target="_blank" rel="noopener noreferrer">Ke Chen</a><sup>2</sup>,</span>
-            <span class="author-block"><a href="https://scholar.google.com/citations?user=8cdG-TAAAAAJ" target="_blank" rel="noopener noreferrer">Yunyun Wang</a><sup>2</sup>,</span>
-            <span class="author-block"><a href="https://scholar.google.com/citations?user=HxKLj_MAAAAJ" target="_blank" rel="noopener noreferrer">Jiaqi Su</a><sup>2</sup>,</span>
-            <span class="author-block"><a href="https://scholar.google.com/citations?user=hJjeVsQAAAAJ" target="_blank" rel="noopener noreferrer">Rithesh Kumar</a><sup>2</sup>,</span>
-            <span class="author-block"><a href="https://scholar.google.com/citations?user=DlbELYkAAAAJ" target="_blank" rel="noopener noreferrer">Mounya Elhilali</a><sup>1</sup>,</span>
-            <span class="author-block"><a href="https://scholar.google.com/citations?user=R-PFLHMAAAAJ" target="_blank" rel="noopener noreferrer">Zeyu Jin</a><sup>2</sup></span>
+            <div class="author-line">
+              <span class="author-block"><a href="https://haidog-yaqub.github.io/" target="_blank" rel="noopener noreferrer">Jiarui Hai</a><sup>1</sup>,</span>
+              <span class="author-block"><a href="https://scholar.google.com/citations?user=n72wEIkAAAAJ" target="_blank" rel="noopener noreferrer">Karan Thakkar</a><sup>1</sup>,</span>
+              <span class="author-block"><a href="https://scholar.google.com/citations?user=Uxjw_PIAAAAJ" target="_blank" rel="noopener noreferrer">Ke Chen</a><sup>2</sup>,</span>
+              <span class="author-block"><a href="https://scholar.google.com/citations?user=8cdG-TAAAAAJ" target="_blank" rel="noopener noreferrer">Yunyun Wang</a><sup>2</sup>,</span>
+              <span class="author-block"><a href="https://scholar.google.com/citations?user=HxKLj_MAAAAJ" target="_blank" rel="noopener noreferrer">Jiaqi Su</a><sup>2</sup>,</span>
+              <span class="author-block"><a href="https://scholar.google.com/citations?user=hJjeVsQAAAAJ" target="_blank" rel="noopener noreferrer">Rithesh Kumar</a><sup>2</sup>,</span>
+            </div>
+            <div class="author-line author-line-senior">
+              <span class="author-block"><a href="https://scholar.google.com/citations?user=DlbELYkAAAAJ" target="_blank" rel="noopener noreferrer">Mounya Elhilali</a><sup>1</sup>,</span>
+              <span class="author-block"><a href="https://scholar.google.com/citations?user=R-PFLHMAAAAJ" target="_blank" rel="noopener noreferrer">Zeyu Jin</a><sup>2</sup></span>
+            </div>
           </div>
 
-          <div class="is-size-6 publication-authors publication-affiliations">
+          <div class="is-size-5 publication-authors publication-affiliations">
             <span class="author-block"><sup>1</sup>Johns Hopkins University</span>
             <span class="author-block"><sup>2</sup>Adobe Research</span>
           </div>
+
+          <p class="publication-internship-note">Work done during Jiarui Hai’s internship at Adobe</p>
 
           <div class="publication-links">
             <a href="https://arxiv.org/abs/0000.00000" target="_blank" rel="noopener noreferrer"
@@ -205,39 +211,41 @@
 
             <div class="tldr-card generation">
         <div class="tldr-card-header">
-          <div class="tldr-card-icon" aria-hidden="true"><i class="fas fa-microphone"></i></div>
+          <div class="tldr-card-icon">🎤</div>
           <div class="tldr-card-heading">
             <div class="tldr-card-title">Voice Generation</div>
             <div class="tldr-card-subtitle">Create voices from text descriptions</div>
           </div>
         </div>
-        
-        <div style="margin-top: 12px;"></div>
-                <div class="tldr-instruction">
+
+        <div class="tldr-card-body tldr-card-body--vcenter">
+        <div class="tldr-instruction">
         &quot;Generate a voice: <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-hat-wizard"></i></span>a female dark sorceress and forbidden scholar</span>. Her voice is raspy and sinister.&quot;
         </div>
 
-                <span class="tldr-audio-label">Generated Voice</span>
+        <span class="tldr-audio-label">Generated Voice</span>
 
         <audio controls preload="metadata">
           <source src="samples/ttv_char/ttv/2.wav" type="audio/wav">
         </audio>
 
-        <div style="margin-top: 12px;"></div>
-                <div class="tldr-instruction">
+        <hr class="tldr-example-divider" />
+
+        <div class="tldr-instruction">
         &quot;Generate a voice: <span class="ttv-char-highlight"><span class="persona-icon" aria-hidden="true"><i class="fas fa-crosshairs"></i></span>a male hardened bounty hunter</span>, fearless and relentless, speaking in a cold rugged voice shaped by scars, steel, and years of battle.&quot;
         </div>
 
-                <span class="tldr-audio-label">Generated Voice</span>
+        <span class="tldr-audio-label">Generated Voice</span>
 
         <audio controls preload="metadata">
           <source src="samples/ttv_char/ttv/4.wav" type="audio/wav">
         </audio>
+        </div>
       </div>
 
             <div class="tldr-card cloning">
         <div class="tldr-card-header">
-          <div class="tldr-card-icon" aria-hidden="true"><i class="fas fa-headphones"></i></div>
+          <div class="tldr-card-icon">👥</div>
           <div class="tldr-card-heading">
             <div class="tldr-card-title">Voice Cloning</div>
             <div class="tldr-card-subtitle">Clone voices from reference audio</div>
@@ -261,10 +269,10 @@
             <source src="samples/clone/ttv/5.wav" type="audio/wav">
           </audio>
         </div>
-        
-        <br>
 
-      <div class="tldr-audio-item">
+        <hr class="tldr-example-divider" />
+
+        <div class="tldr-audio-item">
           <span class="tldr-audio-label">Reference Audio</span>
           <audio controls preload="metadata">
             <source src="samples/clone/gt/4.wav" type="audio/wav">
@@ -285,7 +293,7 @@
 
             <div class="tldr-card editing">
         <div class="tldr-card-header">
-          <div class="tldr-card-icon" aria-hidden="true"><i class="fas fa-pen"></i></div>
+          <div class="tldr-card-icon">✏️</div>
           <div class="tldr-card-heading">
             <div class="tldr-card-title">Voice Editing</div>
             <div class="tldr-card-subtitle">Edit voice styles using text instructions</div>
@@ -300,7 +308,7 @@
         </div>
 
         <div class="tldr-instruction">
-          "Make him <span class="ttv-char-highlight">whisper softly</span>."        
+          "Make him <span class="ttv-char-highlight">whisper softly</span>."
         </div>
 
         <div class="tldr-audio-item">
@@ -309,10 +317,10 @@
             <source src="samples/edit/ttv/3.wav" type="audio/wav">
           </audio>
         </div>
-      
-      <br>
 
-      <div class="tldr-audio-item">
+        <hr class="tldr-example-divider" />
+
+        <div class="tldr-audio-item">
           <span class="tldr-audio-label">Original Audio</span>
           <audio controls preload="metadata">
             <source src="samples/edit/gt/8.wav" type="audio/wav">
@@ -320,7 +328,7 @@
         </div>
 
         <div class="tldr-instruction">
-          "Make her voice sound <span class="ttv-char-highlight">fearful</span>."        
+          "Make her voice sound <span class="ttv-char-highlight">fearful</span>."
         </div>
 
         <div class="tldr-audio-item">
@@ -338,7 +346,6 @@
 <div class="demo-divider" id="demo-samples" role="region" aria-label="Full demo samples">
   <div class="container is-max-widescreen">
     <div class="demo-divider-inner">
-      <p class="demo-divider-kicker">Below this line</p>
       <h2 class="demo-divider-title">Demo Samples and Supplementaries</h2>
     </div>
   </div>
@@ -348,16 +355,16 @@
   <div class="container is-max-desktop">
     <div class="page-subnav-inner">
       <a href="#" class="page-subnav-link" data-nav-section="section-ttv">
-        <span class="page-subnav-label">Text-to-Voice Generation</span>
-        <span class="page-subnav-desc">Character and expressive speech demos</span>
+        <span class="page-subnav-label">Text-to-Voice</span>
+        <span class="page-subnav-desc">Character and expressive voices</span>
       </a>
       <a href="#" class="page-subnav-link" data-nav-section="section-clone-edit">
-        <span class="page-subnav-label">Voice Cloning and Editing</span>
-        <span class="page-subnav-desc">Clone, style edit, and extra edits</span>
+        <span class="page-subnav-label">Clone & Edit</span>
+        <span class="page-subnav-desc">Cloning, style edits, and extras</span>
       </a>
       <a href="#" class="page-subnav-link" data-nav-section="other-materials">
         <span class="page-subnav-label">Other Materials</span>
-        <span class="page-subnav-desc">DSP simulation and configs</span>
+        <span class="page-subnav-desc">Data simulation and others</span>
       </a>
     </div>
   </div>
@@ -525,7 +532,7 @@
       </h2>
       <p class="section-lead">
         Generate expressive speech from text descriptions of
-        <strong>voice</strong>, <strong>accent</strong>, <strong>style</strong>, and <strong>emotion</strong>.
+        voice, accent, style, and emotion.
       </p>
       <p class="section-note">
         <span class="note-label">Note:</span>
@@ -1080,7 +1087,7 @@
       </p>
       <p class="section-note">
         <span class="note-label">Note:</span>
-        Click an FX Chain label to view the full DSP configuration.
+        Click an FX Chain label to view how the original is copied across channels, processed, and mixed.
       </p>
     </div>
 
@@ -1284,6 +1291,25 @@
         </tbody>
       </table>
     </div>
+
+    <div class="section-header" id="rope-3d">
+      <h2 class="title is-3">
+        <span class="section-title-icon" aria-hidden="true"><i class="fas fa-cube"></i></span>
+        3D RoPE Positions
+      </h2>
+      <p class="section-lead">
+        Instruction runs to N-1; text and audio then branch on the other two axes.
+      </p>
+    </div>
+
+    <div class="sample-container rope-viz-wrap">
+      <div class="rope-viz">
+        <div class="rope-viz-stage">
+          <canvas id="rope3dCanvas" width="720" height="380" aria-label="3D RoPE position visualization"></canvas>
+          <p class="rope-viz-hint">Drag to rotate · Scroll to zoom</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1309,7 +1335,11 @@
     <div class="modal-content data-aug-modal-json-content">
       <h4 id="dataAugFxModalTitle" class="title is-5 mb-3">FX Chain</h4>
       <p id="dataAugFxModalErr" class="help is-danger is-hidden mb-2" role="alert"></p>
-      <pre class="data-aug-json-view"><code id="dataAugFxModalJson"></code></pre>
+      <div id="dataAugFxModalViz" class="fx-viz" aria-live="polite"></div>
+      <details class="fx-viz-json-details">
+        <summary>View JSON</summary>
+        <pre class="data-aug-json-view"><code id="dataAugFxModalJson"></code></pre>
+      </details>
     </div>
     <button type="button" class="modal-close is-large" aria-label="Close"></button>
   </div>

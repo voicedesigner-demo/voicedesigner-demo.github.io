@@ -32,11 +32,187 @@ function dataAugJsonKeyFromPath(jsonPath) {
     return m ? m[1] : '';
 }
 
+function escapeFxHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+var FX_NAME_LABELS = {
+    shift_pitch_by_semitones: 'Pitch Shift',
+    process_audio_pitch_sifigan: 'Pitch (SiFiGAN)',
+    process_audio_formant_sifigan: 'Formant (SiFiGAN)',
+    praat_formant_shifting: 'Formant Shift',
+    time_stretch: 'Time Stretch',
+    bandpass_filter_scipy: 'Bandpass',
+    pb_distortion: 'Distortion',
+    pb_limiter: 'Limiter',
+    pb_gsm_compression: 'GSM Compression',
+    pb_bitcrush: 'Bitcrush',
+    pw_whisper: 'Whisper',
+    pb_reverb: 'Reverb',
+    pb_delay: 'Delay',
+    pb_gain: 'Gain',
+    pb_chorus: 'Chorus',
+    pb_compressor: 'Compressor',
+    pb_eq: 'EQ'
+};
+
+function humanizeFxName(name) {
+    if (!name) return 'Effect';
+    if (FX_NAME_LABELS[name]) return FX_NAME_LABELS[name];
+    return String(name)
+        .replace(/^(pb_|pw_)/, '')
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+}
+
+function humanizeFxParamKey(key) {
+    return String(key || '')
+        .replace(/_/g, ' ')
+        .replace(/\bhz\b/gi, 'Hz')
+        .replace(/\bdb\b/gi, 'dB');
+}
+
+function formatFxParamValue(value) {
+    if (value == null) return '';
+    if (typeof value === 'number') {
+        return Number.isInteger(value) ? String(value) : String(Math.round(value * 100) / 100);
+    }
+    if (typeof value === 'boolean') return value ? 'true' : 'false';
+    if (typeof value === 'string') return value;
+    if (Array.isArray(value)) return value.map(formatFxParamValue).join(', ');
+    if (typeof value === 'object') {
+        if (Array.isArray(value.range) && value.range.length >= 2) {
+            return formatFxParamValue(value.range[0]) + ' … ' + formatFxParamValue(value.range[1]);
+        }
+        return Object.keys(value).map(function (k) {
+            return humanizeFxParamKey(k) + ' ' + formatFxParamValue(value[k]);
+        }).join(' · ');
+    }
+    return String(value);
+}
+
+function formatFxParams(params) {
+    if (!params || typeof params !== 'object') return '';
+    var keys = Object.keys(params);
+    if (!keys.length) return '';
+    return keys.map(function (key) {
+        return humanizeFxParamKey(key) + ': ' + formatFxParamValue(params[key]);
+    }).join(' · ');
+}
+
+function renderFxNodesHtml(fxList) {
+    if (!fxList || !fxList.length) {
+        return '<span class="fx-viz-empty-nodes">Passthrough</span>';
+    }
+    var parts = [];
+    fxList.forEach(function (fx, index) {
+        if (index > 0) {
+            parts.push('<span class="fx-viz-node-arrow" aria-hidden="true">→</span>');
+        }
+        var name = humanizeFxName(fx && fx.name);
+        var params = formatFxParams(fx && fx.params);
+        parts.push(
+            '<div class="fx-viz-node">' +
+              '<span class="fx-viz-node-name">' + escapeFxHtml(name) + '</span>' +
+              (params ? '<span class="fx-viz-node-params">' + escapeFxHtml(params) + '</span>' : '') +
+            '</div>'
+        );
+    });
+    return parts.join('');
+}
+
+function formatMixWeight(weight) {
+    var n = Number(weight);
+    if (!isFinite(n)) return '—';
+    return Math.round(n * 1000) / 10 + '%';
+}
+
+function renderDataAugFxViz(obj, vizEl) {
+    if (!vizEl) return;
+    if (!obj || typeof obj !== 'object') {
+        vizEl.innerHTML = '';
+        vizEl.classList.add('is-empty');
+        return;
+    }
+
+    var chains = obj.channel_fx_chains || {};
+    var weights = obj.mix_weights || {};
+    var master = obj.master_fx_chain || [];
+    var channelKeys = Object.keys(chains).sort(function (a, b) {
+        var na = parseInt(String(a).replace(/\D/g, ''), 10);
+        var nb = parseInt(String(b).replace(/\D/g, ''), 10);
+        if (isFinite(na) && isFinite(nb) && na !== nb) return na - nb;
+        return String(a).localeCompare(String(b));
+    });
+
+    if (!channelKeys.length && !master.length) {
+        vizEl.innerHTML = '';
+        vizEl.classList.add('is-empty');
+        return;
+    }
+
+    var channelHtml = channelKeys.map(function (key, index) {
+        var weight = weights.hasOwnProperty(key) ? weights[key] : null;
+        var muted = weight != null && Number(weight) === 0;
+        var channelLabel = String(key).replace(/^ch(\d+)$/i, 'Channel $1');
+        return (
+            (index > 0 ? '<span class="fx-viz-pipe" aria-hidden="true">|</span>' : '') +
+            '<div class="fx-viz-channel' + (muted ? ' is-muted' : '') + '">' +
+              '<div class="fx-viz-channel-head">' +
+                '<span class="fx-viz-ch">' + escapeFxHtml(channelLabel) + '</span>' +
+                (weight != null
+                  ? '<span class="fx-viz-weight">' + escapeFxHtml(formatMixWeight(weight)) + '</span>'
+                  : '') +
+              '</div>' +
+              '<div class="fx-viz-nodes">' + renderFxNodesHtml(chains[key]) + '</div>' +
+            '</div>'
+        );
+    }).join('');
+
+    vizEl.classList.remove('is-empty');
+    vizEl.innerHTML =
+        '<div class="fx-viz-flow">' +
+          '<div class="fx-viz-io">Original Recording</div>' +
+          (channelHtml
+            ? '<div class="fx-viz-label">Send to channels:</div>' +
+              '<div class="fx-viz-channels">' + channelHtml + '</div>' +
+              '<div class="fx-viz-label">Merge</div>'
+            : '') +
+          '<div class="fx-viz-merge">' +
+            (master.length
+              ? '<div class="fx-viz-nodes">' + renderFxNodesHtml(master) + '</div>'
+              : '<div class="fx-viz-merge-empty"></div>') +
+          '</div>' +
+          '<div class="fx-viz-io">Target Output</div>' +
+        '</div>';
+}
+
+function setDataAugFxModalPayload(obj, rawText) {
+    var codeEl = document.getElementById('dataAugFxModalJson');
+    var vizEl = document.getElementById('dataAugFxModalViz');
+    if (obj && typeof obj === 'object') {
+        renderDataAugFxViz(obj, vizEl);
+        if (codeEl) codeEl.textContent = JSON.stringify(obj, null, 2);
+        return;
+    }
+    if (vizEl) {
+        vizEl.innerHTML = '';
+        vizEl.classList.add('is-empty');
+    }
+    if (codeEl) codeEl.textContent = rawText || '';
+}
+
 function openDataAugFxModal(button) {
     var modal = document.getElementById('dataAugFxModal');
     var codeEl = document.getElementById('dataAugFxModalJson');
+    var vizEl = document.getElementById('dataAugFxModalViz');
     var titleEl = document.getElementById('dataAugFxModalTitle');
     var errEl = document.getElementById('dataAugFxModalErr');
+    var detailsEl = modal ? modal.querySelector('.fx-viz-json-details') : null;
     if (!modal || !codeEl) return;
 
     var jsonPath = button && button.getAttribute ? button.getAttribute('data-json') : '';
@@ -47,20 +223,25 @@ function openDataAugFxModal(button) {
         errEl.textContent = '';
         errEl.classList.add('is-hidden');
     }
+    if (detailsEl) detailsEl.open = false;
+    if (vizEl) {
+        vizEl.classList.remove('is-empty');
+        vizEl.innerHTML = '<div class="fx-viz-join">Loading…</div>';
+    }
     codeEl.textContent = 'Loading…';
 
     modal.classList.add('is-active');
     document.documentElement.classList.add('is-clipped');
 
     if (!jsonPath) {
-        codeEl.textContent = 'No JSON path (data-json) configured for this row.';
+        setDataAugFxModalPayload(null, 'No JSON path (data-json) configured for this row.');
         return;
     }
 
     var key = dataAugJsonKeyFromPath(jsonPath);
     var bundle = typeof window.DATA_AUG_JSON !== 'undefined' ? window.DATA_AUG_JSON : null;
     if (bundle && key && Object.prototype.hasOwnProperty.call(bundle, key)) {
-        codeEl.textContent = JSON.stringify(bundle[key], null, 2);
+        setDataAugFxModalPayload(bundle[key]);
         return;
     }
 
@@ -71,14 +252,13 @@ function openDataAugFxModal(button) {
         })
         .then(function (text) {
             try {
-                var obj = JSON.parse(text);
-                codeEl.textContent = JSON.stringify(obj, null, 2);
+                setDataAugFxModalPayload(JSON.parse(text));
             } catch (e) {
-                codeEl.textContent = text;
+                setDataAugFxModalPayload(null, text);
             }
         })
         .catch(function (err) {
-            codeEl.textContent = '';
+            setDataAugFxModalPayload(null, '');
             if (errEl) {
                 errEl.textContent = 'Could not load JSON: ' + (err && err.message ? err.message : String(err)) +
                     '. If you opened this page as file://, use a local server, or run node scripts/build_data_aug_json.js after editing JSON.';
@@ -347,10 +527,41 @@ function clearLocationHash() {
     }
 }
 
-// Highlight sticky subnav link for the in-view major section
+// Keep sticky table headers flush under the frosted subnav
+function syncPageSubnavHeight() {
+    var nav = document.getElementById('page-subnav');
+    if (!nav) return;
+    var rect = nav.getBoundingClientRect();
+    // When stuck, use bottom edge; otherwise use layout height (not viewport bottom).
+    var px = rect.top <= 0.5
+        ? Math.floor(rect.bottom + 0.01)
+        : Math.floor(nav.offsetHeight + 0.01);
+    document.documentElement.style.setProperty('--page-subnav-height', px + 'px');
+}
+
+function setupPageSubnavHeightSync() {
+    var nav = document.getElementById('page-subnav');
+    if (!nav) return;
+
+    syncPageSubnavHeight();
+    window.addEventListener('resize', syncPageSubnavHeight);
+    window.addEventListener('scroll', syncPageSubnavHeight, { passive: true });
+
+    if (typeof ResizeObserver !== 'undefined') {
+        var ro = new ResizeObserver(syncPageSubnavHeight);
+        ro.observe(nav);
+    }
+
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(syncPageSubnavHeight).catch(function () {});
+    }
+}
+
 function setupPageSubnavSpy() {
     var nav = document.getElementById('page-subnav');
     if (!nav) return;
+
+    setupPageSubnavHeightSync();
 
     var links = Array.from(nav.querySelectorAll('[data-nav-section]'));
     if (!links.length) return;
@@ -443,10 +654,15 @@ function setupPageSubnavSpy() {
 function setupBrandAudioPlayers() {
     var players = [];
 
+    function readyDuration(audio) {
+        return audio.duration && isFinite(audio.duration) && audio.duration > 0;
+    }
+
     document.querySelectorAll('audio[controls]').forEach(function (audio) {
         if (audio.closest('.vd-player')) return;
 
         audio.removeAttribute('controls');
+        audio.setAttribute('preload', audio.getAttribute('preload') || 'metadata');
 
         var wrap = document.createElement('div');
         wrap.className = 'vd-player';
@@ -479,9 +695,28 @@ function setupBrandAudioPlayers() {
             toggle.setAttribute('aria-label', on ? 'Pause' : 'Play');
         }
 
+        function setSeekVisual(ratio) {
+            var pct = Math.max(0, Math.min(100, ratio * 100));
+            seek.style.setProperty('--vd-seek', pct + '%');
+            seek.value = String(Math.round(ratio * 1000));
+        }
+
         function syncSeek() {
-            if (seeking || !audio.duration || !isFinite(audio.duration)) return;
-            seek.value = String(Math.round((audio.currentTime / audio.duration) * 1000));
+            if (seeking || !readyDuration(audio)) return;
+            setSeekVisual(audio.currentTime / audio.duration);
+        }
+
+        function seekToRatio(ratio) {
+            if (!readyDuration(audio)) return;
+            ratio = Math.max(0, Math.min(1, ratio));
+            audio.currentTime = ratio * audio.duration;
+            setSeekVisual(ratio);
+        }
+
+        function endSeeking() {
+            if (!seeking) return;
+            seeking = false;
+            syncSeek();
         }
 
         toggle.addEventListener('click', function () {
@@ -489,31 +724,342 @@ function setupBrandAudioPlayers() {
                 players.forEach(function (other) {
                     if (other !== audio && !other.paused) other.pause();
                 });
-                audio.play().catch(function () {});
+                var playPromise = audio.play();
+                if (playPromise && typeof playPromise.catch === 'function') {
+                    playPromise.catch(function () {
+                        // Retry after metadata is available (common on first tap).
+                        if (audio.readyState < 1) {
+                            audio.addEventListener('loadedmetadata', function retry() {
+                                audio.removeEventListener('loadedmetadata', retry);
+                                audio.play().catch(function () {});
+                            });
+                            audio.load();
+                        }
+                    });
+                }
             } else {
                 audio.pause();
             }
         });
 
-        seek.addEventListener('pointerdown', function () { seeking = true; });
-        seek.addEventListener('pointerup', function () { seeking = false; syncSeek(); });
-        seek.addEventListener('change', function () { seeking = false; });
+        seek.addEventListener('pointerdown', function (event) {
+            seeking = true;
+            if (seek.setPointerCapture) {
+                try { seek.setPointerCapture(event.pointerId); } catch (e) {}
+            }
+        });
+        seek.addEventListener('pointerup', endSeeking);
+        seek.addEventListener('pointercancel', endSeeking);
+        seek.addEventListener('lostpointercapture', endSeeking);
+        seek.addEventListener('change', endSeeking);
         seek.addEventListener('input', function () {
-            if (!audio.duration || !isFinite(audio.duration)) return;
-            audio.currentTime = (Number(seek.value) / 1000) * audio.duration;
+            seekToRatio(Number(seek.value) / 1000);
         });
 
         audio.addEventListener('play', function () { setPlaying(true); });
         audio.addEventListener('pause', function () { setPlaying(false); });
         audio.addEventListener('ended', function () {
             setPlaying(false);
-            seek.value = '0';
+            setSeekVisual(0);
         });
         audio.addEventListener('timeupdate', syncSeek);
         audio.addEventListener('loadedmetadata', syncSeek);
+        audio.addEventListener('durationchange', syncSeek);
 
+        setSeekVisual(0);
         players.push(audio);
     });
+}
+
+function setupRope3dViz() {
+    var canvas = document.getElementById('rope3dCanvas');
+    if (!canvas || !canvas.getContext) return;
+
+    var ctx = canvas.getContext('2d');
+    var N = 7;
+    var M = 5;
+    var L = 7;
+    var colors = {
+        instruction: '#2563eb',
+        text: '#16a34a',
+        audio: '#db2777',
+        axis: '#cbd5e1',
+        label: '#64748b'
+    };
+
+    // Look from (0, M, −L) toward (N, 0, 0)
+    var lookFrom = { x: 0, y: M, z: -L };
+    var lookAt = { x: N, y: 0, z: 0 };
+    var viewDx = lookAt.x - lookFrom.x;
+    var viewDy = lookAt.y - lookFrom.y;
+    var viewDz = lookAt.z - lookFrom.z;
+    var yaw = Math.atan2(viewDx, viewDz);
+    var horiz = Math.sqrt(viewDx * viewDx + viewDz * viewDz);
+    var pitch = Math.atan2(viewDy, horiz);
+    var scale = 1.08;
+    var dragging = false;
+    var lastX = 0;
+    var lastY = 0;
+
+    function buildSeries() {
+        var instruction = [];
+        var text = [];
+        var audio = [];
+        var i;
+        for (i = 0; i < N; i += 1) instruction.push({ x: i, y: 0, z: 0, kind: 'instruction' });
+        for (i = 1; i <= M; i += 1) text.push({ x: N, y: i, z: 0, kind: 'text' });
+        // Audio axis flipped (−z) so it fans opposite Text (+y)
+        for (i = 1; i <= L; i += 1) audio.push({ x: N, y: 0, z: -i, kind: 'audio' });
+        return { instruction: instruction, text: text, audio: audio };
+    }
+
+    var series = buildSeries();
+
+    function project(point, width, height) {
+        var cosY = Math.cos(yaw);
+        var sinY = Math.sin(yaw);
+        var cosP = Math.cos(pitch);
+        var sinP = Math.sin(pitch);
+
+        var cx = point.x - N * 0.5;
+        var cy = point.y - M * 0.5;
+        var cz = point.z + L * 0.5;
+
+        var x1 = cx * cosY - cz * sinY;
+        var z1 = cx * sinY + cz * cosY;
+        var y1 = cy * cosP - z1 * sinP;
+        var z2 = cy * sinP + z1 * cosP;
+
+        var perspective = 16 / (16 + z2);
+        var s = 26 * scale * perspective;
+        return {
+            x: width * 0.5 + x1 * s,
+            y: height * 0.6 - y1 * s,
+            depth: z2,
+            r: Math.max(2.1, 3.6 * perspective * scale)
+        };
+    }
+
+    function drawAxis(width, height, from, to, label, color, labelSide) {
+        var a = project(from, width, height);
+        var b = project(to, width, height);
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = color || colors.axis;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        if (label) {
+            drawLabel(label, b.x, b.y, color || colors.label, labelSide || 'below-right', '700 13px Inter, sans-serif');
+        }
+    }
+
+    function drawLabel(text, x, y, color, side, font) {
+        ctx.font = font || '600 12px Inter, ui-monospace, monospace';
+        var metrics = ctx.measureText(text);
+        var w = metrics.width;
+        var h = 12;
+        var ox = 8;
+        var oy = 14;
+        var tx = x + ox;
+        var ty = y + oy;
+
+        if (side === 'below-left') {
+            tx = x - w - 8;
+            ty = y + oy;
+        } else if (side === 'below') {
+            tx = x - w * 0.5;
+            ty = y + oy + 2;
+        } else if (side === 'right') {
+            tx = x + ox;
+            ty = y + 4;
+        } else if (side === 'left') {
+            tx = x - w - 8;
+            ty = y + 4;
+        } else {
+            // below-right
+            tx = x + ox;
+            ty = y + oy;
+        }
+
+        // Soft halo so labels stay readable over lines / plane
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = 'rgba(255,255,255,0.92)';
+        ctx.strokeText(text, tx, ty);
+        ctx.fillStyle = color;
+        ctx.fillText(text, tx, ty);
+    }
+
+    function drawAlignPlane(width, height) {
+        // Text (y) and Audio (z) share x = N → fill that face to emphasize alignment
+        var corners = [
+            { x: N, y: 0, z: 0 },
+            { x: N, y: M, z: 0 },
+            { x: N, y: M, z: -L },
+            { x: N, y: 0, z: -L }
+        ].map(function (p) { return project(p, width, height); });
+
+        ctx.beginPath();
+        ctx.moveTo(corners[0].x, corners[0].y);
+        var i;
+        for (i = 1; i < corners.length; i += 1) {
+            ctx.lineTo(corners[i].x, corners[i].y);
+        }
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(37, 99, 235, 0.10)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(37, 99, 235, 0.28)';
+        ctx.lineWidth = 1.25;
+        ctx.setLineDash([5, 4]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
+
+    function drawMark(point, text, color, width, height, side) {
+        var p = project(point, width, height);
+        drawLabel(text, p.x, p.y, color, side || 'below-right');
+    }
+
+    function drawPolyline(points, color, width, height) {
+        if (!points.length) return;
+        var projected = points.map(function (p) { return project(p, width, height); });
+        ctx.beginPath();
+        ctx.moveTo(projected[0].x, projected[0].y);
+        var i;
+        for (i = 1; i < projected.length; i += 1) {
+            ctx.lineTo(projected[i].x, projected[i].y);
+        }
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2.25;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        for (i = 0; i < projected.length; i += 1) {
+            var p = projected[i];
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+            ctx.stroke();
+        }
+    }
+
+    function render() {
+        var ratio = window.devicePixelRatio || 1;
+        var cssWidth = canvas.clientWidth || 720;
+        var cssHeight = Math.max(240, Math.round(cssWidth * 0.52));
+        if (canvas.width !== Math.round(cssWidth * ratio) || canvas.height !== Math.round(cssHeight * ratio)) {
+            canvas.width = Math.round(cssWidth * ratio);
+            canvas.height = Math.round(cssHeight * ratio);
+            canvas.style.height = cssHeight + 'px';
+        }
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        ctx.clearRect(0, 0, cssWidth, cssHeight);
+
+        drawAlignPlane(cssWidth, cssHeight);
+
+        // Axes first (geometry), labels drawn after polylines so they stay on top
+        drawAxis(
+            cssWidth, cssHeight,
+            { x: -0.4, y: 0, z: 0 },
+            { x: N + 0.85, y: 0, z: 0 },
+            '',
+            colors.instruction
+        );
+        drawAxis(
+            cssWidth, cssHeight,
+            { x: N, y: -0.35, z: 0 },
+            { x: N, y: M + 1.15, z: 0 },
+            '',
+            colors.text
+        );
+        drawAxis(
+            cssWidth, cssHeight,
+            { x: N, y: 0, z: 0.35 },
+            { x: N, y: 0, z: -(L + 1.15) },
+            '',
+            colors.audio
+        );
+
+        drawPolyline(series.instruction, colors.instruction, cssWidth, cssHeight);
+        drawPolyline(series.text, colors.text, cssWidth, cssHeight);
+        drawPolyline(series.audio, colors.audio, cssWidth, cssHeight);
+
+        // Index marks: keep below / right of each endpoint
+        drawMark({ x: 0, y: 0, z: 0 }, '0', colors.instruction, cssWidth, cssHeight, 'below');
+        drawMark({ x: N, y: 0, z: 0 }, 'N', colors.label, cssWidth, cssHeight, 'below');
+        drawMark({ x: N, y: M, z: 0 }, 'M', colors.text, cssWidth, cssHeight, 'below-right');
+        drawMark({ x: N, y: 0, z: -L }, 'L', colors.audio, cssWidth, cssHeight, 'below-right');
+
+        // Modality names outside the geometry — Instruction at the 0 end
+        var instrTip = project({ x: 0, y: 0, z: 0 }, cssWidth, cssHeight);
+        var textTip = project({ x: N, y: M + 1.15, z: 0 }, cssWidth, cssHeight);
+        var audioTip = project({ x: N, y: 0, z: -(L + 1.15) }, cssWidth, cssHeight);
+        drawLabel('Instruction', instrTip.x, instrTip.y, colors.instruction, 'left', '700 13px Inter, sans-serif');
+        drawLabel('Text', textTip.x, textTip.y, colors.text, 'right', '700 13px Inter, sans-serif');
+        drawLabel('Audio', audioTip.x, audioTip.y, colors.audio, 'below-right', '700 13px Inter, sans-serif');
+
+        // Plane caption near the lower-right corner of the align face
+        var planeTag = project({ x: N, y: M * 0.72, z: -L * 0.18 }, cssWidth, cssHeight);
+        drawLabel('aligned at N', planeTag.x, planeTag.y, 'rgba(37, 99, 235, 0.78)', 'below-right', '600 11px Inter, sans-serif');
+    }
+
+    function pointerDown(clientX, clientY) {
+        dragging = true;
+        lastX = clientX;
+        lastY = clientY;
+        canvas.classList.add('is-dragging');
+    }
+
+    function pointerMove(clientX, clientY) {
+        if (!dragging) return;
+        yaw += (clientX - lastX) * 0.008;
+        pitch += (clientY - lastY) * 0.008;
+        pitch = Math.max(-1.15, Math.min(1.15, pitch));
+        lastX = clientX;
+        lastY = clientY;
+        render();
+    }
+
+    function pointerUp() {
+        dragging = false;
+        canvas.classList.remove('is-dragging');
+    }
+
+    canvas.addEventListener('mousedown', function (e) {
+        pointerDown(e.clientX, e.clientY);
+    });
+    window.addEventListener('mousemove', function (e) {
+        pointerMove(e.clientX, e.clientY);
+    });
+    window.addEventListener('mouseup', pointerUp);
+
+    canvas.addEventListener('touchstart', function (e) {
+        if (!e.touches.length) return;
+        pointerDown(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+    canvas.addEventListener('touchmove', function (e) {
+        if (!e.touches.length) return;
+        pointerMove(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+    canvas.addEventListener('touchend', pointerUp);
+    canvas.addEventListener('touchcancel', pointerUp);
+
+    canvas.addEventListener('wheel', function (e) {
+        e.preventDefault();
+        scale *= e.deltaY > 0 ? 0.94 : 1.06;
+        scale = Math.max(0.55, Math.min(2.2, scale));
+        render();
+    }, { passive: false });
+
+    window.addEventListener('resize', function () {
+        render();
+    });
+
+    render();
 }
 
 $(document).ready(function() {
@@ -544,5 +1090,6 @@ $(document).ready(function() {
     setupSampleTableCollapse(5);
     setupPageSubnavSpy();
     setupBrandAudioPlayers();
+    setupRope3dViz();
 
 })
