@@ -2003,10 +2003,10 @@ code {
   }
   
   h1.publication-title {
-    font-size: 1.2rem !important;
-    line-height: 1.38 !important;
+    font-size: 1.5rem !important;
+    line-height: 1.32 !important;
     margin-bottom: 1rem !important;
-    max-width: 21.5rem;
+    max-width: 22.5rem;
     margin-left: auto;
     margin-right: auto;
     text-wrap: balance;
@@ -2093,8 +2093,8 @@ code {
 
 @media screen and (max-width: 480px) {
   h1.publication-title {
-    font-size: 1.12rem !important;
-    max-width: 18.5rem;
+    font-size: 1.38rem !important;
+    max-width: 21rem;
   }
 
   .hero-body {
@@ -2553,6 +2553,41 @@ a:focus {
     padding: 1.25rem;
   }
 
+  .tldr-audio-row {
+    align-items: stretch;
+  }
+
+  .tldr-audio-item {
+    align-items: stretch;
+  }
+
+  .tldr-audio-label {
+    text-align: left;
+  }
+
+  .tldr-card > .vd-player,
+  .tldr-card-body > .vd-player,
+  .tldr-card .vd-player,
+  .tldr-audio-item .vd-player {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .tldr-card > .vd-player,
+  .tldr-card-body > .vd-player {
+    margin-bottom: 1.15rem;
+  }
+
+  .tldr-card audio,
+  .tldr-audio-item audio {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
   .institution-logos {
     gap: 1.25rem;
   }
@@ -2747,6 +2782,30 @@ a:focus {
     width: 100%;
     min-width: 0;
     text-align: left !important;
+  }
+
+  .edit-ref-cell .vd-player,
+  .edit-ref-cell audio {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .sample-table .vd-player,
+  .sample-table.data-aug-table .vd-player {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .sample-table audio,
+  .sample-table.data-aug-table audio {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .sample-table.has-ref-edit-col td.instruction-text,
