@@ -658,11 +658,6 @@ function setupBrandAudioPlayers() {
         return audio.duration && isFinite(audio.duration) && audio.duration > 0;
     }
 
-    function canStartPlayback(audio) {
-        // HAVE_CURRENT_DATA (2) or better — enough to begin without an empty start.
-        return audio.readyState >= 2;
-    }
-
     document.querySelectorAll('audio[controls]').forEach(function (audio) {
         if (audio.closest('.vd-player')) return;
 
@@ -734,7 +729,7 @@ function setupBrandAudioPlayers() {
         }
 
         function warmBuffer() {
-            if (canStartPlayback(audio)) return;
+            if (audio.readyState >= 2) return;
             if (audio.getAttribute('preload') !== 'auto') {
                 audio.setAttribute('preload', 'auto');
             }
@@ -744,67 +739,47 @@ function setupBrandAudioPlayers() {
             }
         }
 
-        function playWhenReady() {
+        function startPlayback() {
             players.forEach(function (other) {
                 if (other !== audio && !other.paused) other.pause();
             });
 
             var requestId = ++playRequestId;
-            setLoading(true);
-            warmBuffer();
-
-            function finishLoading() {
-                if (requestId !== playRequestId) return;
-                setLoading(false);
+            // Must call play() inside the user gesture. Do not wait for canplay first —
+            // deferred play() is blocked by autoplay policy and leaves a stuck spinner.
+            if (audio.readyState < 2) setLoading(true);
+            if (audio.getAttribute('preload') !== 'auto') {
+                audio.setAttribute('preload', 'auto');
             }
 
-            function attemptPlay() {
-                if (requestId !== playRequestId) return;
-                if (!canStartPlayback(audio)) return false;
-                var playPromise = audio.play();
-                if (playPromise && typeof playPromise.then === 'function') {
-                    playPromise.then(finishLoading).catch(function () {
-                        finishLoading();
-                    });
-                } else {
-                    finishLoading();
-                }
-                return true;
+            var playPromise = audio.play();
+            if (playPromise && typeof playPromise.then === 'function') {
+                playPromise.then(function () {
+                    if (requestId !== playRequestId) return;
+                    setLoading(false);
+                }).catch(function () {
+                    if (requestId !== playRequestId) return;
+                    setLoading(false);
+                    setPlaying(false);
+                });
             }
-
-            if (attemptPlay()) return;
-
-            function onReady() {
-                if (requestId !== playRequestId) return;
-                if (attemptPlay()) {
-                    audio.removeEventListener('canplay', onReady);
-                    audio.removeEventListener('loadeddata', onReady);
-                }
-            }
-
-            audio.addEventListener('canplay', onReady);
-            audio.addEventListener('loadeddata', onReady);
         }
 
-        // Start fetching on press so the click often has buffered data already.
+        // Prefer preload upgrade only — calling load() here can race with click play().
         toggle.addEventListener('pointerdown', function () {
-            if (audio.paused) warmBuffer();
+            if (audio.paused && audio.readyState < 2) {
+                audio.setAttribute('preload', 'auto');
+            }
         });
 
         toggle.addEventListener('click', function () {
-            if (wrap.classList.contains('is-loading')) {
-                playRequestId += 1;
-                setLoading(false);
-                try { audio.pause(); } catch (e) {}
-                return;
-            }
-            if (audio.paused) {
-                playWhenReady();
-            } else {
+            if (!audio.paused || wrap.classList.contains('is-loading')) {
                 playRequestId += 1;
                 setLoading(false);
                 audio.pause();
+                return;
             }
+            startPlayback();
         });
 
         seek.addEventListener('pointerdown', function (event) {
@@ -823,10 +798,12 @@ function setupBrandAudioPlayers() {
         });
 
         audio.addEventListener('play', function () {
-            setLoading(false);
             setPlaying(true);
         });
-        audio.addEventListener('pause', function () { setPlaying(false); });
+        audio.addEventListener('pause', function () {
+            setLoading(false);
+            setPlaying(false);
+        });
         audio.addEventListener('waiting', function () {
             if (!audio.paused) setLoading(true);
         });
@@ -835,6 +812,7 @@ function setupBrandAudioPlayers() {
             setPlaying(true);
         });
         audio.addEventListener('ended', function () {
+            setLoading(false);
             setPlaying(false);
             setSeekVisual(0);
         });
