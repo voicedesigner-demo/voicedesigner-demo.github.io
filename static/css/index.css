@@ -2230,6 +2230,45 @@ a:focus {
   margin-right: auto;
 }
 
+/* Method overview plot between TL;DR and demo samples */
+.method-overview-section {
+  padding: 2.5rem 1rem 2.75rem;
+  background: var(--background-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.method-overview-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto 1.15rem;
+  max-width: 40rem;
+}
+
+.method-overview-header h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.method-overview-figure {
+  margin: 0 auto;
+  max-width: 52rem;
+  padding: 0.85rem 0.95rem;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+}
+
+.method-overview-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .tldr-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2551,6 +2590,23 @@ a:focus {
 
   .tldr-card {
     padding: 1.25rem;
+  }
+
+  .method-overview-section {
+    padding: 1.75rem 0.85rem 2rem;
+  }
+
+  .method-overview-header {
+    margin-bottom: 0.9rem;
+  }
+
+  .method-overview-header h2 {
+    font-size: 1.28rem;
+  }
+
+  .method-overview-figure {
+    padding: 0.65rem 0.7rem;
+    border-radius: 12px;
   }
 
   .tldr-audio-row {
