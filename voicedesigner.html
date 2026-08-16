@@ -192,12 +192,7 @@
 
       .stage[data-mode="generation"] .audio-arrow::after {
         animation: none;
-        background: linear-gradient(
-          180deg,
-          var(--rail) 0%,
-          color-mix(in srgb, var(--rail) 55%, transparent) 55%,
-          transparent 100%
-        );
+        opacity: 0;
       }
 
       .cell {
@@ -252,40 +247,14 @@
         background: none;
         box-shadow: none;
         text-align: center;
+        overflow: hidden;
+        scrollbar-width: none;
       }
 
-      .model-flow {
+      .model::-webkit-scrollbar {
         display: none;
-      }
-
-      .model-flow span {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(36px);
-        will-change: transform;
-      }
-
-      .model-flow span:first-child {
-        width: 70%;
-        height: 160%;
-        top: -40%;
-        left: -18%;
-        background: radial-gradient(circle, rgba(37, 99, 235, 0.28), rgba(59, 130, 246, 0.08) 55%, transparent 70%);
-        animation: blueDrift 12s ease-in-out infinite;
-      }
-
-      .model-flow span:last-child {
-        width: 66%;
-        height: 150%;
-        right: -16%;
-        bottom: -36%;
-        background: radial-gradient(circle, rgba(14, 165, 233, 0.22), rgba(29, 78, 216, 0.1) 50%, transparent 70%);
-        animation: blueDrift 15s ease-in-out infinite reverse;
-      }
-
-      .model > *:not(.model-flow) {
-        position: relative;
-        z-index: 1;
+        width: 0;
+        height: 0;
       }
 
       .streams {
@@ -334,7 +303,7 @@
           var(--token) 84%,
           transparent 94%
         );
-        animation: tokenSpin 2.4s linear infinite;
+        animation: tokenSpin 4.8s linear infinite;
       }
 
       .token-col i::after {
@@ -347,13 +316,13 @@
       }
 
       .token-col i:nth-child(1)::before { animation-delay: 0s; }
-      .token-col i:nth-child(2)::before { animation-delay: -0.3s; }
-      .token-col i:nth-child(3)::before { animation-delay: -0.6s; }
-      .token-col i:nth-child(4)::before { animation-delay: -0.9s; }
-      .token-col i:nth-child(5)::before { animation-delay: -1.2s; }
-      .token-col i:nth-child(6)::before { animation-delay: -1.5s; }
-      .token-col i:nth-child(7)::before { animation-delay: -1.8s; }
-      .token-col i:nth-child(8)::before { animation-delay: -2.1s; }
+      .token-col i:nth-child(2)::before { animation-delay: -0.6s; }
+      .token-col i:nth-child(3)::before { animation-delay: -1.2s; }
+      .token-col i:nth-child(4)::before { animation-delay: -1.8s; }
+      .token-col i:nth-child(5)::before { animation-delay: -2.4s; }
+      .token-col i:nth-child(6)::before { animation-delay: -3s; }
+      .token-col i:nth-child(7)::before { animation-delay: -3.6s; }
+      .token-col i:nth-child(8)::before { animation-delay: -4.2s; }
 
       .stage[data-mode="generation"] .ref-lat {
         --token: #94a3b8;
@@ -464,39 +433,34 @@
         align-self: stretch;
         overflow: visible;
         z-index: 2;
+        background: linear-gradient(
+          180deg,
+          var(--rail) 0%,
+          color-mix(in srgb, var(--rail) 42%, transparent) 72%,
+          transparent 100%
+        );
+        background-size: 2px calc(100% - 8px);
+        background-repeat: no-repeat;
+        background-position: center 8px;
       }
 
       .v-rail::after {
         content: "";
         position: absolute;
         left: 50%;
-        top: 6px;
-        bottom: 0;
-        width: 2.5px;
-        margin-left: -1.25px;
+        width: 3px;
+        height: 28%;
+        margin-left: -1.5px;
         border-radius: 999px;
-        background:
-          linear-gradient(
-            180deg,
-            var(--rail) 0%,
-            color-mix(in srgb, var(--rail) 45%, transparent) 58%,
-            transparent 100%
-          ),
-          linear-gradient(
-            180deg,
-            transparent 0%,
-            color-mix(in srgb, var(--rail) 55%, white) 42%,
-            var(--rail) 50%,
-            color-mix(in srgb, var(--rail) 55%, white) 58%,
-            transparent 100%
-          );
-        background-size: 100% 100%, 100% 64%;
-        background-repeat: no-repeat;
-        background-position: 0 0, 0 120%;
-        animation: railFlow 1.35s linear infinite;
+        background: linear-gradient(
+          180deg,
+          var(--rail) 0%,
+          color-mix(in srgb, var(--rail) 55%, #fff) 38%,
+          transparent 100%
+        );
+        box-shadow: 0 0 8px color-mix(in srgb, var(--rail) 45%, transparent);
+        animation: railFlow 2.8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
         animation-delay: var(--delay, 0s);
-        -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
-        mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
       }
 
       .v-rail::before {
@@ -708,8 +672,10 @@
       }
 
       @keyframes railFlow {
-        from { background-position: 0 0, 0 130%; }
-        to { background-position: 0 0, 0 -50%; }
+        from { top: calc(100% - 6px); opacity: 0; }
+        14% { opacity: 1; }
+        78% { opacity: 0.85; }
+        to { top: 6px; opacity: 0; }
       }
 
       @keyframes blink {
@@ -752,7 +718,6 @@
         <div class="v-rail x0-arrow" aria-hidden="true"></div>
 
         <div class="model" id="model">
-          <div class="model-flow" aria-hidden="true"><span></span><span></span></div>
           <div class="streams" aria-hidden="true">
             <div class="token-col ins-lat"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
             <div class="token-col txt-lat"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
