@@ -2187,7 +2187,7 @@ a:focus {
 
 /* TLDR section (shared with index.html and materials.html) */
 .tldr-section {
-  padding: 1.25rem 0 3rem;
+  padding: 1.25rem 0 1.25rem;
   background: var(--background-secondary);
   border-bottom: 1px solid var(--border-color);
 }
@@ -2232,7 +2232,7 @@ a:focus {
 
 /* Method overview plot between TL;DR and demo samples */
 .method-overview-section {
-  padding: 2.5rem 1rem 2.75rem;
+  padding: 1.1rem 1rem 3.5rem;
   background: var(--background-primary);
   border-bottom: 1px solid var(--border-color);
 }
@@ -2242,7 +2242,7 @@ a:focus {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 0 auto 1.15rem;
+  margin: 0 auto 1.5rem;
   max-width: 40rem;
 }
 
@@ -2255,18 +2255,24 @@ a:focus {
 
 .method-overview-figure {
   margin: 0 auto;
-  max-width: 52rem;
-  padding: 0.85rem 0.95rem;
-  background: #fff;
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05);
+  max-width: 72rem;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 
-.method-overview-figure img {
-  display: block;
+.method-overview-figure .overview-static {
+  display: none;
+}
+
+.overview-frame {
   width: 100%;
-  height: auto;
+  min-height: 0;
+  border: 0;
+  display: block;
+  background: transparent;
 }
 
 .tldr-grid {
@@ -2593,11 +2599,11 @@ a:focus {
   }
 
   .method-overview-section {
-    padding: 1.75rem 0.85rem 2rem;
+    padding: 0.9rem 0.75rem 1.1rem;
   }
 
   .method-overview-header {
-    margin-bottom: 0.9rem;
+    margin-bottom: 0.55rem;
   }
 
   .method-overview-header h2 {
@@ -2606,7 +2612,19 @@ a:focus {
 
   .method-overview-figure {
     padding: 0.65rem 0.7rem;
+    background: #fff;
+    border: 1px solid var(--border-color);
     border-radius: 12px;
+  }
+
+  .overview-frame {
+    display: none !important;
+  }
+
+  .method-overview-figure .overview-static {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   .tldr-audio-row {

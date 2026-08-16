@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VoiceDesigner Architecture</title>
+    <!--
+      Embed on the project page in place of Model Overview:
+        <iframe src="voicedesigner.html" title="VoiceDesigner overview" style="width:100%;border:0;display:block"></iframe>
+      The page posts { source: "voicedesigner-overview", height } so the iframe can size to content.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #1e293b;
+        --idle: #64748b;
+        --instruction: #d95f02;
+        --content: #c51b7d;
+        --refer: #1b9e77;
+        --model: #2563eb;
+        --paper: #f8f9fa;
+        --slot-h: 78px;
+        --line: #e2e8f0;
+        --soft: #e9effd;
+        --glass: rgba(255, 255, 255, 0.62);
+        --glass-edge: rgba(37, 99, 235, 0.16);
+        --primary: #2563eb;
+        --primary-deep: #1e40af;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        color: var(--ink);
+        font-family: Inter, "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body {
+        position: relative;
+        isolation: isolate;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 12px 16px;
+        background: var(--paper);
+        overflow-x: hidden;
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        z-index: -1;
+        pointer-events: none;
+        border-radius: 50%;
+        filter: blur(80px);
+        will-change: transform;
+      }
+
+      body::before {
+        width: min(72vw, 780px);
+        height: min(72vw, 780px);
+        top: -18%;
+        left: -12%;
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.32), rgba(59, 130, 246, 0.08) 54%, transparent 70%);
+        animation: blueDrift 16s ease-in-out infinite;
+      }
+
+      body::after {
+        width: min(68vw, 720px);
+        height: min(68vw, 720px);
+        right: -14%;
+        bottom: -22%;
+        background: radial-gradient(circle, rgba(29, 78, 216, 0.26), rgba(14, 165, 233, 0.1) 50%, transparent 70%);
+        animation: blueDrift 21s ease-in-out infinite reverse;
+      }
+
+      html.embed,
+      html.embed body {
+        min-height: 0;
+        background: transparent;
+        padding: 0;
+      }
+
+      html.embed body {
+        display: block;
+        overflow: visible;
+      }
+
+      html.embed body::before,
+      html.embed body::after {
+        display: none;
+      }
+
+      .stage {
+        width: 100%;
+        max-width: 1180px;
+        margin: 0 auto;
+      }
+
+      .modes {
+        grid-column: 2 / 5;
+        grid-row: 1;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        justify-content: flex-start;
+        justify-self: start;
+        align-self: start;
+        gap: 6px;
+        margin: 0;
+        z-index: 3;
+      }
+
+      .mode-btn {
+        padding: 5px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(37, 99, 235, 0.28);
+        background: var(--glass);
+        backdrop-filter: blur(16px) saturate(140%);
+        -webkit-backdrop-filter: blur(16px) saturate(140%);
+        color: var(--primary-deep);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        text-align: center;
+        transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .mode-btn:hover {
+        background: var(--soft);
+        border-color: rgba(37, 99, 235, 0.45);
+      }
+
+      .stage[data-mode="generation"] .mode-btn[data-mode="generation"],
+      .stage[data-mode="clone"] .mode-btn[data-mode="clone"],
+      .stage[data-mode="edit"] .mode-btn[data-mode="edit"] {
+        color: #fff;
+        border-color: var(--primary);
+        background: var(--primary);
+        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.28);
+        transform: none;
+      }
+
+      .board {
+        display: grid;
+        grid-template-columns: 16px 1fr 1fr 1fr 1fr 16px;
+        grid-template-rows: var(--slot-h) 36px auto 36px var(--slot-h);
+        column-gap: 12px;
+        row-gap: 0;
+        align-items: stretch;
+      }
+
+      .x0 { grid-column: 5; grid-row: 1; }
+      .x0-arrow { grid-column: 5; grid-row: 2; --rail: var(--out-color, var(--model)); --delay: 0.1s; }
+      .model { grid-column: 1 / -1; grid-row: 3; }
+      .ins-arrow { grid-column: 2; grid-row: 4; --rail: var(--instruction); --delay: 0s; }
+      .content-arrow { grid-column: 3; grid-row: 4; --rail: var(--content); --delay: 0.18s; }
+      .audio-arrow { grid-column: 4; grid-row: 4; --rail: var(--refer); --delay: 0.36s; }
+      .xt-arrow { grid-column: 5; grid-row: 4; --rail: var(--in-color, var(--model)); --delay: 0.54s; }
+      .xt { grid-column: 5; grid-row: 5; }
+
+      .instruction { grid-column: 2; grid-row: 5; }
+      .content { grid-column: 3; grid-row: 5; }
+      .audio { grid-column: 4; grid-row: 5; }
+
+      .stage[data-mode="edit"] .audio,
+      .stage[data-mode="edit"] .audio-arrow { grid-column: 2; }
+      .stage[data-mode="edit"] .instruction,
+      .stage[data-mode="edit"] .ins-arrow { grid-column: 3; }
+      .stage[data-mode="edit"] .content,
+      .stage[data-mode="edit"] .content-arrow { grid-column: 4; }
+
+      .stage[data-mode="generation"] .audio-arrow {
+        --rail: #94a3b8;
+        opacity: 0.55;
+      }
+
+      .stage[data-mode="generation"] .audio-arrow::after {
+        animation: none;
+        background: linear-gradient(
+          180deg,
+          var(--rail) 0%,
+          color-mix(in srgb, var(--rail) 55%, transparent) 55%,
+          transparent 100%
+        );
+      }
+
+      .cell {
+        min-width: 0;
+        display: flex;
+        align-items: stretch;
+        height: var(--slot-h);
+        overflow: hidden;
+      }
+
+      .card-name {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        min-width: 0;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--idle);
+        line-height: 1;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: currentColor;
+      }
+
+      .instruction .card-name { color: var(--instruction); }
+      .content .card-name { color: var(--content); }
+      .audio .card-name { color: var(--refer); }
+      .xt .card-name { color: var(--in-color, var(--model)); }
+      .x0 .card-name { color: var(--out-color, var(--model)); }
+
+      .model {
+        position: relative;
+        min-width: 0;
+        min-height: 0;
+        padding: 14px 0;
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-template-rows: auto;
+        align-items: center;
+        row-gap: 0;
+        border: 1px solid rgba(37, 99, 235, 0.28);
+        border-radius: 16px;
+        background: none;
+        box-shadow: none;
+        text-align: center;
+      }
+
+      .model-flow {
+        display: none;
+      }
+
+      .model-flow span {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(36px);
+        will-change: transform;
+      }
+
+      .model-flow span:first-child {
+        width: 70%;
+        height: 160%;
+        top: -40%;
+        left: -18%;
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.28), rgba(59, 130, 246, 0.08) 55%, transparent 70%);
+        animation: blueDrift 12s ease-in-out infinite;
+      }
+
+      .model-flow span:last-child {
+        width: 66%;
+        height: 150%;
+        right: -16%;
+        bottom: -36%;
+        background: radial-gradient(circle, rgba(14, 165, 233, 0.22), rgba(29, 78, 216, 0.1) 50%, transparent 70%);
+        animation: blueDrift 15s ease-in-out infinite reverse;
+      }
+
+      .model > *:not(.model-flow) {
+        position: relative;
+        z-index: 1;
+      }
+
+      .streams {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        display: grid;
+        grid-template-columns: subgrid;
+        align-items: center;
+      }
+
+      .token-col {
+        display: grid;
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        gap: 4px;
+        min-width: 0;
+        grid-row: 1;
+      }
+
+      .ins-lat { grid-column: 2; --token: var(--instruction); }
+      .txt-lat { grid-column: 3; --token: var(--content); }
+      .ref-lat { grid-column: 4; --token: var(--refer); }
+      .tgt-lat { grid-column: 5; --token: var(--model); }
+
+      .stage[data-mode="edit"] .ref-lat { grid-column: 2; }
+      .stage[data-mode="edit"] .ins-lat { grid-column: 3; }
+      .stage[data-mode="edit"] .txt-lat { grid-column: 4; }
+      .stage[data-mode="edit"] .tgt-lat { grid-column: 5; }
+
+      .token-col i {
+        position: relative;
+        aspect-ratio: 1;
+        border-radius: 5px;
+        overflow: hidden;
+        background: color-mix(in srgb, var(--token) 24%, white);
+      }
+
+      .token-col i::before {
+        content: "";
+        position: absolute;
+        inset: -55%;
+        background: conic-gradient(
+          from 0deg,
+          transparent 0 58%,
+          var(--token) 68%,
+          #fff 76%,
+          var(--token) 84%,
+          transparent 94%
+        );
+        animation: tokenSpin 2.4s linear infinite;
+      }
+
+      .token-col i::after {
+        content: "";
+        position: absolute;
+        inset: 2px;
+        z-index: 1;
+        border-radius: 5px;
+        background: color-mix(in srgb, var(--token) 32%, #fff);
+      }
+
+      .token-col i:nth-child(1)::before { animation-delay: 0s; }
+      .token-col i:nth-child(2)::before { animation-delay: -0.3s; }
+      .token-col i:nth-child(3)::before { animation-delay: -0.6s; }
+      .token-col i:nth-child(4)::before { animation-delay: -0.9s; }
+      .token-col i:nth-child(5)::before { animation-delay: -1.2s; }
+      .token-col i:nth-child(6)::before { animation-delay: -1.5s; }
+      .token-col i:nth-child(7)::before { animation-delay: -1.8s; }
+      .token-col i:nth-child(8)::before { animation-delay: -2.1s; }
+
+      .stage[data-mode="generation"] .ref-lat {
+        --token: #94a3b8;
+      }
+
+      .stage[data-mode="generation"] .ref-lat i {
+        opacity: 0.5;
+      }
+
+      .stage[data-mode="generation"] .ref-lat i::before {
+        animation: none;
+        opacity: 0.25;
+      }
+
+      .wave-card {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        padding: 7px 10px 6px;
+        border-radius: 14px;
+        background: var(--glass);
+        backdrop-filter: blur(18px) saturate(140%);
+        -webkit-backdrop-filter: blur(18px) saturate(140%);
+        border: 1px solid var(--glass-edge);
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        overflow: hidden;
+      }
+
+      .wave-window {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.5);
+        padding: 4px 8px;
+      }
+
+      .wave-window svg {
+        width: 100%;
+        height: 34px;
+        display: block;
+        overflow: visible;
+      }
+
+      .audio .wave-card {
+        border-color: color-mix(in srgb, var(--refer) 55%, white);
+        background: color-mix(in srgb, var(--refer) 12%, var(--glass));
+      }
+
+      .xt .wave-card {
+        border-color: color-mix(in srgb, var(--in-color, var(--model)) 48%, white);
+        background: color-mix(in srgb, var(--in-color, var(--model)) 12%, var(--glass));
+      }
+
+      .x0 .wave-card {
+        border-color: color-mix(in srgb, var(--out-color, var(--model)) 48%, white);
+        background: color-mix(in srgb, var(--out-color, var(--model)) 12%, var(--glass));
+      }
+
+      .xt .wave-card.handoff {
+        animation: handoffPulse 0.5s ease;
+      }
+
+      .x0 .card-name {
+        width: 100%;
+      }
+
+      .done-mark {
+        margin-left: auto;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: var(--model);
+        color: #fff;
+        opacity: 0;
+        transform: scale(0.55);
+        pointer-events: none;
+        transition: opacity 0.22s ease, transform 0.22s ease;
+      }
+
+      .done-mark svg {
+        width: 11px;
+        height: 11px;
+        display: block;
+      }
+
+      .x0 .wave-card.done .done-mark {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .x0 .wave-card.done {
+        border-color: color-mix(in srgb, var(--model) 62%, white);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.16);
+      }
+
+      .v-rail {
+        position: relative;
+        width: 18px;
+        height: 100%;
+        justify-self: center;
+        align-self: stretch;
+        overflow: visible;
+        z-index: 2;
+      }
+
+      .v-rail::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 6px;
+        bottom: 0;
+        width: 2.5px;
+        margin-left: -1.25px;
+        border-radius: 999px;
+        background:
+          linear-gradient(
+            180deg,
+            var(--rail) 0%,
+            color-mix(in srgb, var(--rail) 45%, transparent) 58%,
+            transparent 100%
+          ),
+          linear-gradient(
+            180deg,
+            transparent 0%,
+            color-mix(in srgb, var(--rail) 55%, white) 42%,
+            var(--rail) 50%,
+            color-mix(in srgb, var(--rail) 55%, white) 58%,
+            transparent 100%
+          );
+        background-size: 100% 100%, 100% 64%;
+        background-repeat: no-repeat;
+        background-position: 0 0, 0 120%;
+        animation: railFlow 1.35s linear infinite;
+        animation-delay: var(--delay, 0s);
+        -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+        mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 100%);
+      }
+
+      .v-rail::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 9px;
+        height: 9px;
+        border-top: 2px solid var(--rail);
+        border-right: 2px solid var(--rail);
+        transform: translateX(-50%) rotate(-45deg);
+      }
+
+      .prompt,
+      .bubble-wrap {
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 6px 8px 6px;
+        border-radius: 14px;
+        background: var(--glass);
+        backdrop-filter: blur(18px) saturate(140%);
+        -webkit-backdrop-filter: blur(18px) saturate(140%);
+        border: 1px solid var(--glass-edge);
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+        overflow: hidden;
+      }
+
+      .prompt {
+        border-color: color-mix(in srgb, var(--instruction) 38%, var(--glass-edge));
+        background: color-mix(in srgb, var(--instruction) 12%, var(--glass));
+      }
+
+      .prompt-main,
+      .audio-main {
+        display: grid;
+        grid-template-columns: 48px minmax(0, 1fr);
+        align-items: center;
+        gap: 10px;
+        min-height: 0;
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        object-fit: cover;
+        object-position: center top;
+        border: 2px solid color-mix(in srgb, var(--instruction) 40%, white);
+        background: color-mix(in srgb, var(--instruction) 10%, white);
+        box-shadow: 0 1px 4px color-mix(in srgb, var(--instruction) 22%, transparent);
+      }
+
+      .audio .avatar {
+        border-color: color-mix(in srgb, var(--refer) 45%, white);
+      }
+
+      .avatar-slot {
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        overflow: hidden;
+        flex: 0 0 auto;
+      }
+
+      .audio.empty .wave-card {
+        border-style: dashed;
+        border-color: rgba(148, 163, 184, 0.5);
+        background: rgba(255, 255, 255, 0.22);
+        box-shadow: none;
+      }
+
+      .audio.empty .card-name {
+        color: var(--idle);
+      }
+
+      .audio.empty .avatar-slot {
+        border: 1px dashed rgba(148, 163, 184, 0.5);
+        background: rgba(255, 255, 255, 0.28);
+      }
+
+      .audio.empty .avatar {
+        display: none;
+      }
+
+      .prompt-body {
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 6px 10px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid color-mix(in srgb, var(--instruction) 22%, var(--glass-edge));
+        box-shadow: none;
+        overflow: hidden;
+      }
+
+      .prompt-line {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 2px;
+        align-items: end;
+        column-gap: 6px;
+        margin: 0;
+        min-width: 0;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .prompt .caret {
+        width: 2px;
+        height: 15px;
+        flex: 0 0 auto;
+        background: var(--instruction);
+        border-radius: 2px;
+        animation: blink 1.1s steps(1) infinite;
+      }
+
+      #instructionText {
+        min-width: 0;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.3;
+        color: color-mix(in srgb, var(--instruction) 78%, #1e293b);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      .bubble-wrap {
+        background: color-mix(in srgb, var(--content) 12%, var(--glass));
+        border-color: color-mix(in srgb, var(--content) 32%, var(--glass-edge));
+      }
+
+      .bubble {
+        position: relative;
+        flex: 1 1 auto;
+        min-height: 0;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 8px 12px 8px 28px;
+        border-radius: 12px 12px 12px 6px;
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid color-mix(in srgb, var(--content) 20%, var(--glass-edge));
+        color: color-mix(in srgb, var(--content) 72%, #1e293b);
+        text-align: left;
+        overflow: hidden;
+      }
+
+      .bubble::before {
+        content: "“";
+        position: absolute;
+        left: 9px;
+        top: 50%;
+        transform: translateY(-58%);
+        font-size: 28px;
+        line-height: 1;
+        font-family: Palatino, "Iowan Old Style", Georgia, serif;
+        font-weight: 700;
+        color: color-mix(in srgb, var(--content) 42%, white);
+        pointer-events: none;
+      }
+
+      .bubble-text {
+        flex: 0 0 auto;
+        margin: 0;
+        min-width: 0;
+        width: 100%;
+      }
+
+      #contentText {
+        flex: 0 0 auto;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        min-width: 0;
+        width: 100%;
+        max-height: calc(1.35em * 2);
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.35;
+        letter-spacing: -0.01em;
+      }
+
+      @keyframes blueDrift {
+        0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+        40% { transform: translate3d(8%, 10%, 0) scale(1.12); }
+        70% { transform: translate3d(-10%, 4%, 0) scale(0.94); }
+      }
+
+      @keyframes tokenSpin {
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes railFlow {
+        from { background-position: 0 0, 0 130%; }
+        to { background-position: 0 0, 0 -50%; }
+      }
+
+      @keyframes blink {
+        50% { opacity: 0; }
+      }
+
+      @keyframes handoffPulse {
+        0% { transform: scale(0.985); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        40% { transform: scale(1.015); box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.12); }
+        100% { transform: scale(1); box-shadow: 0 2px 12px rgba(15, 23, 42, 0.05); }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stage" id="stage" data-mode="generation">
+      <section class="board">
+        <div class="modes">
+          <button class="mode-btn" data-mode="generation" type="button">Voice Generation</button>
+          <button class="mode-btn" data-mode="clone" type="button">Voice Cloning</button>
+          <button class="mode-btn" data-mode="edit" type="button">Voice Editing</button>
+        </div>
+
+        <div class="cell x0">
+          <div class="wave-card">
+            <div class="card-name">
+              <span class="dot"></span>
+              <span id="outLabel">x<sub>0.25</sub></span>
+              <span class="done-mark" aria-hidden="true">
+                <svg viewBox="0 0 16 16">
+                  <path d="M3.6 8.4 6.7 11.4 12.5 4.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </div>
+            <div class="wave-window">
+              <svg id="x0Wave" viewBox="0 0 640 80" role="img" aria-label="Cleaner latent"></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="v-rail x0-arrow" aria-hidden="true"></div>
+
+        <div class="model" id="model">
+          <div class="model-flow" aria-hidden="true"><span></span><span></span></div>
+          <div class="streams" aria-hidden="true">
+            <div class="token-col ins-lat"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="token-col txt-lat"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="token-col ref-lat"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="token-col tgt-lat"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+
+        <div class="v-rail ins-arrow" aria-hidden="true"></div>
+        <div class="v-rail content-arrow" aria-hidden="true"></div>
+        <div class="v-rail audio-arrow" aria-hidden="true"></div>
+        <div class="v-rail xt-arrow" aria-hidden="true"></div>
+
+        <div class="cell instruction" id="slotInstruction">
+          <div class="prompt">
+            <div class="card-name"><span class="dot"></span>Instruction</div>
+            <div class="prompt-main">
+              <img class="avatar" id="instructionAvatar" alt="" />
+              <div class="prompt-body">
+                <p class="prompt-line">
+                  <span id="instructionText"></span>
+                  <i class="caret"></i>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cell content" id="slotContent">
+          <div class="bubble-wrap">
+            <div class="card-name"><span class="dot"></span>Transcript</div>
+            <div class="bubble">
+              <p class="bubble-text"><span id="contentText"></span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="cell audio" id="slotRefer">
+          <div class="wave-card">
+            <div class="card-name"><span class="dot"></span>Audio</div>
+            <div class="audio-main">
+              <div class="avatar-slot">
+                <img class="avatar" id="audioAvatar" alt="" />
+              </div>
+              <div class="wave-window">
+                <svg id="inputReferWave" viewBox="0 0 640 80" role="img" aria-label="Audio refer"></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cell xt">
+          <div class="wave-card">
+            <div class="card-name"><span class="dot"></span><span id="inLabel">x<sub>0</sub></span></div>
+            <div class="wave-window">
+              <svg id="xtWave" viewBox="0 0 640 80" role="img" aria-label="Input latent"></svg>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const examples = [
+        {
+          mode: "generation",
+          instruction: "raspy, sinister sorceress",
+          content: "The seals will not hold.",
+          avatar: "assets/vd-avatar-sorceress.png",
+          color: "#2563eb",
+          fill: "rgba(37,99,235,0.4)",
+          seed: 1.2,
+          amp: 1.02,
+          refer: false,
+          referSeed: 4.2,
+        },
+        {
+          mode: "generation",
+          instruction: "cold, rugged bounty hunter",
+          content: "The contract is already paid.",
+          avatar: "assets/vd-avatar-hunter.png",
+          color: "#2563eb",
+          fill: "rgba(37,99,235,0.4)",
+          seed: 2.05,
+          amp: 1.04,
+          refer: false,
+          referSeed: 4.2,
+        },
+        {
+          mode: "clone",
+          instruction: "Clone this voice",
+          content: "We leave before sunrise.",
+          avatar: "assets/vd-avatar-clone-m.png",
+          color: "#2563eb",
+          fill: "rgba(37,99,235,0.4)",
+          seed: 2.4,
+          amp: 1.02,
+          refer: true,
+          referSeed: 4.2,
+        },
+        {
+          mode: "clone",
+          instruction: "Clone this voice",
+          content: "Keep the lanterns lit.",
+          avatar: "assets/vd-avatar-clone-f.png",
+          color: "#2563eb",
+          fill: "rgba(37,99,235,0.4)",
+          seed: 2.85,
+          amp: 1.0,
+          refer: true,
+          referSeed: 5.15,
+        },
+        {
+          mode: "edit",
+          instruction: "Make him whisper softly",
+          content: "We leave before sunrise.",
+          avatar: "assets/vd-avatar-edit-m-whisper.png",
+          referAvatar: "assets/vd-avatar-clone-m.png",
+          color: "#2563eb",
+          fill: "rgba(37,99,235,0.4)",
+          seed: 3.1,
+          amp: 0.7,
+          refer: true,
+          referSeed: 4.2,
+        },
+        {
+          mode: "edit",
+          instruction: "Make her voice sound fearful",
+          content: "Did you hear that?",
+          avatar: "assets/vd-avatar-edit-f-fearful.png",
+          referAvatar: "assets/vd-avatar-clone-f.png",
+          color: "#2563eb",
+          fill: "rgba(37,99,235,0.4)",
+          seed: 3.55,
+          amp: 0.9,
+          refer: true,
+          referSeed: 5.4,
+        },
+      ];
+
+      const EMPTY_COLOR = "#94a3b8";
+      const EMPTY_FILL = "rgba(148,163,184,0.28)";
+      const REFER_COLOR = "#1b9e77";
+      const REFER_FILL = "rgba(27,158,119,0.38)";
+      const STEPS = [0, 0.25, 0.5, 0.75, 1];
+      const LEVELS = [0.12, 0.34, 0.58, 0.82, 1];
+      const CYCLE = 4000;
+      const HOLD = 1200;
+
+      let exampleIndex = 0;
+      let phase = 0;
+      let origin = null;
+      let lastCycle = performance.now();
+      let switching = false;
+
+      const stage = document.getElementById("stage");
+      const instructionText = document.getElementById("instructionText");
+      const instructionAvatar = document.getElementById("instructionAvatar");
+      const audioAvatar = document.getElementById("audioAvatar");
+      const contentText = document.getElementById("contentText");
+      const slotRefer = document.getElementById("slotRefer");
+      const inputReferWave = document.getElementById("inputReferWave");
+      const xtWave = document.getElementById("xtWave");
+      const x0Wave = document.getElementById("x0Wave");
+      const inLabel = document.getElementById("inLabel");
+      const outLabel = document.getElementById("outLabel");
+      const inCard = xtWave.closest(".wave-card");
+      const outCard = x0Wave.closest(".wave-card");
+      let lastPair = -1;
+
+      function formatX(t) {
+        return `x<sub>${t}</sub>`;
+      }
+
+      function current() {
+        return examples[exampleIndex];
+      }
+
+      function envelope(i, n, seed, time) {
+        const t = i / (n - 1);
+        const center = Math.sin(Math.PI * t) ** 0.55;
+        return (
+          center *
+          (0.26 +
+            0.24 * Math.sin(t * 20 + seed + time * 0.55) +
+            0.18 * Math.sin(t * 34 + seed * 1.7 - time * 0.7) +
+            0.14 * Math.sin(t * 52 + seed * 2.2 + time * 0.4) +
+            0.1 * Math.sin(t * 78 + seed * 0.6))
+        );
+      }
+
+      function mixHex(hex, gray, amount) {
+        const n = hex.replace("#", "");
+        const r = parseInt(n.slice(0, 2), 16);
+        const g = parseInt(n.slice(2, 4), 16);
+        const b = parseInt(n.slice(4, 6), 16);
+        const to = (c) => Math.round(c + (gray - c) * amount);
+        return `rgb(${to(r)}, ${to(g)}, ${to(b)})`;
+      }
+
+      function wavePath(width, height, seed, time, amp, clarity = 1) {
+        const n = 160;
+        const midY = height / 2;
+        const step = width / (n - 1);
+        const top = [];
+        const bottom = [];
+        for (let i = 0; i < n; i += 1) {
+          const x = i * step;
+          const signal = envelope(i, n, seed, time) * amp * (0.28 + 0.72 * clarity);
+          const noise =
+            (0.22 * Math.sin(i * 0.85 + seed * 8 + time * 2.2) +
+              0.16 * Math.sin(i * 1.7 + seed * 3.4 - time * 3.4) +
+              0.12 * Math.sin(i * 3.1 + seed * 11 + i * 0.04)) *
+            (1 - clarity);
+          const y = Math.abs(signal + noise) * (height * 0.48);
+          top.push(`${x.toFixed(2)},${(midY - y).toFixed(2)}`);
+          bottom.push(`${x.toFixed(2)},${(midY + y).toFixed(2)}`);
+        }
+        return `M${top[0]} L${top.slice(1).join(" L")} L${bottom.reverse().join(" L")} Z`;
+      }
+
+      function ensurePath(svg, fill, stroke) {
+        let path = svg.querySelector("path");
+        if (!path) {
+          svg.innerHTML = `<path fill="${fill}" stroke="${stroke}" stroke-width="1.4"></path>`;
+          path = svg.querySelector("path");
+        }
+        return path;
+      }
+
+      function paintWave(svg, time, spec) {
+        const empty = !spec.refer;
+        const color = empty ? EMPTY_COLOR : REFER_COLOR;
+        const fill = empty ? EMPTY_FILL : REFER_FILL;
+        const path = ensurePath(svg, fill, color);
+        path.setAttribute("d", wavePath(640, 80, spec.referSeed, empty ? 0 : time, empty ? 0.58 : 0.95, empty ? 0.55 : 1));
+        path.setAttribute("fill", fill);
+        path.setAttribute("stroke", color);
+        path.setAttribute("opacity", empty ? "0.5" : "0.95");
+      }
+
+      function paintLatent(svg, time, clarity) {
+        const spec = current();
+        const grayMix = 1 - clarity;
+        const stroke = mixHex(spec.color, 139, grayMix * 0.72);
+        const fill = spec.fill.replace(/[\d.]+\)$/, `${(0.18 + 0.28 * clarity).toFixed(2)})`);
+        const path = ensurePath(svg, fill, stroke);
+        path.setAttribute("d", wavePath(640, 80, spec.seed, time, spec.amp, clarity));
+        path.setAttribute("fill", fill);
+        path.setAttribute("stroke", stroke);
+        path.setAttribute("opacity", String(0.55 + 0.45 * clarity));
+      }
+
+      function setExample(nextIndex) {
+        if (switching) return;
+        exampleIndex = nextIndex;
+        switching = true;
+        lastCycle = performance.now();
+        lastPair = -1;
+        outCard.classList.remove("done");
+        const spec = current();
+        stage.dataset.mode = spec.mode;
+        instructionText.textContent = spec.instruction;
+        instructionAvatar.src = spec.avatar;
+        instructionAvatar.alt = spec.instruction;
+        audioAvatar.src = spec.refer ? spec.referAvatar || spec.avatar : "";
+        audioAvatar.alt = spec.refer ? "Audio reference" : "";
+        contentText.textContent = spec.content;
+        stage.style.setProperty("--out-color", spec.color);
+        slotRefer.classList.toggle("empty", !spec.refer);
+        slotRefer.classList.toggle("on", spec.refer);
+        window.setTimeout(() => {
+          switching = false;
+        }, 80);
+      }
+
+      function setMode(next) {
+        const index = examples.findIndex((item) => item.mode === next);
+        if (index < 0) return;
+        setExample(index);
+      }
+
+      document.querySelector(".modes").addEventListener("click", (event) => {
+        const button = event.target.closest(".mode-btn");
+        if (!button) return;
+        setMode(button.dataset.mode);
+      });
+
+      function tick(now) {
+        if (origin == null) origin = now;
+        phase = (now - origin) * 0.00085;
+        const elapsed = now - lastCycle;
+        const pair = Math.min(3, Math.floor((elapsed / CYCLE) * 4));
+        if (pair !== lastPair) {
+          inLabel.innerHTML = formatX(STEPS[pair]);
+          outLabel.innerHTML = formatX(STEPS[pair + 1]);
+          stage.style.setProperty("--in-color", mixHex(current().color, 154, 1 - LEVELS[pair]));
+          inCard.classList.remove("handoff");
+          if (lastPair >= 0) {
+            void inCard.offsetWidth;
+            inCard.classList.add("handoff");
+          }
+          lastPair = pair;
+        }
+        paintWave(inputReferWave, phase, current());
+        paintLatent(xtWave, phase, LEVELS[pair]);
+        paintLatent(x0Wave, phase, LEVELS[pair + 1]);
+        const finished = elapsed >= CYCLE;
+        outCard.classList.toggle("done", finished);
+        if (!switching && elapsed > CYCLE + HOLD) {
+          setExample((exampleIndex + 1) % examples.length);
+        }
+        requestAnimationFrame(tick);
+      }
+
+      setExample(0);
+      requestAnimationFrame(tick);
+
+      if (window.self !== window.top) {
+        document.documentElement.classList.add("embed");
+        const report = () => {
+          window.parent.postMessage(
+            { source: "voicedesigner-overview", height: document.documentElement.scrollHeight },
+            "*"
+          );
+        };
+        report();
+        new ResizeObserver(report).observe(document.documentElement);
+      }
+    </script>
+  </body>
+</html>

@@ -349,9 +349,17 @@
       <h2>Model Overview</h2>
     </div>
     <figure class="method-overview-figure">
+      <iframe
+        id="vd-overview"
+        class="overview-frame"
+        src="voicedesigner.html"
+        title="VoiceDesigner architecture"
+        loading="lazy"
+      ></iframe>
       <img
+        class="overview-static"
         src="static/images/method_overview.png"
-        alt="Method overview: token sequences for (a) voice generation, (b) voice cloning, and (c) voice editing, with instruction, transcript, clean audio, noisy audio, and predicted velocity tokens."
+        alt="Method overview: token sequences for voice generation, cloning, and editing."
         width="4096"
         height="967"
         loading="lazy"
@@ -1361,6 +1369,32 @@
     </div>
     <button type="button" class="modal-close is-large" aria-label="Close"></button>
   </div>
+
+  <script>
+    (function () {
+      var desktop = window.matchMedia("(min-width: 769px)");
+      var frame = document.getElementById("vd-overview");
+      function syncFrame() {
+        if (!frame) return;
+        if (desktop.matches) {
+          if (frame.getAttribute("src") !== "voicedesigner.html") {
+            frame.setAttribute("src", "voicedesigner.html");
+          }
+        } else {
+          frame.removeAttribute("src");
+          frame.style.height = "";
+        }
+      }
+      if (desktop.addEventListener) desktop.addEventListener("change", syncFrame);
+      else desktop.addListener(syncFrame);
+      syncFrame();
+      window.addEventListener("message", function (event) {
+        if (!event.data || event.data.source !== "voicedesigner-overview") return;
+        if (!frame || !desktop.matches) return;
+        frame.style.height = event.data.height + "px";
+      });
+    })();
+  </script>
 
   </body>
 </html>
