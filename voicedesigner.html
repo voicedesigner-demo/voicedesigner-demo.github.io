@@ -1038,11 +1038,20 @@
 
       if (window.self !== window.top) {
         document.documentElement.classList.add("embed");
+        let pendingWheelY = 0;
+        let wheelFrame = 0;
         window.addEventListener(
           "wheel",
           (event) => {
             event.preventDefault();
-            window.parent.scrollBy(event.deltaX, event.deltaY);
+            const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+            pendingWheelY += event.deltaY * unit;
+            if (wheelFrame) return;
+            wheelFrame = requestAnimationFrame(() => {
+              window.parent.scrollBy({ top: pendingWheelY, left: 0, behavior: "auto" });
+              pendingWheelY = 0;
+              wheelFrame = 0;
+            });
           },
           { passive: false }
         );
