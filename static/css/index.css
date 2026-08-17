@@ -2259,6 +2259,24 @@ a:focus {
   font-weight: var(--font-weight-bold);
   color: var(--text-primary);
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.method-overview-lead {
+  max-width: 42rem;
+  margin: 1rem auto 0;
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  text-align: center;
+}
+
+.method-overview-lead a {
+  color: var(--primary-color);
+  font-weight: var(--font-weight-semibold);
 }
 
 .method-overview-figure {

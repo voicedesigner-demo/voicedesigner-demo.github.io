@@ -605,7 +605,11 @@ function setupPageSubnavSpy() {
     }
 
     function scrollToSection(section, animate) {
-        var top = section.getBoundingClientRect().top + window.pageYOffset - nav.offsetHeight - 8;
+        var headers = Array.from(section.querySelectorAll('.section-header'));
+        var target = headers.find(function (header) {
+            return header.getClientRects().length > 0;
+        }) || section;
+        var top = target.getBoundingClientRect().top + window.pageYOffset - nav.offsetHeight - 16;
         top = Math.max(0, top);
         if (animate) {
             smoothScrollTo(top);

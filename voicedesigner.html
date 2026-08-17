@@ -1038,6 +1038,14 @@
 
       if (window.self !== window.top) {
         document.documentElement.classList.add("embed");
+        window.addEventListener(
+          "wheel",
+          (event) => {
+            event.preventDefault();
+            window.parent.scrollBy(event.deltaX, event.deltaY);
+          },
+          { passive: false }
+        );
         const report = () => {
           window.parent.postMessage(
             { source: "voicedesigner-overview", height: document.documentElement.scrollHeight },
