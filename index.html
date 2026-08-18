@@ -384,12 +384,12 @@
   <div class="container is-max-desktop">
     <div class="page-subnav-inner">
       <a href="#" class="page-subnav-link" data-nav-section="section-ttv">
-        <span class="page-subnav-label">Text-to-Voice</span>
-        <span class="page-subnav-desc">Character and expressive voices</span>
+        <span class="page-subnav-label">Voice Generation</span>
+        <span class="page-subnav-desc">Character and Expressive Voices</span>
       </a>
-      <a href="#" class="page-subnav-link" data-nav-section="section-clone-edit">
+      <a href="#" class="page-subnav-link" data-nav-section="voice-style-editing">
         <span class="page-subnav-label">Voice Editing</span>
-        <span class="page-subnav-desc">Style, emotion, and other effects</span>
+        <span class="page-subnav-desc">Style Edits, Cloning, and Effects</span>
       </a>
       <a href="#" class="page-subnav-link" data-nav-section="other-materials">
         <span class="page-subnav-label">Appendices</span>
@@ -736,14 +736,14 @@
 </section>
 
 <section id="section-clone-edit" class="section samples-section">
-  <div class="container is-max-widescreen">
+  <div class="container is-max-widescreen clone-edit-layout">
 
-    <div class="clone-section-block" style="display: none !important;">
+    <div class="clone-section-block">
 
     <div class="section-header">
       <h2 class="title is-3">
         <span class="section-title-icon" aria-hidden="true"><i class="fas fa-clone"></i></span>
-        Voice Cloning
+        Challenging Voice Clone Cases
       </h2>
       <p class="section-lead">
         Clone voices from reference audio while generating new speech content.
@@ -838,7 +838,7 @@
   </div>
     </div>
 
-  <div class="section-header voice-editing-section-header">
+  <div id="voice-style-editing" class="section-header voice-editing-section-header">
       <h2 class="title is-3">
         <span class="section-title-icon" aria-hidden="true"><i class="fas fa-magic"></i></span>
         Voice Style Editing
@@ -852,7 +852,7 @@
       </p>
     </div>
 
-    <div class="sample-container">
+    <div class="sample-container voice-editing-style-samples">
     <table class="sample-table model-table has-ref-edit-col edit-style-table">
       <thead>
         <tr>
@@ -1083,6 +1083,7 @@
     </table>
   </div>
 
+  <div class="extra-editing-block">
   <div class="section-header">
     <h2 class="title is-3">
       <span class="section-title-icon" aria-hidden="true"><i class="fas fa-pen-fancy"></i></span>
@@ -1177,6 +1178,7 @@
 
       </tbody>
     </table>
+  </div>
   </div>
     
 </section>

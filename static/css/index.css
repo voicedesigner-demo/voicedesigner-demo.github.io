@@ -376,6 +376,30 @@ body {
   margin-top: var(--samples-block-gap);
 }
 
+.clone-edit-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.clone-edit-layout .voice-editing-section-header {
+  order: 0;
+  margin-top: var(--samples-block-gap);
+}
+
+.clone-edit-layout .voice-editing-style-samples {
+  order: 1;
+}
+
+.clone-edit-layout .clone-section-block {
+  order: 2;
+  margin-top: var(--samples-block-gap);
+}
+
+.clone-edit-layout .extra-editing-block {
+  order: 3;
+  margin-top: var(--samples-block-gap);
+}
+
 .sample-table {
   width: 100%;
   /* separate keeps header/body grid lines aligned with sticky thead */
