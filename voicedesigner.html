@@ -872,6 +872,8 @@
       let origin = null;
       let lastCycle = performance.now();
       let switching = false;
+      // Play one example per task in each pass, then rotate all tasks together.
+      const playbackOrder = [0, 2, 4, 1, 3, 5];
 
       const stage = document.getElementById("stage");
       const instructionText = document.getElementById("instructionText");
@@ -1028,7 +1030,9 @@
         const finished = elapsed >= CYCLE;
         outCard.classList.toggle("done", finished);
         if (!switching && elapsed > CYCLE + HOLD) {
-          setExample((exampleIndex + 1) % examples.length);
+          const position = playbackOrder.indexOf(exampleIndex);
+          const nextPosition = (position + 1) % playbackOrder.length;
+          setExample(playbackOrder[nextPosition]);
         }
         requestAnimationFrame(tick);
       }
